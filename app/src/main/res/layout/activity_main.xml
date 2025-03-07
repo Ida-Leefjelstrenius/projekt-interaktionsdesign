@@ -9,13 +9,24 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/HelloString"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello Mate!"
+        android:text="@string/HelloString"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_open_sensor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/openLightSensor"
+        android:onClick="openSensorActivity"
+        app:layout_constraintTop_toBottomOf="@id/HelloString"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
