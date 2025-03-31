@@ -29,18 +29,22 @@
         android:layout_height="171dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.463"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.61"
+        app:layout_constraintVertical_bias="0.569"
         app:srcCompat="@drawable/diver" />
 
     <ImageView
         android:id="@+id/imageView4"
         android:layout_width="136dp"
         android:layout_height="98dp"
-        app:srcCompat="@drawable/shark"
-        tools:layout_editor_absoluteX="213dp"
-        tools:layout_editor_absoluteY="529dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.767"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.898"
+        app:srcCompat="@drawable/shark" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
