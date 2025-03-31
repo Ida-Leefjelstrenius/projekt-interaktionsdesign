@@ -33,4 +33,9 @@ public class MainActivity extends AppCompatActivity {
         Intent gintent = new Intent(this, GameActivity.class);
         startActivity(gintent);
     }
+
+    public void openShakeActivity(View view){
+        Intent shakeIntent = new Intent(this, ShakeActivity.class);
+        startActivity(shakeIntent);
+    }
 }
