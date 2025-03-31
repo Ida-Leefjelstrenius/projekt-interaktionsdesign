@@ -29,4 +29,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+    <Button
+        android:id="@+id/btn_start_game"
+        android:layout_width="146dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="88dp"
+        android:onClick="openGameActivity"
+        android:text="Start Game"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/HelloString" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
