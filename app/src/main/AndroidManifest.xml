@@ -25,6 +25,9 @@
         <activity android:name=".SensorActivity"/>
         <activity android:name=".GameActivity" />
         <activity android:name=".ShakeActivity" />
+        <activity android:name=".SettingsPage" />
+        <activity android:name=".ProfilePage" />
+        <activity android:name=".InventoryPage" />
     </application>
 
 </manifest>
