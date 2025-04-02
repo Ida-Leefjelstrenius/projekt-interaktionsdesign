@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.widget.Toast;
 
 
 import androidx.activity.EdgeToEdge;
@@ -21,18 +22,34 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 
-public class ShakeActivity extends AppCompatActivity implements SensorEventListener {
-    private SensorManager sensorManager;
+public class ShakeActivity implements SensorEventListener {
+    private final SensorManager sensorManager;
     private Sensor sensor;
-    private float accX, accY, accZ, lastX, lastY, lastZ;
-    private float xDiff, yDiff, zDiff;
+    private float lastX;
+    private float lastY;
+    private float lastZ;
     private boolean notFirstTime;
     final float shakeThreshold = 16f;
-    private Vibrator vibrator;
+    private final Vibrator vibrator;
+    private Listener listener;
 
+    public interface Listener {
+        void onTranslation();
+    }
+    public void setListener(Listener l){
+        listener = l;
+    }
 
+    ShakeActivity(Context context) {
+        vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);   // permission to use the sensor
+        //SensorEventListener sensorEventListener = new SensorEventListener() {
+            if (sensorManager != null) {
+                sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);   // "gets" a sensor
+            }
+    }
 
-    @SuppressLint("CutPasteId")
+    /*@SuppressLint("CutPasteId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,23 +60,20 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);   // permission to use the sensor
-        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);   // "gets" a sensor
 
-    }
 
+    }*/
 
     @Override
     public final void onSensorChanged(SensorEvent event) {
-        accX = event.values[0];
-        accY = event.values[1];
-        accZ = event.values[2];
+        float accX = event.values[0];
+        float accY = event.values[1];
+        float accZ = event.values[2];
 
         if (notFirstTime) {
-            xDiff = Math.abs(lastX - accX);
-            yDiff = Math.abs(lastY - accY);
-            zDiff = Math.abs(lastZ - accZ);
+            float xDiff = Math.abs(lastX - accX);
+            float yDiff = Math.abs(lastY - accY);
+            float zDiff = Math.abs(lastZ - accZ);
 
             if (xDiff > shakeThreshold && yDiff > shakeThreshold
                     || xDiff > shakeThreshold && zDiff > shakeThreshold
@@ -82,22 +96,16 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
 
     }
 
-
-
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
 
-    @Override
     protected void onResume() {
-        super.onResume();
         sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_GAME);
     }
 
-    @Override
     protected void onPause(){
-        super.onPause();
         sensorManager.unregisterListener(this);
     }
 }
