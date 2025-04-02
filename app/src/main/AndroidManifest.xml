@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,6 +15,9 @@
         android:theme="@style/Theme.ProjektInteraktionsdesign"
         tools:targetApi="31">
         <activity
+            android:name=".TiltActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -22,7 +26,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SensorActivity"/>
+        <activity android:name=".SensorActivity" />
         <activity android:name=".GameActivity" />
         <activity android:name=".ShakeActivity" />
         <activity android:name=".SettingsPage" />
