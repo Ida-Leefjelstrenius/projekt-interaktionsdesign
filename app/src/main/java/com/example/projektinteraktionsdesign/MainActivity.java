@@ -38,4 +38,9 @@ public class MainActivity extends AppCompatActivity {
         Intent shakeIntent = new Intent(this, ShakeActivity.class);
         startActivity(shakeIntent);
     }
+
+    public void openTiltActivity(View view){
+        Intent tiltIntent = new Intent(this, TiltActivity.class);
+        startActivity(tiltIntent);
+    }
 }
