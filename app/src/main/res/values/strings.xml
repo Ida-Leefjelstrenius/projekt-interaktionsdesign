@@ -5,4 +5,5 @@
     <string name="luxString">Light Level: %1$.2f lx</string>
     <string name="lightMode">Light mode</string>
     <string name="darkMode">Dark mode</string>
+    <string name="GameTitle">In2TheBlue</string>
 </resources>

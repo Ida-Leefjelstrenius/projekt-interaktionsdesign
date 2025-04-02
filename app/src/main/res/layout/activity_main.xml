@@ -5,55 +5,63 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blueGrotto"
+    android:background="@drawable/vatten"
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/HelloString"
+        android:id="@+id/gameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="356dp"
-        android:layout_marginEnd="36dp"
-        android:layout_marginBottom="1dp"
-        android:text="@string/HelloString"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/btn_open_sensor"
-        app:layout_constraintEnd_toEndOf="@+id/btn_open_sensor"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:fontFamily="sans-serif-smallcaps"
+        android:text="@string/GameTitle"
+        android:textAlignment="center"
+        android:textColor="@color/amberGold"
+        android:textSize="70sp"
+        android:textStyle="bold"
+        android:shadowColor="#000000"
+        android:shadowDx="1.5"
+        android:shadowDy="1.3"
+        android:shadowRadius="1.6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.199" />
+
 
     <Button
         android:id="@+id/btn_open_sensor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+        android:layout_marginTop="44dp"
+        android:backgroundTint="@color/desertCoral"
         android:onClick="openSensorActivity"
         android:text="@string/openLightSensor"
-        app:layout_constraintBottom_toTopOf="@+id/btn_start_game"
-        app:layout_constraintStart_toStartOf="@+id/btn_start_game"
-        app:layout_constraintTop_toBottomOf="@+id/HelloString" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gameText" />
 
     <Button
         android:id="@+id/btn_start_game"
-        android:layout_width="146dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="41dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="@color/desertCoral"
         android:onClick="openGameActivity"
         android:text="Start Game"
-        app:layout_constraintBottom_toTopOf="@+id/btn_shake"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/btn_open_sensor"
         app:layout_constraintTop_toBottomOf="@+id/btn_open_sensor" />
 
     <Button
         android:id="@+id/btn_shake"
-        android:layout_width="146dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="167dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="49dp"
+        android:backgroundTint="@color/desertCoral"
         android:onClick="openShakeActivity"
         android:text="Shake Game"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/btn_start_game"
         app:layout_constraintTop_toBottomOf="@+id/btn_start_game" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

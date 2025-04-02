@@ -3,4 +3,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="blueGrotto">#189AB4</color>
+    <color name="seaGreen">#2E8B57</color>
+    <color name="deepsSeaGreen">#005F56</color>
+    <color name="amberGold">#FFBF00</color>
+    <color name="sunsetGold">#FFCC33</color>
+    <color name="coralRose">#F37740</color>
+    <color name="desertCoral">#D16459</color>
 </resources>
