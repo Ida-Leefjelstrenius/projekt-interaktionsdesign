@@ -20,18 +20,19 @@ public class GameActivity extends AppCompatActivity implements ShakeActivity.Lis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        shakeActivity = new ShakeActivity(this);
+        shakeActivity = new ShakeActivity(this, this);
 
         ImageView imageShark = findViewById(R.id.imageShark);
         frameSharkDialog = findViewById(R.id.frameSharkDialog);
         imageShark.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                shakeActivity.onResume();
+                shakeActivity.register();
                 CharSequence text = "Nu kan du skaka!";
                 int duration = Toast.LENGTH_SHORT;
                 Toast toast = Toast.makeText(GameActivity.this, text, duration);
                 toast.show();
+                frameSharkDialog.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -57,19 +58,19 @@ public class GameActivity extends AppCompatActivity implements ShakeActivity.Lis
     @Override
     protected void onResume() {
         super.onResume();
-        shakeActivity.onResume();
+        shakeActivity.register();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        shakeActivity.onPause();
+        shakeActivity.unregister();
     }
 
     @Override
     public void onTranslation() {
         // Här ska vi sätta det som händer vid skakning
-        frameSharkDialog.setVisibility(View.GONE);
+        frameSharkDialog.setVisibility(View.INVISIBLE);
 
     }
 }

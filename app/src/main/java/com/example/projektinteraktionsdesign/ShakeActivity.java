@@ -1,7 +1,5 @@
 package com.example.projektinteraktionsdesign;
 
-import android.animation.ObjectAnimator;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -9,17 +7,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 import android.os.Build;
-import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.widget.Toast;
-
-
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 
 public class ShakeActivity implements SensorEventListener {
@@ -36,17 +25,15 @@ public class ShakeActivity implements SensorEventListener {
     public interface Listener {
         void onTranslation();
     }
-    public void setListener(Listener l){
-        listener = l;
-    }
 
-    ShakeActivity(Context context) {
+    ShakeActivity(Context context, Listener listener) {
+        this.listener = listener;
         vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);   // permission to use the sensor
         //SensorEventListener sensorEventListener = new SensorEventListener() {
-            if (sensorManager != null) {
-                sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);   // "gets" a sensor
-            }
+        if (sensorManager != null) {
+            sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);   // "gets" a sensor
+        }
     }
 
     /*@SuppressLint("CutPasteId")
@@ -85,6 +72,9 @@ public class ShakeActivity implements SensorEventListener {
                 else {
                     vibrator.vibrate(500);
                 }
+                if (listener != null) {
+                    listener.onTranslation();  // ✅ This will now trigger the event in GameActivity
+                }
             }
 
         }
@@ -101,11 +91,15 @@ public class ShakeActivity implements SensorEventListener {
 
     }
 
-    protected void onResume() {
-        sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_GAME);
+    protected void register() {
+        if (sensorManager != null && sensor != null) {
+            sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_GAME);
+        }
     }
 
-    protected void onPause(){
-        sensorManager.unregisterListener(this);
+    protected void unregister(){
+        if (sensorManager != null) {
+            sensorManager.unregisterListener(this);
+        }
     }
 }
