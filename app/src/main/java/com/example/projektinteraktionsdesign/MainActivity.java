@@ -38,4 +38,24 @@ public class MainActivity extends AppCompatActivity {
         Intent shakeIntent = new Intent(this, ShakeActivity.class);
         startActivity(shakeIntent);
     }
+
+    public void openProfilePage(View view){
+        Intent profileIntent = new Intent(this, ProfilePage.class);
+        startActivity(profileIntent);
+    }
+
+    public void openInventoryPage(View view){
+        Intent inventoryIntent = new Intent(this, InventoryPage.class);
+        startActivity(inventoryIntent);
+    }
+
+    public void openTiltActivity(View view){
+        Intent tiltIntent = new Intent(this, TiltActivity.class);
+        startActivity(tiltIntent);
+    }
+
+    public void openSettingsPage(View view){
+        Intent settingsIntent = new Intent(this,SettingsPage.class);
+        startActivity(settingsIntent);
+    }
 }
