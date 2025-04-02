@@ -4,7 +4,6 @@ import android.hardware.SensorListener;
 import android.os.Bundle;
 import com.example.projektinteraktionsdesign.R;
 import static java.lang.Math.*;
-import android.media.MediaPlayer;
 import android.content.Intent;
 import android.media.Image;
 
