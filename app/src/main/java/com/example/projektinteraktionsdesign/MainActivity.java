@@ -34,18 +34,18 @@ public class MainActivity extends AppCompatActivity {
         startActivity(gintent);
     }
 
-    public void openShakeActivity(View view){
-        Intent shakeIntent = new Intent(this, ShakeActivity.class);
-        startActivity(shakeIntent);
+    public void openMovingActivity(View view){
+        Intent movingBackgroundIntent = new Intent(this, MovingActivity.class);
+        startActivity(movingBackgroundIntent);
     }
 
     public void openProfilePage(View view){
-        Intent profileIntent = new Intent(this, ProfilePage.class);
+        Intent profileIntent = new Intent(this, ProfileActivity.class);
         startActivity(profileIntent);
     }
 
     public void openInventoryPage(View view){
-        Intent inventoryIntent = new Intent(this, InventoryPage.class);
+        Intent inventoryIntent = new Intent(this, InventoryActivity.class);
         startActivity(inventoryIntent);
     }
 
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openSettingsPage(View view){
-        Intent settingsIntent = new Intent(this,SettingsPage.class);
+        Intent settingsIntent = new Intent(this,SettingsActivity.class);
         startActivity(settingsIntent);
     }
 }

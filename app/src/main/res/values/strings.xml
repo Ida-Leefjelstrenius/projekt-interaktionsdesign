@@ -6,4 +6,14 @@
     <string name="lightMode">Light mode</string>
     <string name="darkMode">Dark mode</string>
     <string name="GameTitle">In2TheBlue</string>
+    <string name="game">Game</string>
+    <string name="diver">Diver</string>
+    <string name="shark">Shark</string>
+    <string name="background">Background</string>
+    <string name="shake_to_get_rid_of_the_shark">Shake to get rid of the shark</string>
+    <string name="tilt">Tilt</string>
+    <string name="start_game">Start Game</string>
+    <string name="profile">Profile</string>
+    <string name="inventory">Inventory</string>
+    <string name="moving_background">Moving background</string>
 </resources>

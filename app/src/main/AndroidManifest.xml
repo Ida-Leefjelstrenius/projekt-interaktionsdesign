@@ -28,10 +28,10 @@
         </activity>
         <activity android:name=".SensorActivity" />
         <activity android:name=".GameActivity" />
-        <activity android:name=".ShakeActivity" />
-        <activity android:name=".SettingsPage" />
-        <activity android:name=".ProfilePage" />
-        <activity android:name=".InventoryPage" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".InventoryActivity" />
+        <activity android:name=".MovingActivity" />
     </application>
 
 </manifest>
