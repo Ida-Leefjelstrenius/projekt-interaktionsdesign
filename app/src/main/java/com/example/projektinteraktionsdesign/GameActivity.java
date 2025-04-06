@@ -1,5 +1,7 @@
 package com.example.projektinteraktionsdesign;
 
+import android.annotation.SuppressLint;
+import android.content.pm.ActivityInfo;
 import android.hardware.SensorEvent;
 import android.os.Bundle;
 import android.view.View;
@@ -15,10 +17,12 @@ public class GameActivity extends AppCompatActivity implements ShakeActivity.Lis
     private SensorEvent event;
     FrameLayout frameSharkDialog;
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     public final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         shakeActivity = new ShakeActivity(this, this);
 

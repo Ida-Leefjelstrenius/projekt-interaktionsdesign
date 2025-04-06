@@ -1,7 +1,9 @@
 package com.example.projektinteraktionsdesign;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -17,10 +19,12 @@ public class SensorActivity extends Activity implements SensorEventListener {
     private TextView luxTextView;
     private TextView lightModeTextView;
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     public final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sensor);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         luxTextView = findViewById(R.id.lux_value);
         lightModeTextView = findViewById(R.id.lux_label);

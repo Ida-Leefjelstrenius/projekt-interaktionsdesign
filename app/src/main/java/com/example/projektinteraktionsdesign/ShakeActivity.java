@@ -20,7 +20,7 @@ public class ShakeActivity implements SensorEventListener {
     private boolean notFirstTime;
     final float shakeThreshold = 16f;
     private final Vibrator vibrator;
-    private Listener listener;
+    private final Listener listener;
 
     public interface Listener {
         void onTranslation();
@@ -29,27 +29,12 @@ public class ShakeActivity implements SensorEventListener {
     ShakeActivity(Context context, Listener listener) {
         this.listener = listener;
         vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-        sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);   // permission to use the sensor
-        //SensorEventListener sensorEventListener = new SensorEventListener() {
+        sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         if (sensorManager != null) {
-            sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);   // "gets" a sensor
+            sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         }
     }
 
-    /*@SuppressLint("CutPasteId")
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_shake);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-
-
-    }*/
 
     @Override
     public final void onSensorChanged(SensorEvent event) {
@@ -73,7 +58,7 @@ public class ShakeActivity implements SensorEventListener {
                     vibrator.vibrate(500);
                 }
                 if (listener != null) {
-                    listener.onTranslation();  // ✅ This will now trigger the event in GameActivity
+                    listener.onTranslation();
                 }
             }
 

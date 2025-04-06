@@ -1,5 +1,8 @@
 package com.example.projektinteraktionsdesign;
 
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,14 +12,18 @@ import android.graphics.Point;
 import android.os.Handler;
 import android.view.Display;
 import android.view.View;
+import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
 
 public class BackgroundView extends View {
     int screenWidth, screenHeight, newWidth, newHeight;
-    int backgroundX = 0;
+    float backgroundX = 0;
     Bitmap background;
     Handler handler;
     Runnable runnable;
-    final long UPDATE_MILLIS=30;
+
+    private float velocityX = 0, velocityY = 0;
 
     public BackgroundView(Context context) {
         super(context);
@@ -26,33 +33,44 @@ public class BackgroundView extends View {
         display.getSize(size);
         screenWidth = size.x;
         screenHeight = size.y;
-        float height = background.getHeight();
-        float width = background.getWidth();
-        float ratio = width / height;
-        newHeight = screenHeight;
-        newWidth = (int) (ratio * screenHeight);
-        background = Bitmap.createScaledBitmap(background, newWidth, newHeight, false);
+
+        newWidth = (int) (screenHeight * (background.getWidth() / background.getHeight()));
+        background = Bitmap.createScaledBitmap(background, newWidth, screenHeight, false);
 
         handler = new Handler();
-        runnable = new Runnable() {
-            @Override
-            public void run() {
-                invalidate();
-            }
-        };
+        runnable = this::invalidate;
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void onDraw(@NonNull Canvas canvas) {
         super.onDraw(canvas);
-        backgroundX -= 3;
-        if (backgroundX < -newWidth) {
-            backgroundX = 0;
-        }
+
+        backgroundX += velocityX;
+
+        float friction = 0.6f;
+        velocityX *= friction;
+        velocityY *= friction;
+
+        if (backgroundX < -newWidth) backgroundX += newWidth;
+        if (backgroundX > 0) backgroundX -= newWidth;
+
         canvas.drawBitmap(background, backgroundX, 0, null);
         if (backgroundX < screenWidth - newWidth) {
-            canvas.drawBitmap(background, backgroundX+newWidth, 0, null);
+            canvas.drawBitmap(background, backgroundX + newWidth, 0, null);
         }
-        handler.postDelayed(runnable, UPDATE_MILLIS);
+
+        postInvalidateOnAnimation();
+    }
+
+    public void applyTilt(float accelX, float accelY, ImageView player) {
+        float accelerationFactor = 1.0f;
+        velocityX += -accelX * accelerationFactor;
+        velocityY += accelY * accelerationFactor;
+
+        float currentY = player.getY();
+        float playerHeight = player.getHeight();
+        float newY = currentY + velocityY;
+        newY = max(0, min(newY, screenHeight - playerHeight));
+        player.setY(newY);
     }
 }
