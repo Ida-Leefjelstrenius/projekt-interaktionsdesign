@@ -11,11 +11,17 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 public class GameActivity extends AppCompatActivity implements ShakeActivity.Listener{
     private ShakeActivity shakeActivity;
     private SensorEvent event;
     FrameLayout frameSharkDialog;
+    ImageView imageShark;
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -26,8 +32,11 @@ public class GameActivity extends AppCompatActivity implements ShakeActivity.Lis
 
         shakeActivity = new ShakeActivity(this, this);
 
-        ImageView imageShark = findViewById(R.id.imageShark);
+        imageShark = findViewById(R.id.imageShark);
         frameSharkDialog = findViewById(R.id.frameSharkDialog);
+        imageShark.setVisibility(View.INVISIBLE);
+        testRepeatedInteractions();
+
         imageShark.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -59,6 +68,14 @@ public class GameActivity extends AppCompatActivity implements ShakeActivity.Lis
         }
     }
 
+    public void testRepeatedInteractions(){ //every ten seconds for an hour
+        Runnable test = () -> runOnUiThread(() -> imageShark.setVisibility(View.VISIBLE));
+        ScheduledFuture<?> timer =
+                scheduler.scheduleWithFixedDelay(test, 10, 10, TimeUnit.SECONDS);
+        Runnable canceller = () -> timer.cancel(false);
+        scheduler.schedule(canceller, 1, TimeUnit.HOURS);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -75,6 +92,7 @@ public class GameActivity extends AppCompatActivity implements ShakeActivity.Lis
     public void onTranslation() {
         // Här ska vi sätta det som händer vid skakning
         frameSharkDialog.setVisibility(View.INVISIBLE);
+        imageShark.setVisibility(View.INVISIBLE);
 
     }
 }

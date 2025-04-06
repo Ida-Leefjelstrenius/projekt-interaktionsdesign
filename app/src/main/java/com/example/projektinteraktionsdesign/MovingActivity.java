@@ -1,6 +1,7 @@
 package com.example.projektinteraktionsdesign;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -8,17 +9,26 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 public class MovingActivity extends AppCompatActivity implements SensorEventListener  {
 
     BackgroundView backgroundView;
     ImageView player;
+    ImageView shark;
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -40,7 +50,26 @@ public class MovingActivity extends AppCompatActivity implements SensorEventList
         player.setLayoutParams(playerParams);
         rootLayout.addView(player);
 
+        shark = new ImageView(this);
+        shark.setImageResource(R.drawable.shark);
+        FrameLayout.LayoutParams sharkParams = new FrameLayout.LayoutParams(
+                dpToPx(64), dpToPx(200)
+        );
+        shark.setLayoutParams(sharkParams);
+        shark.setVisibility(View.INVISIBLE);
+        rootLayout.addView(shark);
+
         setContentView(rootLayout);
+
+        rootLayout.post(this::testRepeatedInteractions);
+        shark.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent sharkGameIntent = new Intent(MovingActivity.this, SharkActivity.class);
+                startActivity(sharkGameIntent);
+            }
+        });
 
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -66,4 +95,17 @@ public class MovingActivity extends AppCompatActivity implements SensorEventList
         float density = getResources().getDisplayMetrics().density;
         return Math.round(dp * density);
     }
+
+    public void testRepeatedInteractions(){ //every ten seconds for an hour
+        Runnable test = () -> runOnUiThread(() -> {
+            if (shark != null && shark.getParent() != null) {
+                shark.setVisibility(View.VISIBLE);
+            }
+        });
+        ScheduledFuture<?> timer =
+                scheduler.scheduleWithFixedDelay(test, 10, 10, TimeUnit.SECONDS);
+        Runnable canceller = () -> timer.cancel(false);
+        scheduler.schedule(canceller, 1, TimeUnit.HOURS);
+    }
+
 }

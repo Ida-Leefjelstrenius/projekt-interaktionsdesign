@@ -32,6 +32,7 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".InventoryActivity" />
         <activity android:name=".MovingActivity" />
+        <activity android:name=".SharkActivity" />
     </application>
 
 </manifest>
