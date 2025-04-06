@@ -28,10 +28,10 @@ public class MovingActivity extends AppCompatActivity implements SensorEventList
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         FrameLayout rootLayout = new FrameLayout(this);
-        backgroundView = new BackgroundView(this);
+        backgroundView = new BackgroundView(this); //Skapa bakgrunden
         rootLayout.addView(backgroundView);
 
-        player = new ImageView(this);
+        player = new ImageView(this); //Skapa spelaren
         player.setImageResource(R.drawable.diver);
         FrameLayout.LayoutParams playerParams = new FrameLayout.LayoutParams(
                 dpToPx(64), dpToPx(200)
@@ -44,7 +44,7 @@ public class MovingActivity extends AppCompatActivity implements SensorEventList
 
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        SensorManager SM = (SensorManager) getSystemService(SENSOR_SERVICE);
+        SensorManager SM = (SensorManager) getSystemService(SENSOR_SERVICE); //Skapa sensorn
         Sensor mySensor = SM.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         SM.registerListener(this, mySensor, SensorManager.SENSOR_DELAY_GAME);
     }
@@ -53,7 +53,7 @@ public class MovingActivity extends AppCompatActivity implements SensorEventList
     public void onSensorChanged(SensorEvent event) {
         float accelX = -event.values[0];
         float accelY = event.values[1];
-        backgroundView.applyTilt(accelX, accelY, player);
+        backgroundView.applyTilt(accelX, accelY, player); //Flyta spelaren och bakgrunden med tilt sensorn
 
     }
 

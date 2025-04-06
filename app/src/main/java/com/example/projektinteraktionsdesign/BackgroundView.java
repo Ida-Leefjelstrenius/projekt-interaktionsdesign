@@ -67,6 +67,7 @@ public class BackgroundView extends View {
         velocityX += -accelX * accelerationFactor;
         velocityY += accelY * accelerationFactor;
 
+        //Flytta spelaren
         float currentY = player.getY();
         float playerHeight = player.getHeight();
         float newY = currentY + velocityY;
