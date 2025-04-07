@@ -40,35 +40,15 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         gameView = new GameView(this); //Skapa bakgrunden
         rootLayout.addView(gameView);
 
-        player = new ImageView(this); //Skapa spelaren
-        player.setImageResource(R.drawable.diver);
-        FrameLayout.LayoutParams playerParams = new FrameLayout.LayoutParams(
-                dpToPx(64), dpToPx(200)
-        );
-        playerParams.gravity = Gravity.CENTER;
-        player.setLayoutParams(playerParams);
-        rootLayout.addView(player);
-
-        shark = new ImageView(this);
-        shark.setImageResource(R.drawable.shark);
-        FrameLayout.LayoutParams sharkParams = new FrameLayout.LayoutParams(
-                dpToPx(64), dpToPx(200)
-        );
-        sharkParams.gravity = Gravity.CENTER;
-        shark.setLayoutParams(sharkParams);
-        shark.setVisibility(View.INVISIBLE);
-        rootLayout.addView(shark);
+        createPlayer(rootLayout); //Skapa spelaren
+        createShark(rootLayout); //Skapa hejen
 
         setContentView(rootLayout);
 
         rootLayout.post(this::testRepeatedInteractions);
-        shark.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent sharkGameIntent = new Intent(GameActivity.this, SharkActivity.class);
-                startActivity(sharkGameIntent);
-            }
+        shark.setOnClickListener(v -> {
+            Intent sharkGameIntent = new Intent(GameActivity.this, SharkActivity.class);
+            startActivity(sharkGameIntent);
         });
 
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -83,17 +63,37 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         float accelX = -event.values[0];
         float accelY = event.values[1];
         gameView.applyTilt(accelX, accelY, player); //Flyta spelaren och bakgrunden med tilt sensorn
-
     }
 
     @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-    }
+    public void onAccuracyChanged(Sensor sensor, int accuracy) { }
 
     private int dpToPx(int dp) {
         float density = getResources().getDisplayMetrics().density;
         return Math.round(dp * density);
+    }
+
+    private void createPlayer(FrameLayout rootLayout) {
+        player = new ImageView(this);
+        player.setImageResource(R.drawable.diver);
+        FrameLayout.LayoutParams playerParams = new FrameLayout.LayoutParams(
+                dpToPx(64), dpToPx(200)
+        );
+        playerParams.gravity = Gravity.CENTER;
+        player.setLayoutParams(playerParams);
+        rootLayout.addView(player);
+    }
+
+    private void createShark(FrameLayout rootLayout) {
+        shark = new ImageView(this);
+        shark.setImageResource(R.drawable.shark);
+        FrameLayout.LayoutParams sharkParams = new FrameLayout.LayoutParams(
+                dpToPx(64), dpToPx(200)
+        );
+        sharkParams.gravity = Gravity.CENTER;
+        shark.setLayoutParams(sharkParams);
+        shark.setVisibility(View.INVISIBLE);
+        rootLayout.addView(shark);
     }
 
     public void testRepeatedInteractions(){ //every ten seconds for an hour
@@ -107,5 +107,4 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         Runnable canceller = () -> timer.cancel(false);
         scheduler.schedule(canceller, 1, TimeUnit.HOURS);
     }
-
 }

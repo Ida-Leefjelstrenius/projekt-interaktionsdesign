@@ -41,7 +41,7 @@ public class SharkActivity extends AppCompatActivity implements ShakeActivity.Li
 
     @Override
     public void onTranslation() { // Här ska vi sätta det som händer vid skakning
-        Intent movingBackgroundIntent = new Intent(SharkActivity.this, GameActivity.class);
-        startActivity(movingBackgroundIntent);
+        getOnBackPressedDispatcher().onBackPressed();
+        //remove shark from screen
     }
 }
