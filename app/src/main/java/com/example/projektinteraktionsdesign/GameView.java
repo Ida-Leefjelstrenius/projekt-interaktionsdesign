@@ -8,7 +8,9 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.view.Display;
 import android.view.View;
@@ -17,13 +19,17 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 
 public class GameView extends View {
-    int screenWidth, screenHeight, newWidth;
-    float backgroundX = 0;
-    Bitmap background;
-    Handler handler;
-    Runnable runnable;
+    private final int screenWidth;
+    private final int screenHeight;
+    private final int newWidth;
+    private float backgroundX = 0;
+    private Bitmap background;
+    private ImageView player;
+    private Bitmap shark;
+    private Matrix sharkMatrix = new Matrix();
 
     private float velocityX = 0, velocityY = 0;
+    private float sharkX = 0f, sharkY = 0f;
 
     public GameView(Context context) {
         super(context);
@@ -37,8 +43,21 @@ public class GameView extends View {
         newWidth = screenHeight * (background.getWidth() / background.getHeight());
         background = Bitmap.createScaledBitmap(background, newWidth, screenHeight, false);
 
-        handler = new Handler();
-        runnable = this::invalidate;
+        new Handler();
+        Runnable runnable = this::invalidate;
+
+        Bitmap sharkBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.shark);
+        int SharkWidth = dpToPx(160);
+        int SharkHeight = dpToPx(100);
+        shark = Bitmap.createScaledBitmap(sharkBitmap, SharkWidth, SharkHeight, false);
+    }
+
+    public void setPlayer(ImageView player) {
+        this.player = player;
+    }
+    private int dpToPx(int dp) {
+        float density = getResources().getDisplayMetrics().density;
+        return Math.round(dp * density);
     }
 
     @Override
@@ -59,7 +78,38 @@ public class GameView extends View {
             canvas.drawBitmap(background, backgroundX + newWidth, 0, null);
         }
 
+        sharkMatrix.postTranslate(sharkX, sharkY);
+
+        canvas.drawBitmap(shark, sharkMatrix, null);
+        moveSharkTowardsPlayer();
+
         postInvalidateOnAnimation();
+    }
+
+    private void moveSharkTowardsPlayer() {
+        float playerX = player.getX();
+        float playerY = player.getY();
+
+        float speed = 5.0f;
+
+        float deltaX = playerX - sharkX;
+        float deltaY = playerY - sharkY;
+
+        float distance = (float) Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+        float dirX = deltaX / distance;
+        float dirY = deltaY / distance;
+
+        if (dirX > 0) {
+            sharkMatrix.setScale(1, 1);
+        }
+        else {
+            sharkMatrix.setScale(-1, 1);
+            sharkMatrix.postTranslate(shark.getWidth(), 0);
+        }
+
+        sharkX += dirX * speed;
+        sharkY += dirY * speed;
     }
 
     public void applyTilt(float accelX, float accelY, ImageView player) {
@@ -73,5 +123,7 @@ public class GameView extends View {
         float newY = currentY + velocityY;
         newY = max(0, min(newY, screenHeight - playerHeight));
         player.setY(newY);
+
+        sharkX += velocityX;
     }
 }
