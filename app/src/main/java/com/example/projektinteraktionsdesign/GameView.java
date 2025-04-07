@@ -5,12 +5,13 @@ import static java.lang.Math.min;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Point;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.Rect;
 import android.os.Handler;
 import android.view.Display;
 import android.view.View;
@@ -25,9 +26,8 @@ public class GameView extends View {
     private float backgroundX = 0;
     private Bitmap background;
     private ImageView player;
-    private Bitmap shark;
-    private Matrix sharkMatrix = new Matrix();
-
+    private final Bitmap shark;
+    private final Matrix sharkMatrix = new Matrix();
     private float velocityX = 0, velocityY = 0;
     private float sharkX = 0f, sharkY = 0f;
 
@@ -83,7 +83,33 @@ public class GameView extends View {
         canvas.drawBitmap(shark, sharkMatrix, null);
         moveSharkTowardsPlayer();
 
+        if (checkCollision()) {
+            handleCollision();
+        }
+
         postInvalidateOnAnimation();
+    }
+
+    private void handleCollision() {
+        Context context = getContext();
+
+        if (context instanceof GameActivity) {
+            Intent sharkGameIntent = new Intent(context, SharkActivity.class);
+            context.startActivity(sharkGameIntent);
+            sharkX = 0;
+            sharkY = 0;
+        }
+    }
+
+    private boolean checkCollision() {
+        Rect playerRect = new Rect((int) player.getX(), (int) player.getY() + 200,
+                (int) player.getX() +  player.getWidth(), (int) player.getY() + 350);
+
+        Rect sharkRect = new Rect((int) sharkX, (int) sharkY,
+                (int) (sharkX + shark.getWidth()),
+                (int) (sharkY + shark.getHeight()));
+
+        return Rect.intersects(playerRect, sharkRect);
     }
 
     private void moveSharkTowardsPlayer() {
@@ -123,6 +149,13 @@ public class GameView extends View {
         float newY = currentY + velocityY;
         newY = max(0, min(newY, screenHeight - playerHeight));
         player.setY(newY);
+
+        if (velocityX > 0) {
+            player.setScaleX(-1);
+        }
+        else {
+            player.setScaleX(1);
+        }
 
         sharkX += velocityX;
     }
