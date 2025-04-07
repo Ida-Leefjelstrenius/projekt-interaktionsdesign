@@ -31,6 +31,7 @@ public class Gyroscope {
 
             }
         };
+        sensorManager.registerListener(sensorEventListener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     public void register() {

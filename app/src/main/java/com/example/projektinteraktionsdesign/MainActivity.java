@@ -29,11 +29,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void openSensorActivity(View view) {
-        Intent intent = new Intent(this, SensorActivity.class);
-        startActivity(intent);
-    }
-
     public void startGame(View view){
         Intent gameIntent = new Intent(this, GameActivity.class);
         startActivity(gameIntent);

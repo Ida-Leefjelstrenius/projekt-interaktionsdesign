@@ -35,7 +35,6 @@ public class ShakeActivity implements SensorEventListener {
         }
     }
 
-
     @Override
     public final void onSensorChanged(SensorEvent event) {
         float accX = event.values[0];
@@ -61,7 +60,6 @@ public class ShakeActivity implements SensorEventListener {
                     listener.onTranslation();
                 }
             }
-
         }
 
         lastX = accX;
@@ -72,9 +70,7 @@ public class ShakeActivity implements SensorEventListener {
     }
 
     @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-    }
+    public void onAccuracyChanged(Sensor sensor, int accuracy) { }
 
     protected void register() {
         if (sensorManager != null && sensor != null) {

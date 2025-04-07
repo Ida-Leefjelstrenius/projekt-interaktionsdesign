@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 
 public class GameView extends View {
-    int screenWidth, screenHeight, newWidth, newHeight;
+    int screenWidth, screenHeight, newWidth;
     float backgroundX = 0;
     Bitmap background;
     Handler handler;
@@ -34,7 +34,7 @@ public class GameView extends View {
         screenWidth = size.x;
         screenHeight = size.y;
 
-        newWidth = (int) (screenHeight * (background.getWidth() / background.getHeight()));
+        newWidth = screenHeight * (background.getWidth() / background.getHeight());
         background = Bitmap.createScaledBitmap(background, newWidth, screenHeight, false);
 
         handler = new Handler();

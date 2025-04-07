@@ -11,9 +11,10 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-public class SensorActivity extends Activity implements SensorEventListener {
+public class LightSensor extends AppCompatActivity implements SensorEventListener {
     private SensorManager sensorManager;
     private Sensor light;
     private TextView luxTextView;
@@ -45,16 +46,17 @@ public class SensorActivity extends Activity implements SensorEventListener {
 
         ConstraintLayout layout = findViewById(R.id.sensor);
         if (lux > 20) {
-            layout.setBackgroundColor(getResources().getColor(R.color.white, getTheme()));
-            luxTextView.setTextColor(getResources().getColor(R.color.black, getTheme()));
-            lightModeTextView.setTextColor(getResources().getColor(R.color.black, getTheme()));
-            lightModeTextView.setText(getString(R.string.lightMode));
+            setLightMode(layout, R.color.white, R.color.black, R.string.lightMode);
         } else {
-            layout.setBackgroundColor(getResources().getColor(R.color.black, getTheme()));
-            luxTextView.setTextColor(getResources().getColor(R.color.white, getTheme()));
-            lightModeTextView.setTextColor(getResources().getColor(R.color.white, getTheme()));
-            lightModeTextView.setText(getString(R.string.darkMode));
+            setLightMode(layout, R.color.black, R.color.white, R.string.darkMode);
         }
+    }
+
+    private void setLightMode(ConstraintLayout layout, int backgroundColor, int textColor, int string) {
+        layout.setBackgroundColor(getResources().getColor(backgroundColor, getTheme()));
+        luxTextView.setTextColor(getResources().getColor(textColor, getTheme()));
+        lightModeTextView.setTextColor(getResources().getColor(textColor, getTheme()));
+        lightModeTextView.setText(getString(string));
     }
 
     @Override

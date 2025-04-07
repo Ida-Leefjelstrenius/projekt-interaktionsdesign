@@ -3,10 +3,6 @@ package com.example.projektinteraktionsdesign;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -22,7 +18,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-public class GameActivity extends AppCompatActivity implements SensorEventListener  {
+public class GameActivity extends AppCompatActivity {
 
     GameView gameView;
     ImageView player;
@@ -33,6 +29,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -51,22 +48,8 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
             startActivity(sharkGameIntent);
         });
 
-        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-        SensorManager SM = (SensorManager) getSystemService(SENSOR_SERVICE); //Skapa sensorn
-        Sensor mySensor = SM.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        SM.registerListener(this, mySensor, SensorManager.SENSOR_DELAY_GAME);
+        new TiltSensor(this, gameView, player); //Skapa tilt sensorn
     }
-
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-        float accelX = -event.values[0];
-        float accelY = event.values[1];
-        gameView.applyTilt(accelX, accelY, player); //Flyta spelaren och bakgrunden med tilt sensorn
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) { }
 
     private int dpToPx(int dp) {
         float density = getResources().getDisplayMetrics().density;
