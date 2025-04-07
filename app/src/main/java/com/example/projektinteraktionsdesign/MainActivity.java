@@ -35,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startGame(View view){
-        Intent movingBackgroundIntent = new Intent(this, MovingActivity.class);
-        startActivity(movingBackgroundIntent);
+        Intent gameIntent = new Intent(this, GameActivity.class);
+        startActivity(gameIntent);
     }
 
     public void openProfilePage(View view){

@@ -16,7 +16,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
-public class BackgroundView extends View {
+public class GameView extends View {
     int screenWidth, screenHeight, newWidth, newHeight;
     float backgroundX = 0;
     Bitmap background;
@@ -25,7 +25,7 @@ public class BackgroundView extends View {
 
     private float velocityX = 0, velocityY = 0;
 
-    public BackgroundView(Context context) {
+    public GameView(Context context) {
         super(context);
         background = BitmapFactory.decodeResource(getResources(), R.drawable.big_vatten);
         Display display = ((Activity) getContext()).getWindowManager().getDefaultDisplay();
