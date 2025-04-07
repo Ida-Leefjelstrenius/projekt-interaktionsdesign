@@ -34,12 +34,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void openGameActivity(View view) {
-        Intent gintent = new Intent(this, GameActivity.class);
-        startActivity(gintent);
-    }
-
-    public void openMovingActivity(View view){
+    public void startGame(View view){
         Intent movingBackgroundIntent = new Intent(this, MovingActivity.class);
         startActivity(movingBackgroundIntent);
     }
@@ -52,11 +47,6 @@ public class MainActivity extends AppCompatActivity {
     public void openInventoryPage(View view){
         Intent inventoryIntent = new Intent(this, InventoryActivity.class);
         startActivity(inventoryIntent);
-    }
-
-    public void openTiltActivity(View view){
-        Intent tiltIntent = new Intent(this, TiltActivity.class);
-        startActivity(tiltIntent);
     }
 
     public void openSettingsPage(View view){

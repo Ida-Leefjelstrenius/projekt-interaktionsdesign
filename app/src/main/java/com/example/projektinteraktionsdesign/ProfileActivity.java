@@ -25,13 +25,5 @@ public class ProfileActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        String h = "This app is developed as a part of the Hello Sensor project in the advanced interaction design course.";
-
-
-    }
-
-    public String text() {
-        return "hej";
     }
 }
