@@ -102,10 +102,14 @@ public class GameView extends View {
     }
 
     private boolean checkCollision() {
-        Rect playerRect = new Rect((int) player.getX(), (int) player.getY() + 200,
-                (int) player.getX() +  player.getWidth(), (int) player.getY() + 350);
-
-        Rect sharkRect = new Rect((int) sharkX, (int) sharkY,
+        Rect playerRect = new Rect(
+                (int) player.getX(),
+                (int) player.getY() + 200,
+                (int) player.getX() +  player.getWidth(),
+                (int) player.getY() + 350);
+        Rect sharkRect = new Rect(
+                (int) sharkX,
+                (int) sharkY,
                 (int) (sharkX + shark.getWidth()),
                 (int) (sharkY + shark.getHeight()));
 

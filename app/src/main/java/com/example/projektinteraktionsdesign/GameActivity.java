@@ -1,7 +1,6 @@
 package com.example.projektinteraktionsdesign;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -34,10 +33,6 @@ public class GameActivity extends AppCompatActivity {
         gameView.setPlayer(player);
         setContentView(rootLayout);
 
-        //shark.setOnClickListener(v -> {
-        //    Intent sharkGameIntent = new Intent(GameActivity.this, SharkActivity.class);
-        //    startActivity(sharkGameIntent);
-        //});
 
         new TiltSensor(this, gameView, player); //Skapa tilt sensorn
     }
