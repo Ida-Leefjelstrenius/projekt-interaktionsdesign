@@ -17,7 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class GameActivity extends AppCompatActivity {
 
     GameView gameView;
-    ImageView player;
+    ImageView player, playPauseButton;
     TextView timer;
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -60,6 +60,18 @@ public class GameActivity extends AppCompatActivity {
             }
         };
         timerHandler.post(timerRunnable);
+
+        playPauseButton = new ImageView(this);
+        playPauseButton.setImageResource(R.drawable.pause);
+        FrameLayout.LayoutParams buttonParams = new FrameLayout.LayoutParams(
+                dpToPx(50), dpToPx(50)
+        );
+
+        buttonParams.gravity = Gravity.TOP | Gravity.END;
+        buttonParams.setMargins(20, 20, 20, 20);
+        playPauseButton.setLayoutParams(buttonParams);
+
+        rootLayout.addView(playPauseButton);
     }
 
     private int dpToPx(int dp) {
