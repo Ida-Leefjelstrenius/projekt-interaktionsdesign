@@ -1,52 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/collideWithSharkText"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/vatten">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageDiver"
         android:layout_width="208dp"
         android:layout_height="304dp"
+        android:rotationY="-180"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.192"
+        app:layout_constraintHorizontal_bias="0.793"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.524"
+        app:layout_constraintVertical_bias="0.498"
         app:srcCompat="@drawable/diver" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="174dp"
-        android:layout_height="265dp"
-        android:rotation="0"
-        android:rotationY="180"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.932"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.439"
-        app:srcCompat="@drawable/shark" />
 
     <TextView
         android:id="@+id/sharkDialog"
-        android:layout_width="294dp"
-        android:layout_height="185dp"
+        android:layout_width="283dp"
+        android:layout_height="47dp"
         android:background="#FFC107"
         android:backgroundTint="#FFC107"
         android:fontFamily="sans-serif-medium"
-        android:text="Shake to get rid of the shark and continue the game!"
+        android:text="Open the treasure"
         android:textAlignment="center"
         android:textColor="@color/design_default_color_background"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.643"
+        app:layout_constraintHorizontal_bias="0.398"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.847" />
+        app:layout_constraintVertical_bias="0.755" />
+
+    <ImageView
+        android:id="@+id/imageClosedChest"
+        android:layout_width="185dp"
+        android:layout_height="300dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.07"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.466"
+        app:srcCompat="@drawable/closed_chest" />
 </androidx.constraintlayout.widget.ConstraintLayout>

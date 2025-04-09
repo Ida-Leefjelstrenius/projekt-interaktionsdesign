@@ -94,7 +94,7 @@ public class GameView extends View {
         Context context = getContext();
 
         if (context instanceof GameActivity) {
-            Intent sharkGameIntent = new Intent(context, SharkActivity.class);
+            Intent sharkGameIntent = new Intent(context, treasureActivity.class);
             context.startActivity(sharkGameIntent);
             sharkX = 0;
             sharkY = 0;
