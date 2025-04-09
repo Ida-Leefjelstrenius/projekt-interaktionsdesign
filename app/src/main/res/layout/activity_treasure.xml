@@ -7,18 +7,21 @@
     android:layout_height="match_parent"
     android:background="@drawable/vatten">
 
-    <ImageView
-        android:id="@+id/imageDiver"
-        android:layout_width="208dp"
-        android:layout_height="304dp"
-        android:rotationY="-180"
+    <Button
+        android:id="@+id/btn_back_to_game"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:backgroundTint="@color/desertCoral"
+        android:text="Continue game"
+        android:onClick="goBackToGame"
+        android:textSize="20sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.793"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.498"
-        app:srcCompat="@drawable/diver" />
+        app:layout_constraintVertical_bias="0.547" />
 
     <TextView
         android:id="@+id/sharkDialog"
@@ -33,20 +36,60 @@
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.398"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.755" />
+        app:layout_constraintVertical_bias="0.504" />
 
     <ImageView
         android:id="@+id/imageClosedChest"
-        android:layout_width="185dp"
-        android:layout_height="300dp"
+        android:layout_width="173dp"
+        android:layout_height="269dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/closed_chest" />
+
+    <ImageView
+        android:id="@+id/imageOpenChest"
+        android:layout_width="184dp"
+        android:layout_height="378dp"
+        android:rotationY="26"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.07"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.466"
-        app:srcCompat="@drawable/closed_chest" />
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/ches_open" />
+
+    <ImageView
+        android:id="@+id/imageHeart"
+        android:layout_width="83dp"
+        android:layout_height="53dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.167"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.861"
+        app:srcCompat="@drawable/heart_symbol" />
+
+    <ImageView
+        android:id="@+id/imageDiver"
+        android:layout_width="208dp"
+        android:layout_height="304dp"
+        android:rotationY="-180"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.679"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/diver" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

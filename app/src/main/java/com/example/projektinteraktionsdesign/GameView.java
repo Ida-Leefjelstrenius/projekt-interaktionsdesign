@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -26,10 +27,11 @@ public class GameView extends View {
     private float backgroundX = 0;
     private Bitmap background;
     private ImageView player;
-    private final Bitmap shark;
+    private final Bitmap shark, chest;
     private final Matrix sharkMatrix = new Matrix();
     private float velocityX = 0, velocityY = 0;
     private float sharkX = 0f, sharkY = 0f;
+    private float chestX = 500f, chestY = 500;
 
     public GameView(Context context) {
         super(context);
@@ -50,6 +52,11 @@ public class GameView extends View {
         int SharkWidth = dpToPx(160);
         int SharkHeight = dpToPx(100);
         shark = Bitmap.createScaledBitmap(sharkBitmap, SharkWidth, SharkHeight, false);
+
+        Bitmap chestBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.closed_chest);
+        int chestWidth = dpToPx(100);
+        int chestHeight = dpToPx(80);
+        chest = Bitmap.createScaledBitmap(chestBitmap, chestWidth, chestHeight, false);
     }
 
     public void setPlayer(ImageView player) {
@@ -81,9 +88,16 @@ public class GameView extends View {
         sharkMatrix.postTranslate(sharkX, sharkY);
 
         canvas.drawBitmap(shark, sharkMatrix, null);
+        canvas.drawBitmap(chest, chestX, chestY, null);
         moveSharkTowardsPlayer();
 
-        if (checkCollision()) {
+        if (checkCollision(sharkX, sharkY, shark)) {
+            CharSequence text = "Test!";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(this.getContext(), text, duration);
+            toast.show();
+        } else if (checkCollision(chestX, chestY, chest)) {
             handleCollision();
         }
 
@@ -101,19 +115,19 @@ public class GameView extends View {
         }
     }
 
-    private boolean checkCollision() {
+    private boolean checkCollision(float objectX, float objectY, Bitmap object) {
         Rect playerRect = new Rect(
                 (int) player.getX(),
                 (int) player.getY() + 200,
                 (int) player.getX() +  player.getWidth(),
                 (int) player.getY() + 350);
-        Rect sharkRect = new Rect(
-                (int) sharkX,
-                (int) sharkY,
-                (int) (sharkX + shark.getWidth()),
-                (int) (sharkY + shark.getHeight()));
+        Rect objectRect = new Rect(
+                (int) objectX,
+                (int) objectY,
+                (int) (objectX + object.getWidth()),
+                (int) (objectY + object.getHeight()));
 
-        return Rect.intersects(playerRect, sharkRect);
+        return Rect.intersects(playerRect, objectRect);
     }
 
     private void moveSharkTowardsPlayer() {
