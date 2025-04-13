@@ -1,11 +1,13 @@
 package com.example.projektinteraktionsdesign;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -66,6 +68,11 @@ public class GameActivity extends AppCompatActivity {
         FrameLayout.LayoutParams buttonParams = new FrameLayout.LayoutParams(
                 dpToPx(50), dpToPx(50)
         );
+
+        playPauseButton.setOnClickListener(a -> {
+            Intent pauseIntent = new Intent(this, PauseActivity.class);
+            startActivity(pauseIntent);
+        });
 
         buttonParams.gravity = Gravity.TOP | Gravity.END;
         buttonParams.setMargins(20, 20, 20, 20);
