@@ -14,10 +14,17 @@ public class PauseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pause);
 
         Button resumeButton = findViewById(R.id.resumeButton);
+
+        Button homeButton = findViewById(R.id.homeButton);
     }
 
-    public void backtoGame(View view){
+    public void openGame(View view){
         Intent resumeGame = new Intent(this, GameActivity.class);
         startActivity(resumeGame);
+    }
+
+    public void openHomePage(View view){
+        Intent backHome = new Intent(this, MainActivity.class);
+        startActivity(backHome);
     }
 }
