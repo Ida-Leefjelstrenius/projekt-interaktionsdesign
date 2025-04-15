@@ -3,12 +3,10 @@ package com.example.projektinteraktionsdesign;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.hardware.SensorEvent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.CycleInterpolator;
-import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,9 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class treasureActivity extends AppCompatActivity implements ShakeActivity.Listener{
     private ShakeActivity shakeActivity;
-    private SensorEvent event;
-    private ImageView closedChest, diver, openChest, heart;
-    private Button goBackBottom;
+    private ImageView closedChest, diver, openChest, coin;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -29,15 +25,12 @@ public class treasureActivity extends AppCompatActivity implements ShakeActivity
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         shakeActivity = new ShakeActivity(this, this);
-        closedChest = (ImageView) findViewById(R.id.imageClosedChest);
-        openChest = (ImageView) findViewById(R.id.imageOpenChest);
-        diver = (ImageView) findViewById(R.id.imageDiver);
-        heart = (ImageView) findViewById(R.id.imageHeart);
+        closedChest = findViewById(R.id.imageClosedChest);
+        openChest = findViewById(R.id.imageOpenChest);
+        diver = findViewById(R.id.imageDiver);
+        coin = findViewById(R.id.imageCoin);
 
         floatingAnimation();
-    }
-    public void integrateWithShark(){
-        shakeActivity.onSensorChanged(event);
     }
 
     public void floatingAnimation() {
@@ -52,14 +45,14 @@ public class treasureActivity extends AppCompatActivity implements ShakeActivity
     }
 
     public void openChestAnimation() {
-        Animation movingHeart = new TranslateAnimation(Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, -140);
-        movingHeart.setDuration(2000);
-        movingHeart.setRepeatCount(Animation.ABSOLUTE);
-        movingHeart.setFillAfter(true);
+        Animation movingCoin = new TranslateAnimation(Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, -140);
+        movingCoin.setDuration(2000);
+        movingCoin.setRepeatCount(Animation.ABSOLUTE);
+        movingCoin.setFillAfter(true);
 
         closedChest.setVisibility(View.INVISIBLE);
         openChest.setVisibility(View.VISIBLE);
-        heart.startAnimation(movingHeart);
+        coin.startAnimation(movingCoin);
     }
 
     @Override
@@ -78,17 +71,13 @@ public class treasureActivity extends AppCompatActivity implements ShakeActivity
     @Override
     public void onTranslation() { // Här ska vi sätta det som händer vid skakning
         openChestAnimation();
-        goBackBottom = findViewById(R.id.btn_back_to_game);
+        Button goBackBottom = findViewById(R.id.btn_back_to_game);
         goBackBottom.setVisibility(View.VISIBLE);
-        goBackBottom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goBackToGame();
-            }
-        });
+        goBackBottom.setOnClickListener(this::goBackToGame);
     }
 
-    public void goBackToGame() {
+
+    public void goBackToGame(View view) {
         //getOnBackPressedDispatcher().onBackPressed();
         Intent gameIntent = new Intent(this, GameActivity.class);
         startActivity(gameIntent);

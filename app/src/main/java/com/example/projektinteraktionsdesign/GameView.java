@@ -31,7 +31,7 @@ public class GameView extends View {
     private final Matrix sharkMatrix = new Matrix();
     private float velocityX = 0, velocityY = 0;
     private float sharkX = 0f, sharkY = 0f;
-    private float chestX = 500f, chestY = 500;
+    private float chestX = 500f, chestY = 550;
 
     public GameView(Context context) {
         super(context);
