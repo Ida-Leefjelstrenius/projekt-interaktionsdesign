@@ -16,4 +16,5 @@
     <string name="profile">Profile</string>
     <string name="inventory">Inventory</string>
     <string name="moving_background">Moving background</string>
+    <string name="game_paused">Game Paused</string>
 </resources>
