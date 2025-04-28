@@ -32,6 +32,7 @@ public class GameView extends View {
     private float velocityX = 0, velocityY = 0;
     private float sharkX = 0f, sharkY = 0f;
     private float chestX = 500f, chestY = 550;
+    private boolean isGameOver = false;
 
     public GameView(Context context) {
         super(context);
@@ -70,6 +71,7 @@ public class GameView extends View {
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
         super.onDraw(canvas);
+        if (isGameOver) return;
 
         backgroundX += velocityX;
 
@@ -92,16 +94,24 @@ public class GameView extends View {
         moveSharkTowardsPlayer();
 
         if (checkCollision(sharkX, sharkY, shark)) {
-            CharSequence text = "Test!";
-            int duration = Toast.LENGTH_SHORT;
-
-            Toast toast = Toast.makeText(this.getContext(), text, duration);
-            toast.show();
+            handleDeath();
         } else if (checkCollision(chestX, chestY, chest)) {
             handleCollision();
         }
 
         postInvalidateOnAnimation();
+    }
+
+    private void handleDeath() {
+        if (isGameOver) return;
+        isGameOver = true;
+
+        Context context = getContext();
+        if (context instanceof GameActivity) {
+            Intent deathIntent = new Intent(context, DeathActivity.class);
+            context.startActivity(deathIntent);
+            ((GameActivity) context).finish();
+        }
     }
 
     private void handleCollision() {

@@ -42,7 +42,7 @@
         android:layout_width="283dp"
         android:layout_height="47dp"
         android:fontFamily="sans-serif-medium"
-        android:text="@string/open_the_treasure"
+        android:text="@string/continue_game"
         android:textAlignment="center"
         android:textColor="@color/design_default_color_background"
         android:textSize="34sp"

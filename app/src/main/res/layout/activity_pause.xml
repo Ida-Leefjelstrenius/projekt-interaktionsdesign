@@ -1,35 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/desertCoral"
     android:orientation="vertical"
-    android:gravity="center"
-    android:background="@drawable/vatten"
-    >
+    android:padding="24dp"
+    android:gravity="center">
 
     <TextView
+        android:id="@+id/pausedText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Game Paused"
-        android:textSize="32sp"
-        android:textColor="@android:color/white"
-        android:layout_marginBottom="40dp"/>
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp" />
 
     <Button
         android:id="@+id/resumeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Resume"
-        android:onClick="openGame"
-        android:backgroundTint="@color/desertCoral"
-        android:padding="16dp"/>
+        android:text="Resume" />
 
     <Button
         android:id="@+id/homeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Home"
-        android:onClick="openHomePage"
-        android:backgroundTint="@color/desertCoral"
-        android:padding="16dp"/>
+        android:text="Back to Start"
+        android:layout_marginTop="12dp" />
 </LinearLayout>

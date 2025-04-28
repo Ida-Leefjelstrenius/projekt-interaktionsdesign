@@ -7,11 +7,14 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +24,14 @@ public class GameActivity extends AppCompatActivity {
     GameView gameView;
     ImageView player, playPauseButton;
     TextView timer;
+
+    long startTime = 0;
+    long pausedTime = 0;
+    boolean isPaused;
+
+    Runnable timerRunnable;
+    Handler timerHandler;
+    PopupWindow popupWindow;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -43,9 +54,9 @@ public class GameActivity extends AppCompatActivity {
         gameView.setPlayer(player);
         rootLayout.addView(timer);
         setContentView(rootLayout);
-        long startTime;
-        Handler timerHandler = new Handler();
+        timerHandler = new Handler();
         Runnable timerRunnable;
+        isPaused = false;
         new TiltSensor(this, gameView, player); //Skapa tilt sensorn
         startTime = System.currentTimeMillis();
 
@@ -70,8 +81,7 @@ public class GameActivity extends AppCompatActivity {
         );
 
         playPauseButton.setOnClickListener(a -> {
-            Intent pauseIntent = new Intent(this, PauseActivity.class);
-            startActivity(pauseIntent);
+            showPausePopUp();
         });
 
         buttonParams.gravity = Gravity.TOP | Gravity.END;
@@ -96,4 +106,34 @@ public class GameActivity extends AppCompatActivity {
         player.setLayoutParams(playerParams);
         rootLayout.addView(player);
     }
+
+    private void showPausePopUp() {
+        isPaused = true;
+
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.activity_pause, null);
+
+        int width = FrameLayout.LayoutParams.WRAP_CONTENT;
+        int height = FrameLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true;
+
+        popupWindow = new PopupWindow(popupView, width, height, focusable);
+        popupWindow.showAtLocation(findViewById(android.R.id.content), Gravity.CENTER, 0, 0);
+
+        Button resumeButton = popupView.findViewById(R.id.resumeButton);
+        resumeButton.setOnClickListener(v -> {
+            popupWindow.dismiss();
+            isPaused = false;
+            timerHandler.post(timerRunnable); // resume timer
+        });
+
+        Button backToStart = popupView.findViewById(R.id.homeButton);
+        backToStart.setOnClickListener(v -> {
+            popupWindow.dismiss();
+            Intent intent = new Intent(GameActivity.this, MainActivity.class); // or your start page
+            startActivity(intent);
+            finish();
+        });
+    }
+
 }
