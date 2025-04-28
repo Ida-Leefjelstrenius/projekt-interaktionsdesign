@@ -70,6 +70,23 @@
         app:layout_constraintTop_toBottomOf="@+id/gameText" />
 
     <!-- Additional Buttons -->
+
+    <Button
+        android:id="@+id/btn_ab_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="192dp"
+        android:backgroundTint="@color/desertCoral"
+        android:onClick="startTesting"
+        android:text="@string/start_a_b_test"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gameText"
+        app:layout_constraintVertical_bias="0.0" />
+
     <Button
         android:id="@+id/btn_inventory"
         android:layout_width="wrap_content"

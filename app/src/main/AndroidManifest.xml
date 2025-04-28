@@ -28,8 +28,11 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".InventoryActivity" />
         <activity android:name=".GameActivity" />
-        <activity android:name=".treasureActivity" />
+        <activity android:name=".TreasureActivity" />
+        <activity android:name=".TreasureActivity2" />
         <activity android:name=".PauseActivity" />
+        <activity android:name=".AbTestActivity" />
+        <activity android:name=".RotateActivity" />
     </application>
 
 </manifest>

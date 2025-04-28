@@ -23,4 +23,5 @@
     <string name="imagediver">imageDiver</string>
     <string name="closedChest" />
     <string name="coin">Coin</string>
+    <string name="start_a_b_test">Start a/b test</string>
 </resources>

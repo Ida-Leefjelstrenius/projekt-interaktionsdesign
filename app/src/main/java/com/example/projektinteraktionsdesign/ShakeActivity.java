@@ -20,14 +20,15 @@ public class ShakeActivity implements SensorEventListener {
     private boolean notFirstTime;
     final float shakeThreshold = 16f;
     private final Vibrator vibrator;
-    private final Listener listener;
 
-    public interface Listener {
-        void onTranslation();
+    private final SensorHandler handler;
+
+    public interface SensorHandler {
+        void handleSensorEvent(SensorEvent event);
     }
 
-    ShakeActivity(Context context, Listener listener) {
-        this.listener = listener;
+    ShakeActivity(Context context, SensorHandler handler) {
+        this.handler = handler;
         vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         if (sensorManager != null) {
@@ -35,6 +36,13 @@ public class ShakeActivity implements SensorEventListener {
         }
     }
 
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (handler != null) {
+            handler.handleSensorEvent(event);
+        }
+    }
+    /*
     @Override
     public final void onSensorChanged(SensorEvent event) {
         float accX = event.values[0];
@@ -68,6 +76,8 @@ public class ShakeActivity implements SensorEventListener {
         notFirstTime = true;
 
     }
+
+     */
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) { }

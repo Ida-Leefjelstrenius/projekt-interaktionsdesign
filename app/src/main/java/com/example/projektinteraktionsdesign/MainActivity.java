@@ -53,6 +53,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(gameIntent);
     }
 
+    public void startTesting(View view){
+        Intent testIntent = new Intent(this, AbTestActivity.class);
+        startActivity(testIntent);
+    }
+
     public void openProfilePage(View view){
         Intent profileIntent = new Intent(this, ProfileActivity.class);
         startActivity(profileIntent);
