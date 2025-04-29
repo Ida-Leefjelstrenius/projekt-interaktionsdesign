@@ -14,6 +14,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -118,10 +119,12 @@ public class GameView extends View {
         Context context = getContext();
 
         if (context instanceof GameActivity) {
-            Intent sharkGameIntent = new Intent(context, TreasureActivity.class);
+            /*Intent sharkGameIntent = new Intent(context, treasureActivity.class);
             context.startActivity(sharkGameIntent);
             sharkX = 0;
             sharkY = 0;
+
+             */
         }
     }
 

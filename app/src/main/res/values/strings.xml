@@ -24,4 +24,5 @@
     <string name="closedChest" />
     <string name="coin">Coin</string>
     <string name="start_a_b_test">Start a/b test</string>
+    <string name="option_3">Option 3</string>
 </resources>

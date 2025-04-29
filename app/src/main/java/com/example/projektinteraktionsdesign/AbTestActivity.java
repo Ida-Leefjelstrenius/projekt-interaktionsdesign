@@ -26,8 +26,13 @@ public class AbTestActivity extends AppCompatActivity {
     }
 
     public void startOption2(View view){
-        Intent option2Intent = new Intent(this, RotateActivity.class);
+        Intent option2Intent = new Intent(this, TreasureActivity2.class);
         startActivity(option2Intent);
+    }
+
+    public void startOption3(View view){
+        Intent option3Intent = new Intent(this, TreasureActivity3.class);
+        startActivity(option3Intent);
     }
 
 }

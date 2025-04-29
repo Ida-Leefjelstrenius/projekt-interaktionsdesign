@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.hardware.SensorEvent;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
@@ -20,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class TreasureActivity extends AppCompatActivity{
     private ShakeActivity shakeActivity;
     private ImageView closedChest, diver, openChest, coin;
+    MediaPlayer mediaPlayerCoin;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -32,6 +34,8 @@ public class TreasureActivity extends AppCompatActivity{
         openChest = findViewById(R.id.imageOpenChest);
         diver = findViewById(R.id.imageDiver);
         coin = findViewById(R.id.imageCoin);
+
+        mediaPlayerCoin = MediaPlayer.create(TreasureActivity.this, R.raw.coin);
 
         floatingAnimation();
 
@@ -61,8 +65,7 @@ public class TreasureActivity extends AppCompatActivity{
                         } else {
                             vibrator.vibrate(500);
                         }
-
-
+                        mediaPlayerCoin.start();
                         onShakeDetected();
                     }
                 }

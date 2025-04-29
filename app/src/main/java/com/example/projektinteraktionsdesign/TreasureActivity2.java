@@ -1,34 +1,40 @@
 package com.example.projektinteraktionsdesign;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
-import android.view.Display;
-import android.view.Surface;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.CycleInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class TreasureActivity2 extends AppCompatActivity {
-    private ShakeActivity shakeActivity;
     private ImageView closedChest, diver, openChest, coin;
-    Display mDisplay;
-    float mSensorX, mSensorY, mSensorZ;
-    long mSensorTimeStamp;
-
+    private SensorManager sensorManager;
+    SensorEventListener sensorEventListener;
+    private Vibrator vibrator;
+    MediaPlayer mediaPlayerCoin;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
     public final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_treasure2);
+        setContentView(R.layout.activity_treasure);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         closedChest = findViewById(R.id.imageClosedChest);
@@ -36,37 +42,62 @@ public class TreasureActivity2 extends AppCompatActivity {
         diver = findViewById(R.id.imageDiver);
         coin = findViewById(R.id.imageCoin);
 
+        mediaPlayerCoin = MediaPlayer.create(TreasureActivity2.this, R.raw.coin);
+
         floatingAnimation();
 
-        mDisplay = getWindowManager().getDefaultDisplay();
-        shakeActivity = new ShakeActivity(this, event -> {
-            if (event.sensor.getType() != Sensor.TYPE_ACCELEROMETER) return;
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        Sensor rotationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
+        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 
-            switch (mDisplay.getRotation()) {
-                case Surface.ROTATION_0:
-                    mSensorX = event.values[0];
-                    mSensorY = event.values[1];
-                    break;
-                case Surface.ROTATION_90:
-                    mSensorX = -event.values[1];
-                    mSensorY = event.values[0];
-                    break;
-                case Surface.ROTATION_180:
-                    mSensorX = -event.values[0];
-                    mSensorY = -event.values[1];
-                    break;
-                case Surface.ROTATION_270:
-                    mSensorX = event.values[1];
-                    mSensorY = -event.values[0];
-                    break;
+        sensorEventListener = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                float[] rotationMatrix = new float[9];
+                float[] orientationAngles = new float[3];
+
+                SensorManager.getRotationMatrixFromVector(rotationMatrix, event.values);
+                SensorManager.getOrientation(rotationMatrix, orientationAngles);
+
+                float azimuth = orientationAngles[0]; //compass
+                float pitch = orientationAngles[1];   // tilt up + down
+                float roll = orientationAngles[2];    // left right
+
+                if (Math.abs(roll) > 1.2 && Math.abs(pitch) < 0.5) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+                    } else {
+                        vibrator.vibrate(500);
+                    }
+                    mediaPlayerCoin.start();
+                    onShakeDetected();
+                }
             }
-            mSensorZ = event.values[2];
-            mSensorTimeStamp = event.timestamp;
 
-            gestureDetection();
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+            }
+        };
+        if (rotationSensor != null) {
+            sensorManager.registerListener(sensorEventListener, rotationSensor, SensorManager.SENSOR_DELAY_GAME);
+        } else {
+            Toast.makeText(this, "Rotation sensor not available", Toast.LENGTH_SHORT).show();
+        }
 
-        });
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener(sensorEventListener);
+    }
+
+    private void onShakeDetected() {
+        onPause();
+        openChestAnimation();
+        Button goBackBottom = findViewById(R.id.btn_back_to_game);
+        goBackBottom.setVisibility(View.VISIBLE);
+        goBackBottom.setOnClickListener(this::goBackToTest);
     }
 
     public void floatingAnimation() {
@@ -91,28 +122,6 @@ public class TreasureActivity2 extends AppCompatActivity {
         coin.startAnimation(movingCoin);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        shakeActivity.register();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        shakeActivity.unregister();
-    }
-
-
-    /*@Override
-    public void onTranslation() { // Här ska vi sätta det som händer vid skakning
-        openChestAnimation();
-        Button goBackBottom = findViewById(R.id.btn_back_to_game);
-        goBackBottom.setVisibility(View.VISIBLE);
-        goBackBottom.setOnClickListener(this::goBackToTest);
-    }
-
-     */
 
     public void goBackToTest(View view) {
         //getOnBackPressedDispatcher().onBackPressed();
@@ -121,10 +130,4 @@ public class TreasureActivity2 extends AppCompatActivity {
         finish();
     }
 
-    private void gestureDetection(){
-        openChestAnimation();
-        Button goBackBottom = findViewById(R.id.btn_back_to_game);
-        goBackBottom.setVisibility(View.VISIBLE);
-        goBackBottom.setOnClickListener(this::goBackToTest);
-    }
 }

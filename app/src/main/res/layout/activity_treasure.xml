@@ -6,21 +6,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/vatten">
 
-    <TextView
-        android:id="@+id/sharkDialog3"
-        android:layout_width="283dp"
-        android:layout_height="47dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="Option 1"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.043" />
-
     <Button
         android:id="@+id/btn_back_to_game"
         android:layout_width="wrap_content"
