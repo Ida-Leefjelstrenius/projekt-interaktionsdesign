@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/desertCoral"
+    android:background="@drawable/pause_popup_background"
     android:orientation="vertical"
     android:padding="24dp"
     android:gravity="center">
@@ -13,20 +13,22 @@
         android:layout_height="wrap_content"
         android:text="Game Paused"
         android:textColor="@color/white"
-        android:textSize="22sp"
+        android:textSize="24sp"
         android:textStyle="bold"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="20dp" />
 
     <Button
         android:id="@+id/resumeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/desertCoral"
         android:text="Resume" />
 
     <Button
         android:id="@+id/homeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/desertCoral"
         android:text="Back to Start"
         android:layout_marginTop="12dp" />
 </LinearLayout>

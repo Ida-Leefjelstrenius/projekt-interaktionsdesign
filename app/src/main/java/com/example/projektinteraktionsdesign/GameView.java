@@ -34,6 +34,8 @@ public class GameView extends View {
     private float chestX = 500f, chestY = 550;
     private boolean isGameOver = false;
 
+    private boolean isPaused = false;
+
     public GameView(Context context) {
         super(context);
         background = BitmapFactory.decodeResource(getResources(), R.drawable.big_vatten);
@@ -99,7 +101,9 @@ public class GameView extends View {
             handleCollision();
         }
 
-        postInvalidateOnAnimation();
+        if (!isPaused && !isGameOver) {
+            postInvalidateOnAnimation();
+        }
     }
 
     private void handleDeath() {
@@ -186,5 +190,14 @@ public class GameView extends View {
         }
 
         sharkX += velocityX;
+    }
+
+    public void pause(){
+        isPaused = true;
+    }
+
+    public void resume() {
+        isPaused = false;
+        postInvalidateOnAnimation();
     }
 }

@@ -26,6 +26,7 @@ public class GameActivity extends AppCompatActivity {
     TextView timer;
 
     long startTime = 0;
+    long elapsedBeforePause = 0;
     long pausedTime = 0;
     boolean isPaused;
 
@@ -55,7 +56,6 @@ public class GameActivity extends AppCompatActivity {
         rootLayout.addView(timer);
         setContentView(rootLayout);
         timerHandler = new Handler();
-        Runnable timerRunnable;
         isPaused = false;
         new TiltSensor(this, gameView, player); //Skapa tilt sensorn
         startTime = System.currentTimeMillis();
@@ -63,7 +63,7 @@ public class GameActivity extends AppCompatActivity {
         timerRunnable = new Runnable() {
             @Override
             public void run() {
-                long millis = System.currentTimeMillis() - startTime;
+                long millis = elapsedBeforePause + (System.currentTimeMillis() - startTime);
                 int seconds = (int) (millis / 1000);
                 int minutes = seconds / 60;
                 seconds = seconds % 60;
@@ -109,6 +109,11 @@ public class GameActivity extends AppCompatActivity {
 
     private void showPausePopUp() {
         isPaused = true;
+        gameView.pause();
+        elapsedBeforePause += System.currentTimeMillis() - startTime;
+        timerHandler.removeCallbacksAndMessages(null);
+        playPauseButton.setVisibility(View.INVISIBLE);
+
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.activity_pause, null);
@@ -124,7 +129,10 @@ public class GameActivity extends AppCompatActivity {
         resumeButton.setOnClickListener(v -> {
             popupWindow.dismiss();
             isPaused = false;
+            gameView.resume();
+            startTime = System.currentTimeMillis();
             timerHandler.post(timerRunnable); // resume timer
+            playPauseButton.setVisibility(View.VISIBLE);
         });
 
         Button backToStart = popupView.findViewById(R.id.homeButton);
