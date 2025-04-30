@@ -45,7 +45,7 @@ public class treasureActivity extends AppCompatActivity implements ShakeActivity
     }
 
     public void openChestAnimation() {
-        Animation movingCoin = new TranslateAnimation(Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, -140);
+        Animation movingCoin = new TranslateAnimation(Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, -190);
         movingCoin.setDuration(2000);
         movingCoin.setRepeatCount(Animation.ABSOLUTE);
         movingCoin.setFillAfter(true);
@@ -78,9 +78,7 @@ public class treasureActivity extends AppCompatActivity implements ShakeActivity
 
 
     public void goBackToGame(View view) {
-        //getOnBackPressedDispatcher().onBackPressed();
-        Intent gameIntent = new Intent(this, GameActivity.class);
-        startActivity(gameIntent);
+        setResult(RESULT_OK);
         finish();
     }
 }

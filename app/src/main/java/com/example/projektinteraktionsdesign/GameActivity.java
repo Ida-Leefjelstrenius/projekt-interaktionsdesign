@@ -17,22 +17,25 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class GameActivity extends AppCompatActivity {
 
     GameView gameView;
     ImageView player, playPauseButton;
-    TextView timer;
+    TextView timer, coinCounter;
 
     long startTime = 0;
     long elapsedBeforePause = 0;
     long pausedTime = 0;
     boolean isPaused;
-
     Runnable timerRunnable;
     Handler timerHandler;
     PopupWindow popupWindow;
+    private ActivityResultLauncher<Intent> treasureResultLauncher;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -42,9 +45,32 @@ public class GameActivity extends AppCompatActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        treasureResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(), result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        gameView.resume();
+                        isPaused = false;
+                        startTime = System.currentTimeMillis();
+                        timerHandler.post(timerRunnable);
+                    }
+                }
+        );
+
         FrameLayout rootLayout = new FrameLayout(this);
 
         gameView = new GameView(this); //Skapa bakgrunden
+
+        gameView.setTreasureListener(() -> {
+            isPaused = true;
+            gameView.pause();
+            elapsedBeforePause += System.currentTimeMillis() - startTime;
+            timerHandler.removeCallbacksAndMessages(null);
+            playPauseButton.setVisibility(View.VISIBLE);
+
+            Intent chestIntent = new Intent(GameActivity.this, treasureActivity.class);
+            treasureResultLauncher.launch(chestIntent);
+        });
+
         rootLayout.addView(gameView);
 
         createPlayer(rootLayout); //Skapa spelaren
@@ -52,8 +78,14 @@ public class GameActivity extends AppCompatActivity {
         timer.setTextSize(25);
         timer.setTextColor(Color.WHITE);
         timer.setPadding(20,20,20,20);
+        coinCounter = new TextView(this);
+        coinCounter.setTextSize(25);
+        coinCounter.setTextColor(Color.WHITE);
+        coinCounter.setPadding(20, 80, 20, 20);
+        coinCounter.setText("Coin: 0");
         gameView.setPlayer(player);
         rootLayout.addView(timer);
+        rootLayout.addView(coinCounter);
         setContentView(rootLayout);
         timerHandler = new Handler();
         isPaused = false;
@@ -70,6 +102,13 @@ public class GameActivity extends AppCompatActivity {
 
                 timer.setText("Time alive: " + String.format("%d:%02d", minutes, seconds));
                 timerHandler.postDelayed(this, 500);
+
+                gameView.setCoinUpdateListener(new GameView.CoinUpdateListener() {
+                    @Override
+                    public void onCoinUpdated(int newAmount) {
+                        runOnUiThread(() -> coinCounter.setText("Coins: " + newAmount));
+                    }
+                });
             }
         };
         timerHandler.post(timerRunnable);

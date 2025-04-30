@@ -16,7 +16,6 @@ import android.os.Handler;
 import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -31,10 +30,24 @@ public class GameView extends View {
     private final Matrix sharkMatrix = new Matrix();
     private float velocityX = 0, velocityY = 0;
     private float sharkX = 0f, sharkY = 0f;
-    private float chestX = 500f, chestY = 550;
+    private float chestX = 500f, chestY = 1800;
     private boolean isGameOver = false;
-
     private boolean isPaused = false;
+    private  int coins = 0;
+    public interface CoinUpdateListener {
+        void onCoinUpdated(int newAmount);
+    }
+    private CoinUpdateListener coinListener;
+    public void setCoinUpdateListener(CoinUpdateListener listener) {
+        this.coinListener = listener;
+    }
+    public interface TreasureRequestListener {
+        void treasureRequest();
+    }
+    private TreasureRequestListener  treasureListener;
+    public void setTreasureListener(TreasureRequestListener  listener) {
+        this.treasureListener = listener;
+    }
 
     public GameView(Context context) {
         super(context);
@@ -98,7 +111,11 @@ public class GameView extends View {
         if (checkCollision(sharkX, sharkY, shark)) {
             handleDeath();
         } else if (checkCollision(chestX, chestY, chest)) {
-            handleCollision();
+            try {
+                handleChestCollision();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         if (!isPaused && !isGameOver) {
@@ -118,15 +135,28 @@ public class GameView extends View {
         }
     }
 
-    private void handleCollision() {
+    private void handleChestCollision() throws InterruptedException {
+        if (treasureListener != null) {
         Context context = getContext();
+        double coinValue = (Math.random() * 5) + 1;
+        coins += (int) coinValue;
+        if (coinListener != null) {
+            coinListener.onCoinUpdated(coins);
+        }
 
         if (context instanceof GameActivity) {
-            Intent sharkGameIntent = new Intent(context, treasureActivity.class);
-            context.startActivity(sharkGameIntent);
+            if (treasureListener != null) {
+                treasureListener.treasureRequest();
+                chestX = -1000;
+                chestY = -1000;
+            }
             sharkX = 0;
             sharkY = 0;
+
+
         }
+        }
+
     }
 
     private boolean checkCollision(float objectX, float objectY, Bitmap object) {
