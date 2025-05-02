@@ -29,11 +29,14 @@ public class GameView extends View {
     private final Bitmap shark, chest;
     private final Matrix sharkMatrix = new Matrix();
     private float velocityX = 0, velocityY = 0;
-    private float sharkX = 0f, sharkY = 0f;
+    private float sharkX = -1000.0f, sharkY = 0f;
     private float chestX = 500f, chestY = 1800;
     private boolean isGameOver = false;
     private boolean isPaused = false;
     private  int coins = 0;
+
+    private long startTime = System.currentTimeMillis();
+    private long savedTime;
     public interface CoinUpdateListener {
         void onCoinUpdated(int newAmount);
     }
@@ -51,7 +54,7 @@ public class GameView extends View {
 
     public GameView(Context context) {
         super(context);
-        background = BitmapFactory.decodeResource(getResources(), R.drawable.big_vatten);
+        background = BitmapFactory.decodeResource(getResources(), R.drawable.combined_vatten);
         Display display = ((Activity) getContext()).getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
@@ -62,7 +65,7 @@ public class GameView extends View {
         background = Bitmap.createScaledBitmap(background, newWidth, screenHeight, false);
 
         new Handler();
-        Runnable runnable = this::invalidate;
+        invalidate();
 
         Bitmap sharkBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.shark);
         int SharkWidth = dpToPx(160);
@@ -178,7 +181,10 @@ public class GameView extends View {
         float playerX = player.getX();
         float playerY = player.getY();
 
-        float speed = 5.0f;
+        int secondsSurvived = (int) ((savedTime + (System.currentTimeMillis() - startTime)) / 1000);
+
+        float baseSpeed = 2.0f;
+        float speed =  min(baseSpeed + secondsSurvived * 0.1f, 10.0f);
 
         float deltaX = playerX - sharkX;
         float deltaY = playerY - sharkY;
@@ -201,6 +207,7 @@ public class GameView extends View {
     }
 
     public void applyTilt(float accelX, float accelY, ImageView player) {
+        if (isPaused) return;
         float accelerationFactor = 1.0f;
         velocityX += -accelX * accelerationFactor;
         velocityY += accelY * accelerationFactor;
@@ -224,10 +231,12 @@ public class GameView extends View {
 
     public void pause(){
         isPaused = true;
+        savedTime = System.currentTimeMillis() - startTime;
     }
 
     public void resume() {
         isPaused = false;
+        startTime = System.currentTimeMillis();
         postInvalidateOnAnimation();
     }
 }

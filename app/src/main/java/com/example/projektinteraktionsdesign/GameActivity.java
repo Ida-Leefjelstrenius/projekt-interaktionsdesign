@@ -18,7 +18,6 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -30,7 +29,6 @@ public class GameActivity extends AppCompatActivity {
 
     long startTime = 0;
     long elapsedBeforePause = 0;
-    long pausedTime = 0;
     boolean isPaused;
     Runnable timerRunnable;
     Handler timerHandler;
@@ -67,7 +65,7 @@ public class GameActivity extends AppCompatActivity {
             timerHandler.removeCallbacksAndMessages(null);
             playPauseButton.setVisibility(View.VISIBLE);
 
-            Intent chestIntent = new Intent(GameActivity.this, treasureActivity.class);
+            Intent chestIntent = new Intent(GameActivity.this, TreasureActivity.class);
             treasureResultLauncher.launch(chestIntent);
         });
 
@@ -82,7 +80,7 @@ public class GameActivity extends AppCompatActivity {
         coinCounter.setTextSize(25);
         coinCounter.setTextColor(Color.WHITE);
         coinCounter.setPadding(20, 80, 20, 20);
-        coinCounter.setText("Coin: 0");
+        coinCounter.setText(getString(R.string.coin_label, 0));
         gameView.setPlayer(player);
         rootLayout.addView(timer);
         rootLayout.addView(coinCounter);
@@ -100,15 +98,11 @@ public class GameActivity extends AppCompatActivity {
                 int minutes = seconds / 60;
                 seconds = seconds % 60;
 
-                timer.setText("Time alive: " + String.format("%d:%02d", minutes, seconds));
+                timer.setText(getString(R.string.time_alive, minutes, seconds));
                 timerHandler.postDelayed(this, 500);
 
-                gameView.setCoinUpdateListener(new GameView.CoinUpdateListener() {
-                    @Override
-                    public void onCoinUpdated(int newAmount) {
-                        runOnUiThread(() -> coinCounter.setText("Coins: " + newAmount));
-                    }
-                });
+                gameView.setCoinUpdateListener(newAmount -> runOnUiThread(() -> coinCounter.setText(getString(R.string.coin_label, newAmount))));
+
             }
         };
         timerHandler.post(timerRunnable);
@@ -119,9 +113,7 @@ public class GameActivity extends AppCompatActivity {
                 dpToPx(50), dpToPx(50)
         );
 
-        playPauseButton.setOnClickListener(a -> {
-            showPausePopUp();
-        });
+        playPauseButton.setOnClickListener(a -> showPausePopUp());
 
         buttonParams.gravity = Gravity.TOP | Gravity.END;
         buttonParams.setMargins(20, 20, 20, 20);
@@ -153,9 +145,8 @@ public class GameActivity extends AppCompatActivity {
         timerHandler.removeCallbacksAndMessages(null);
         playPauseButton.setVisibility(View.INVISIBLE);
 
-
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(R.layout.activity_pause, null);
+        View popupView = inflater.inflate(R.layout.activity_pause, findViewById(android.R.id.content), false);
 
         int width = FrameLayout.LayoutParams.WRAP_CONTENT;
         int height = FrameLayout.LayoutParams.WRAP_CONTENT;

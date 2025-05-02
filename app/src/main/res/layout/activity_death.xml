@@ -11,18 +11,21 @@
         android:id="@+id/imageView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/water_background"
         android:scaleX="3"
         android:scaleY="3"
         android:src="@drawable/underwaterdeath"
-        tools:layout_editor_absoluteX="-83dp"
-        tools:layout_editor_absoluteY="-63dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="270dp"
         android:layout_height="102dp"
         android:fontFamily="sans-serif-smallcaps"
-        android:text="YOU DIED"
+        android:text="@string/you_died"
         android:textColor="#FF0000"
         android:textSize="60sp"
         app:layout_constraintBottom_toBottomOf="parent"

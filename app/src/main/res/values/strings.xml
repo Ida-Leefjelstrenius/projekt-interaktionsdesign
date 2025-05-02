@@ -25,4 +25,17 @@
     <string name="coin">Coin</string>
     <string name="start_a_b_test">Start a/b test</string>
     <string name="open_the_chest">Open the chest</string>
+    <string name="coin_label">Coin: %1$d</string>
+    <string name="time_alive">Time alive: %1$d:%2$02d</string>
+    <string name="you_died">YOU DIED</string>
+    <string name="water_background">Water background</string>
+    <string name="inventory_not_done">Inventory NOT DONE</string>
+    <string name="profile_button">Profile button</string>
+    <string name="settings_button">Settings button</string>
+    <string name="inventory_button">Inventory</string>
+    <string name="game_paused">Game Paused</string>
+    <string name="resume">Resume</string>
+    <string name="back_to_start">Back to Start</string>
+    <string name="profile_not_done">Profile NOT DONE</string>
+    <string name="settings_not_done">Settings NOT DONE</string>
 </resources>

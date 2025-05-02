@@ -1,7 +1,6 @@
 package com.example.projektinteraktionsdesign;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
@@ -13,7 +12,7 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class treasureActivity extends AppCompatActivity implements ShakeActivity.Listener{
+public class TreasureActivity extends AppCompatActivity implements ShakeActivity.Listener{
     private ShakeActivity shakeActivity;
     private ImageView closedChest, diver, openChest, coin;
 
