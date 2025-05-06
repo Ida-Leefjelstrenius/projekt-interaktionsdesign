@@ -1,7 +1,5 @@
 package com.example.projektinteraktionsdesign;
 
-import android.annotation.SuppressLint;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -16,12 +14,10 @@ public class TreasureActivity extends AppCompatActivity implements ShakeActivity
     private ShakeActivity shakeActivity;
     private ImageView closedChest, diver, openChest, coin;
 
-    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     public final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_treasure);
-        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         shakeActivity = new ShakeActivity(this, this);
         closedChest = findViewById(R.id.imageClosedChest);

@@ -16,7 +16,6 @@ import android.os.Handler;
 import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
-
 import androidx.annotation.NonNull;
 
 public class GameView extends View {
@@ -26,15 +25,14 @@ public class GameView extends View {
     private float backgroundX = 0;
     private Bitmap background;
     private ImageView player;
-    private final Bitmap shark, chest;
+    private final Bitmap shark, chestRight, chestLeft;
     private final Matrix sharkMatrix = new Matrix();
     private float velocityX = 0, velocityY = 0;
     private float sharkX = -1000.0f, sharkY = 0f;
-    private float chestX = 500f, chestY = 1800;
+    private float chestRightX, chestLeftX;
     private boolean isGameOver = false;
     private boolean isPaused = false;
     private  int coins = 0;
-
     private long startTime = System.currentTimeMillis();
     private long savedTime;
     public interface CoinUpdateListener {
@@ -72,10 +70,16 @@ public class GameView extends View {
         int SharkHeight = dpToPx(100);
         shark = Bitmap.createScaledBitmap(sharkBitmap, SharkWidth, SharkHeight, false);
 
-        Bitmap chestBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.closed_chest);
         int chestWidth = dpToPx(100);
         int chestHeight = dpToPx(80);
-        chest = Bitmap.createScaledBitmap(chestBitmap, chestWidth, chestHeight, false);
+
+        chestRightX = respawnDistance();
+        Bitmap chestRightBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.closed_chest);
+        chestRight = Bitmap.createScaledBitmap(chestRightBitmap, chestWidth, chestHeight, false);
+
+        chestLeftX = -respawnDistance();
+        Bitmap chestLeftBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.closed_chest);
+        chestLeft = Bitmap.createScaledBitmap(chestLeftBitmap, chestWidth, chestHeight, false);
     }
 
     public void setPlayer(ImageView player) {
@@ -92,6 +96,9 @@ public class GameView extends View {
         if (isGameOver) return;
 
         backgroundX += velocityX;
+        chestRightX += velocityX;
+        chestLeftX += velocityX;
+        sharkX += velocityX;
 
         float friction = 0.6f;
         velocityX *= friction;
@@ -108,12 +115,16 @@ public class GameView extends View {
         sharkMatrix.postTranslate(sharkX, sharkY);
 
         canvas.drawBitmap(shark, sharkMatrix, null);
-        canvas.drawBitmap(chest, chestX, chestY, null);
+
+        float chestY = 1800;
+        canvas.drawBitmap(chestRight, chestRightX, chestY, null);
+        canvas.drawBitmap(chestLeft, chestLeftX, chestY, null);
+
         moveSharkTowardsPlayer();
 
         if (checkCollision(sharkX, sharkY, shark)) {
             handleDeath();
-        } else if (checkCollision(chestX, chestY, chest)) {
+        } else if (checkCollision(chestRightX, chestY, chestRight) || checkCollision(chestLeftX, chestY, chestLeft)) {
             try {
                 handleChestCollision();
             } catch (InterruptedException e) {
@@ -140,26 +151,25 @@ public class GameView extends View {
 
     private void handleChestCollision() throws InterruptedException {
         if (treasureListener != null) {
-        Context context = getContext();
-        double coinValue = (Math.random() * 5) + 1;
-        coins += (int) coinValue;
-        if (coinListener != null) {
-            coinListener.onCoinUpdated(coins);
-        }
-
-        if (context instanceof GameActivity) {
-            if (treasureListener != null) {
-                treasureListener.treasureRequest();
-                chestX = -1000;
-                chestY = -1000;
+            Context context = getContext();
+            double coinValue = (Math.random() * 5) + 1;
+            coins += (int) coinValue;
+            if (coinListener != null) {
+                coinListener.onCoinUpdated(coins);
             }
-            sharkX = 0;
-            sharkY = 0;
 
-
+            if (context instanceof GameActivity) {
+                if (treasureListener != null) {
+                    treasureListener.treasureRequest();
+                    chestRightX = player.getX() + respawnDistance();
+                    chestLeftX = player.getX() - respawnDistance();
+                }
+            }
         }
-        }
+    }
 
+    private float respawnDistance() {
+        return (float)(Math.random() * 2000 + 2000);
     }
 
     private boolean checkCollision(float objectX, float objectY, Bitmap object) {
@@ -225,8 +235,6 @@ public class GameView extends View {
         else {
             player.setScaleX(1);
         }
-
-        sharkX += velocityX;
     }
 
     public void pause(){
