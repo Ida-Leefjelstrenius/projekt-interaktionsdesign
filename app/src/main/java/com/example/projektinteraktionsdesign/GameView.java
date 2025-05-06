@@ -116,7 +116,7 @@ public class GameView extends View {
 
         canvas.drawBitmap(shark, sharkMatrix, null);
 
-        float chestY = 1800;
+        float chestY = screenHeight - 300;
         canvas.drawBitmap(chestRight, chestRightX, chestY, null);
         canvas.drawBitmap(chestLeft, chestLeftX, chestY, null);
 

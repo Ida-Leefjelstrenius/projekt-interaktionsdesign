@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.View;
 
 public class DeathActivity extends Activity {
     private MediaPlayer deathTheme;
@@ -32,5 +33,10 @@ public class DeathActivity extends Activity {
             deathTheme.release();
             deathTheme = null;
         }
+    }
+
+    public void startGame(View view){
+        Intent gameIntent = new Intent(this, GameActivity.class);
+        startActivity(gameIntent);
     }
 }

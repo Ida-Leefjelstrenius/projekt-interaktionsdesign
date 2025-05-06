@@ -2,6 +2,7 @@ package com.example.projektinteraktionsdesign;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -67,11 +69,15 @@ public class GameActivity extends AppCompatActivity {
         rootLayout.addView(gameView);
 
         createPlayer(rootLayout); //Skapa spelaren
+        Typeface customFont = ResourcesCompat.getFont(this, R.font.moldiedemo);
+
         timer = new TextView(this);
+        timer.setTypeface(customFont);
         timer.setTextSize(25);
         timer.setTextColor(Color.WHITE);
         timer.setPadding(20,20,20,20);
         coinCounter = new TextView(this);
+        coinCounter.setTypeface(customFont);
         coinCounter.setTextSize(25);
         coinCounter.setTextColor(Color.WHITE);
         coinCounter.setPadding(20, 80, 20, 20);

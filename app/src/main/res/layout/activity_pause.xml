@@ -12,6 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/game_paused"
+        android:fontFamily="@font/moldiedemo"
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -20,6 +21,7 @@
     <Button
         android:id="@+id/resumeButton"
         android:layout_width="wrap_content"
+        android:fontFamily="@font/moldiedemo"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/desertCoral"
         android:text="@string/resume" />
@@ -27,6 +29,7 @@
     <Button
         android:id="@+id/homeButton"
         android:layout_width="wrap_content"
+        android:fontFamily="@font/moldiedemo"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/desertCoral"
         android:text="@string/back_to_start"
