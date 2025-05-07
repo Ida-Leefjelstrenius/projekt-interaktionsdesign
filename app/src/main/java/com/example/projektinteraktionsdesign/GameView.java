@@ -29,7 +29,7 @@ public class GameView extends View {
     private final Matrix sharkMatrix = new Matrix();
     private float velocityX = 0, velocityY = 0;
     private float sharkX = -1000.0f, sharkY = 0f;
-    private float chestRightX, chestLeftX;
+    private float chestRightX, chestLeftX, feetX, feetY;
     private boolean isGameOver = false;
     private boolean isPaused = false;
     private  int coins = 0;
@@ -62,13 +62,13 @@ public class GameView extends View {
         newWidth = screenHeight * (background.getWidth() / background.getHeight());
         background = Bitmap.createScaledBitmap(background, newWidth, screenHeight, false);
 
-        new Handler();
-        invalidate();
-
         Bitmap sharkBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.shark);
         int SharkWidth = dpToPx(160);
         int SharkHeight = dpToPx(100);
         shark = Bitmap.createScaledBitmap(sharkBitmap, SharkWidth, SharkHeight, false);
+
+        feetX = screenWidth / 2 -200;
+        feetY = screenHeight -300;
 
         int chestWidth = dpToPx(100);
         int chestHeight = dpToPx(80);
@@ -94,6 +94,7 @@ public class GameView extends View {
     protected void onDraw(@NonNull Canvas canvas) {
         super.onDraw(canvas);
         if (isGameOver) return;
+        if (player == null) return;
 
         backgroundX += velocityX;
         chestRightX += velocityX;
