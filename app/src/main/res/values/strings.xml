@@ -25,7 +25,7 @@
     <string name="coin">Coin</string>
     <string name="start_a_b_test">Start a/b test</string>
     <string name="open_the_chest">Open the chest</string>
-    <string name="coin_label">Coin: %1$d</string>
+    <string name="coin_label">Coins: %1$d</string>
     <string name="time_alive">Time alive: %1$d:%2$02d</string>
     <string name="you_died">YOU DIED</string>
     <string name="water_background">Water background</string>
