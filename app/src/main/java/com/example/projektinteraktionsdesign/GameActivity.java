@@ -1,6 +1,8 @@
 package com.example.projektinteraktionsdesign;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -35,6 +37,10 @@ public class GameActivity extends AppCompatActivity {
     Handler timerHandler;
     PopupWindow popupWindow;
     private ActivityResultLauncher<Intent> treasureResultLauncher;
+    private Handler feetAnimationHandler;
+    private Runnable feetAnimationRunnable;
+    private int feetFrame = 0;
+    private Bitmap[] feetPictures = new Bitmap[2];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +77,23 @@ public class GameActivity extends AppCompatActivity {
         rootLayout.addView(gameView);
 
         createPlayer(rootLayout); //Skapa spelaren
+
+        feetPictures[0] = BitmapFactory.decodeResource(getResources(), R.drawable.diver_feet_down);
+        feetPictures[1] = BitmapFactory.decodeResource(getResources(), R.drawable.diver);
+
+        feetAnimationHandler = new Handler();
+        feetAnimationRunnable = new Runnable() {
+            @Override
+            public void run() {
+                if (!isPaused) {
+                    feetFrame = (feetFrame + 1) % 2;
+                    player.setImageBitmap(feetPictures[feetFrame]);
+                }
+                feetAnimationHandler.postDelayed(this, 200);
+            }
+        };
+        feetAnimationHandler.post(feetAnimationRunnable);
+
         Typeface customFont = ResourcesCompat.getFont(this, R.font.moldiedemo);
 
         timer = new TextView(this);
@@ -133,9 +156,9 @@ public class GameActivity extends AppCompatActivity {
     private void createPlayer(FrameLayout rootLayout) {
         player = new ImageView(this);
         player.setImageResource(R.drawable.diver);
+        player.setBackgroundColor(Color.TRANSPARENT);
         FrameLayout.LayoutParams playerParams = new FrameLayout.LayoutParams(
-                dpToPx(64), dpToPx(200)
-        );
+                dpToPx(64), dpToPx(200));
         playerParams.gravity = Gravity.CENTER;
         player.setLayoutParams(playerParams);
         rootLayout.addView(player);
