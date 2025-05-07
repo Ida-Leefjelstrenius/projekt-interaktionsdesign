@@ -1,6 +1,7 @@
 package com.example.projektinteraktionsdesign;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -8,6 +9,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -118,10 +120,19 @@ public class GameActivity extends AppCompatActivity {
         timerRunnable = new Runnable() {
             @Override
             public void run() {
+                SharedPreferences prefs = getSharedPreferences("game_prefs", MODE_PRIVATE);
+                boolean isGameOver = prefs.getBoolean("isGameOver", false);
+                if (isGameOver) {
+                    return;
+                }
                 long millis = elapsedBeforePause + (System.currentTimeMillis() - startTime);
                 int seconds = (int) (millis / 1000);
+                updateHighscoreIfNeeded(seconds);
                 int minutes = seconds / 60;
                 seconds = seconds % 60;
+
+                Log.d("GameActivity", "Elapsed Time in millis: " + millis);
+                Log.d("GameActivity", "Calculated Seconds: " + seconds);
 
                 timer.setText(getString(R.string.time_alive, minutes, seconds));
                 timerHandler.postDelayed(this, 500);
@@ -200,7 +211,22 @@ public class GameActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
-    }
 
+
+    }
+    private void updateHighscoreIfNeeded(int seconds) {
+        SharedPreferences prefs = getSharedPreferences("game_prefs", MODE_PRIVATE);
+        int highscore = prefs.getInt("highscore", 0);
+
+        Log.d("GameActivity", "Current Highscore: " + highscore);
+        Log.d("GameActivity", "New Score: " + seconds);
+
+        if (seconds > highscore) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt("highscore", seconds);
+            editor.apply();
+            Log.d("GameActivity", "Updated Highscore: " + seconds);
+        }
+    }
 
 }

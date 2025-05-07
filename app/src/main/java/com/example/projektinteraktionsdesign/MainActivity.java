@@ -1,9 +1,11 @@
 package com.example.projektinteraktionsdesign;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.media.MediaPlayer;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +21,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences prefs = getSharedPreferences("game_prefs", MODE_PRIVATE);
+        int highscore = prefs.getInt("highscore", 0);
+
+        TextView highscoreText = findViewById(R.id.highScore);
+        int minutes = highscore / 60;
+        int seconds = highscore % 60;
+        highscoreText.setText(getString(R.string.highscore_label, minutes, seconds));
 
         theme_music = MediaPlayer.create(this, R.raw.theme);
         theme_music.setLooping(true);

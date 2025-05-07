@@ -38,6 +38,7 @@ public class GameView extends View {
     private long savedTime;
     private long animationTime = 0;
     private final Paint paint = new Paint();
+    private final SharedPreferences prefs = getContext().getSharedPreferences("game_prefs", Context.MODE_PRIVATE);
     public interface CoinUpdateListener {
         void onCoinUpdated(int newAmount);
     }
@@ -55,6 +56,7 @@ public class GameView extends View {
 
     public GameView(Context context) {
         super(context);
+        prefs.edit().putBoolean("isGameOver", isGameOver).apply();
         background = BitmapFactory.decodeResource(getResources(), R.drawable.combined_vatten);
         Display display = ((Activity) getContext()).getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -146,10 +148,10 @@ public class GameView extends View {
         if (isGameOver) return;
         isGameOver = true;
 
-        SharedPreferences prefs = getContext().getSharedPreferences("game_prefs", Context.MODE_PRIVATE);
         int totalCoins = prefs.getInt("total_coins", 0);
         totalCoins += coins;
         prefs.edit().putInt("total_coins", totalCoins).apply();
+        prefs.edit().putBoolean("isGameOver", isGameOver).apply();
 
         Context context = getContext();
         if (context instanceof GameActivity) {
