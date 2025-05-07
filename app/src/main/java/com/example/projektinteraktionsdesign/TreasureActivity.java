@@ -22,7 +22,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class TreasureActivity extends AppCompatActivity {
-    private ShakeActivity shakeActivity;
     private ImageView closedChest, diver, openChest, coin;
     private SensorManager sensorManager;
     private SensorEventListener sensorEventListener;
