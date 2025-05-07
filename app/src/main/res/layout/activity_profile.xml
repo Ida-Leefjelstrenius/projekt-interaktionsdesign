@@ -8,13 +8,16 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/totalCoins"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="251dp"
         android:text="@string/profile_not_done"
         android:fontFamily="@font/moldiedemo"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

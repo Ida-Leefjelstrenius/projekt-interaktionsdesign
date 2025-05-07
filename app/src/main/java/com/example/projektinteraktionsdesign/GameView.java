@@ -4,6 +4,7 @@ import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -142,6 +143,11 @@ public class GameView extends View {
         if (isGameOver) return;
         isGameOver = true;
 
+        SharedPreferences prefs = getContext().getSharedPreferences("game_prefs", Context.MODE_PRIVATE);
+        int totalCoins = prefs.getInt("total_coins", 0);
+        totalCoins += (int) coins;  // coinValue is from Math.random() * 5 + 1
+        prefs.edit().putInt("total_coins", totalCoins).apply();
+
         Context context = getContext();
         if (context instanceof GameActivity) {
             Intent deathIntent = new Intent(context, DeathActivity.class);
@@ -155,6 +161,7 @@ public class GameView extends View {
             Context context = getContext();
             double coinValue = (Math.random() * 5) + 1;
             coins += (int) coinValue;
+
             if (coinListener != null) {
                 coinListener.onCoinUpdated(coins);
             }
