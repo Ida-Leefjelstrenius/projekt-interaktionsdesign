@@ -49,5 +49,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/deathText" />
 
+    <Button
+        android:id="@+id/btn_start_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
+        android:backgroundTint="@color/desertCoral"
+        android:textColor="@color/white"
+        android:fontFamily="@font/moldiedemo"
+        android:onClick="startHome"
+        android:text="@string/home"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/deathText" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

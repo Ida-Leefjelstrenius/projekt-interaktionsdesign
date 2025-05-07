@@ -23,6 +23,7 @@
         android:layout_width="wrap_content"
         android:fontFamily="@font/moldiedemo"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
         android:backgroundTint="@color/desertCoral"
         android:text="@string/resume" />
 
@@ -31,6 +32,7 @@
         android:layout_width="wrap_content"
         android:fontFamily="@font/moldiedemo"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
         android:backgroundTint="@color/desertCoral"
         android:text="@string/back_to_start"
         android:layout_marginTop="12dp" />

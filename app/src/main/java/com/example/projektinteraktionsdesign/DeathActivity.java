@@ -15,14 +15,6 @@ public class DeathActivity extends Activity {
         setContentView(R.layout.activity_death);
 
         deathTheme = MediaPlayer.create(this, R.raw.deaththeme);
-        deathTheme.setOnCompletionListener(mp -> {
-            mp.release();
-            Intent intent = new Intent(DeathActivity.this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
-        });
-
         deathTheme.start();
     }
 
@@ -37,6 +29,11 @@ public class DeathActivity extends Activity {
 
     public void startGame(View view){
         Intent gameIntent = new Intent(this, GameActivity.class);
+        startActivity(gameIntent);
+    }
+
+    public void startHome(View view){
+        Intent gameIntent = new Intent(this, MainActivity.class);
         startActivity(gameIntent);
     }
 }
