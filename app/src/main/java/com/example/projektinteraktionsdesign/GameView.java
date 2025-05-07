@@ -11,9 +11,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.os.Handler;
 import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
@@ -30,12 +30,14 @@ public class GameView extends View {
     private final Matrix sharkMatrix = new Matrix();
     private float velocityX = 0, velocityY = 0;
     private float sharkX = -1000.0f, sharkY = 0f;
-    private float chestRightX, chestLeftX, feetX, feetY;
+    private float chestRightX, chestLeftX;
     private boolean isGameOver = false;
     private boolean isPaused = false;
     private  int coins = 0;
     private long startTime = System.currentTimeMillis();
     private long savedTime;
+    private long animationTime = 0;
+    private final Paint paint = new Paint();
     public interface CoinUpdateListener {
         void onCoinUpdated(int newAmount);
     }
@@ -67,9 +69,6 @@ public class GameView extends View {
         int SharkWidth = dpToPx(160);
         int SharkHeight = dpToPx(100);
         shark = Bitmap.createScaledBitmap(sharkBitmap, SharkWidth, SharkHeight, false);
-
-        feetX = screenWidth / 2 -200;
-        feetY = screenHeight -300;
 
         int chestWidth = dpToPx(100);
         int chestHeight = dpToPx(80);
@@ -118,9 +117,12 @@ public class GameView extends View {
 
         canvas.drawBitmap(shark, sharkMatrix, null);
 
-        float chestY = screenHeight - 300;
-        canvas.drawBitmap(chestRight, chestRightX, chestY, null);
-        canvas.drawBitmap(chestLeft, chestLeftX, chestY, null);
+        float BOBBING_FREQUENCY = 0.02f;
+        float BOBBING_AMPLITUDE = 150.0f;
+        float chestY = screenHeight - 350 - (float) Math.sin(animationTime * BOBBING_FREQUENCY) * BOBBING_AMPLITUDE;
+
+        canvas.drawBitmap(chestRight, chestRightX, chestY, paint);
+        canvas.drawBitmap(chestLeft, chestLeftX, chestY, paint);
 
         moveSharkTowardsPlayer();
 
@@ -137,6 +139,7 @@ public class GameView extends View {
         if (!isPaused && !isGameOver) {
             postInvalidateOnAnimation();
         }
+        animationTime++;
     }
 
     private void handleDeath() {
@@ -145,7 +148,7 @@ public class GameView extends View {
 
         SharedPreferences prefs = getContext().getSharedPreferences("game_prefs", Context.MODE_PRIVATE);
         int totalCoins = prefs.getInt("total_coins", 0);
-        totalCoins += (int) coins;  // coinValue is from Math.random() * 5 + 1
+        totalCoins += coins;
         prefs.edit().putInt("total_coins", totalCoins).apply();
 
         Context context = getContext();

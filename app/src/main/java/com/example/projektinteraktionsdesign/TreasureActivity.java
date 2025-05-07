@@ -56,7 +56,7 @@ public class TreasureActivity extends AppCompatActivity {
                 SensorManager.getRotationMatrixFromVector(rotationMatrix, event.values);
                 SensorManager.getOrientation(rotationMatrix, orientationAngles);
 
-                float azimuth = orientationAngles[0]; //compass
+                //float azimuth = orientationAngles[0]; //compass
                 float pitch = orientationAngles[1];   // tilt up + down
                 float roll = orientationAngles[2];    // left right
 

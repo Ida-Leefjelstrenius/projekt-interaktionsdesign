@@ -16,13 +16,14 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
+
+import java.util.Objects;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -35,12 +36,10 @@ public class GameActivity extends AppCompatActivity {
     boolean isPaused;
     Runnable timerRunnable;
     Handler timerHandler;
-    PopupWindow popupWindow;
     private ActivityResultLauncher<Intent> treasureResultLauncher;
     private Handler feetAnimationHandler;
-    private Runnable feetAnimationRunnable;
     private int feetFrame = 0;
-    private Bitmap[] feetPictures = new Bitmap[2];
+    private final Bitmap[] feetPictures = new Bitmap[2];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +81,7 @@ public class GameActivity extends AppCompatActivity {
         feetPictures[1] = BitmapFactory.decodeResource(getResources(), R.drawable.diver);
 
         feetAnimationHandler = new Handler();
-        feetAnimationRunnable = new Runnable() {
+        Runnable feetAnimationRunnable = new Runnable() {
             @Override
             public void run() {
                 if (!isPaused) {
@@ -182,7 +181,7 @@ public class GameActivity extends AppCompatActivity {
         dialog.setCancelable(false); // (optional) block back button
 
         dialog.show();
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         Button resumeButton = popupView.findViewById(R.id.resumeButton);
         resumeButton.setOnClickListener(v -> {
