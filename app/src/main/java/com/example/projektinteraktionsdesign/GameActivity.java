@@ -3,6 +3,7 @@ package com.example.projektinteraktionsdesign;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
@@ -17,6 +18,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
@@ -147,32 +149,36 @@ public class GameActivity extends AppCompatActivity {
         playPauseButton.setVisibility(View.INVISIBLE);
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(R.layout.activity_pause, findViewById(android.R.id.content), false);
+        View popupView = inflater.inflate(R.layout.activity_pause, null);
 
-        int width = FrameLayout.LayoutParams.WRAP_CONTENT;
-        int height = FrameLayout.LayoutParams.WRAP_CONTENT;
-        boolean focusable = true;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(popupView);
 
-        popupWindow = new PopupWindow(popupView, width, height, focusable);
-        popupWindow.showAtLocation(findViewById(android.R.id.content), Gravity.CENTER, 0, 0);
+        AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false); // block outside taps
+        dialog.setCancelable(false); // (optional) block back button
+
+        dialog.show();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         Button resumeButton = popupView.findViewById(R.id.resumeButton);
         resumeButton.setOnClickListener(v -> {
-            popupWindow.dismiss();
+            dialog.dismiss();
             isPaused = false;
             gameView.resume();
             startTime = System.currentTimeMillis();
-            timerHandler.post(timerRunnable); // resume timer
+            timerHandler.post(timerRunnable);
             playPauseButton.setVisibility(View.VISIBLE);
         });
 
         Button backToStart = popupView.findViewById(R.id.homeButton);
         backToStart.setOnClickListener(v -> {
-            popupWindow.dismiss();
-            Intent intent = new Intent(GameActivity.this, MainActivity.class); // or your start page
+            dialog.dismiss();
+            Intent intent = new Intent(GameActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
         });
     }
+
 
 }
