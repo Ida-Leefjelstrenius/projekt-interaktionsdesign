@@ -11,9 +11,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.graphics.Point;
 import android.view.Display;
 import android.view.View;
@@ -21,6 +19,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -30,23 +29,21 @@ public class GameView extends View {
     private final int screenHeight;
     private final int newWidth;
     private float backgroundX = 0;
-    private Bitmap background;
     private ImageView player;
-    private final Bitmap shark, chestRight, chestLeft, mineBitmap;
+    private final Bitmap backgroundBitmap, sharkBitmap, mineBitmap, chestBitmap;
     private final Matrix sharkMatrix = new Matrix();
     private float velocityX = 0, velocityY = 0;
     private float sharkX = -1000.0f, sharkY = 0f;
-    private float chestRightX, chestLeftX;
     private boolean isGameOver = false;
     private boolean isPaused = false;
     private int coins = 0;
     private long startTime = System.currentTimeMillis();
     private long savedTime;
     private long animationTime = 0;
-    private final Paint paint = new Paint();
     private float worldX = 0;
     private final List<Mine> mines = new ArrayList<>();
-    private final HashSet<Integer> mineZones = new HashSet<>();
+    private final List<Chest> chests = new ArrayList<>();
+    private final HashSet<Integer> zones = new HashSet<>(Arrays.asList(-2, -1, 0, 1, 2));
     private final Random random = new Random();
     public interface CoinUpdateListener {
         void onCoinUpdated(int newAmount);
@@ -66,35 +63,25 @@ public class GameView extends View {
     public GameView(Context context) {
         super(context);
         GamePrefs.setGameOver(context, isGameOver);
-        background = BitmapFactory.decodeResource(getResources(), R.drawable.combined_vatten);
+
         Display display = ((Activity) getContext()).getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         screenWidth = size.x;
         screenHeight = size.y;
 
-        newWidth = screenHeight * (background.getWidth() / background.getHeight());
-        background = Bitmap.createScaledBitmap(background, newWidth, screenHeight, false);
+        Bitmap rawBackgroundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.combined_vatten);
+        newWidth = screenHeight * (rawBackgroundBitmap.getWidth() / rawBackgroundBitmap.getHeight());
+        backgroundBitmap = Bitmap.createScaledBitmap(rawBackgroundBitmap, newWidth, screenHeight, false);
 
-        Bitmap sharkBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.shark);
-        int SharkWidth = dpToPx(SHARK_WIDTH);
-        int SharkHeight = dpToPx(SHARK_HEIGHT);
-        shark = Bitmap.createScaledBitmap(sharkBitmap, SharkWidth, SharkHeight, false);
+        Bitmap rawSharkBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.shark);
+        sharkBitmap = Bitmap.createScaledBitmap(rawSharkBitmap, dpToPx(SHARK_WIDTH), dpToPx(SHARK_HEIGHT), false);
 
         Bitmap rawMineBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bomb);
-        mineBitmap = Bitmap.createScaledBitmap(rawMineBitmap, MINE_SIZE, MINE_SIZE, false);
-        mineZones.add(0);
+        mineBitmap = Bitmap.createScaledBitmap(rawMineBitmap, dpToPx(MINE_SIZE), dpToPx(MINE_SIZE), false);
 
-        int chestWidth = dpToPx(CHEST_WIDTH);
-        int chestHeight = dpToPx(CHEST_HEIGHT);
-
-        chestRightX = respawnDistance();
-        Bitmap chestRightBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.closed_chest);
-        chestRight = Bitmap.createScaledBitmap(chestRightBitmap, chestWidth, chestHeight, false);
-
-        chestLeftX = -respawnDistance();
-        Bitmap chestLeftBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.closed_chest);
-        chestLeft = Bitmap.createScaledBitmap(chestLeftBitmap, chestWidth, chestHeight, false);
+        Bitmap rawChestBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.closed_chest);
+        chestBitmap = Bitmap.createScaledBitmap(rawChestBitmap, dpToPx(CHEST_WIDTH), dpToPx(CHEST_HEIGHT), false);
     }
 
     public void setPlayer(ImageView player) {
@@ -109,22 +96,23 @@ public class GameView extends View {
     protected void onDraw(@NonNull Canvas canvas) {
         super.onDraw(canvas);
         if (isGameOver) return;
-        if (player == null) return;
 
         int currentZone = (int) (worldX / ZONE_SIZE);
-        if (!mineZones.contains(currentZone)) {
-            mineZones.add(currentZone);
+        if (!zones.contains(currentZone)) {
+            zones.add(currentZone);
             maybeSpawnMine(currentZone);
+            maybeSpawnChest(currentZone);
         }
 
         backgroundX += velocityX;
-        chestRightX += velocityX;
-        chestLeftX += velocityX;
         sharkX += velocityX;
         worldX -= velocityX;
 
         for (Mine mine : mines) {
             mine.x += velocityX;
+        }
+        for (Chest chest : chests) {
+            chest.x += velocityX;
         }
 
         velocityX *= FRICTION;
@@ -133,43 +121,43 @@ public class GameView extends View {
         if (backgroundX < -newWidth) backgroundX += newWidth;
         if (backgroundX > 0) backgroundX -= newWidth;
 
-        canvas.drawBitmap(background, backgroundX, 0, null);
+        canvas.drawBitmap(backgroundBitmap, backgroundX, 0, null);
         if (backgroundX < screenWidth - newWidth) {
-            canvas.drawBitmap(background, backgroundX + newWidth, 0, null);
+            canvas.drawBitmap(backgroundBitmap, backgroundX + newWidth, 0, null);
         }
 
         sharkMatrix.postTranslate(sharkX, sharkY);
 
-        canvas.drawBitmap(shark, sharkMatrix, null);
+        canvas.drawBitmap(sharkBitmap, sharkMatrix, null);
 
         float chestY = screenHeight - CHEST_Y_OFFSET - (float) Math.sin(animationTime * BOBBING_FREQUENCY) * BOBBING_AMPLITUDE;
 
-        canvas.drawBitmap(chestRight, chestRightX, chestY, paint);
-        canvas.drawBitmap(chestLeft, chestLeftX, chestY, paint);
-
-        paint.setColor(Color.BLACK);
         for (Mine mine : mines) {
-            canvas.drawBitmap(mineBitmap, mine.x, mine.y, paint);
+            canvas.drawBitmap(mineBitmap, mine.x, mine.y, null);
+        }
+        for (Chest chest : chests) {
+            canvas.drawBitmap(chestBitmap, chest.x, chestY, null);
         }
 
         moveSharkTowardsPlayer();
 
-        boolean mineExplosion = false;
         for (Mine mine : mines) {
             if (checkCollision(mine.x, mine.y, mineBitmap, player)) {
-                mineExplosion = true;
+                handleDeath();
                 break;
             }
         }
-        if (mineExplosion || checkCollision(sharkX, sharkY, shark, player)) {
+        if (checkCollision(sharkX, sharkY, sharkBitmap, player)) {
             handleDeath();
         }
-        else if (checkCollision(chestRightX, chestY, chestRight, player) ||
-                checkCollision(chestLeftX, chestY, chestLeft, player)) {
-            try {
-                handleChestCollision();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+        for (Chest chest : chests) {
+            if (checkCollision(chest.x, chestY, mineBitmap, player)) {
+                try {
+                    handleChestCollision(chest);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                break;
             }
         }
 
@@ -185,8 +173,15 @@ public class GameView extends View {
             float middleStart = MINE_SIZE + availableHeight * 0.1f;
             float middleHeight = availableHeight * 0.8f;
             float mineY = middleStart + random.nextFloat() * middleHeight;
-            float mineX = (zone + 1) * MINE_SIZE;
+            float mineX = zone * screenWidth / 3.0f;
             mines.add(new Mine(mineX, mineY));
+        }
+    }
+
+    private void maybeSpawnChest(int zone) {
+        if (random.nextFloat() < CHEST_SPAWN_CHANCE) {
+            float chestX = zone * screenWidth / 3.0f;
+            chests.add(new Chest(chestX, zone));
         }
     }
 
@@ -194,22 +189,19 @@ public class GameView extends View {
         if (isGameOver) return;
         isGameOver = true;
 
-
-
         Context context = getContext();
-        if (context instanceof GameActivity) {
-            GamePrefs.addCoins(context, coins);
-            Intent deathIntent = new Intent(context, DeathActivity.class);
-            context.startActivity(deathIntent);
-            ((GameActivity) context).finish();
-        }
+        GamePrefs.addCoins(context, coins);
+        Intent deathIntent = new Intent(context, DeathActivity.class);
+        context.startActivity(deathIntent);
+        ((GameActivity) context).finish();
     }
 
-    private void handleChestCollision() throws InterruptedException {
+    private void handleChestCollision(Chest chest) throws InterruptedException {
         if (treasureListener != null) {
             Context context = getContext();
             double coinValue = (Math.random() * 5) + 1;
             coins += (int) coinValue;
+            chests.remove(chest);
 
             if (coinListener != null) {
                 coinListener.onCoinUpdated(coins);
@@ -218,15 +210,9 @@ public class GameView extends View {
             if (context instanceof GameActivity) {
                 if (treasureListener != null) {
                     treasureListener.treasureRequest();
-                    chestRightX = player.getX() + respawnDistance();
-                    chestLeftX = player.getX() - respawnDistance();
                 }
             }
         }
-    }
-
-    private float respawnDistance() {
-        return (float)(Math.random() * CHEST_X_OFFSET + CHEST_X_OFFSET);
     }
 
     private void moveSharkTowardsPlayer() {
@@ -250,7 +236,7 @@ public class GameView extends View {
         }
         else {
             sharkMatrix.setScale(-1, 1);
-            sharkMatrix.postTranslate(shark.getWidth(), 0);
+            sharkMatrix.postTranslate(sharkBitmap.getWidth(), 0);
         }
 
         sharkX += dirX * speed;
