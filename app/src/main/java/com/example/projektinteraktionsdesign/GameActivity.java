@@ -131,9 +131,6 @@ public class GameActivity extends AppCompatActivity {
                 int minutes = seconds / 60;
                 seconds = seconds % 60;
 
-                Log.d("GameActivity", "Elapsed Time in millis: " + millis);
-                Log.d("GameActivity", "Calculated Seconds: " + seconds);
-
                 timer.setText(getString(R.string.time_alive, minutes, seconds));
                 timerHandler.postDelayed(this, 500);
 
@@ -218,14 +215,10 @@ public class GameActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("game_prefs", MODE_PRIVATE);
         int highscore = prefs.getInt("highscore", 0);
 
-        Log.d("GameActivity", "Current Highscore: " + highscore);
-        Log.d("GameActivity", "New Score: " + seconds);
-
         if (seconds > highscore) {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putInt("highscore", seconds);
             editor.apply();
-            Log.d("GameActivity", "Updated Highscore: " + seconds);
         }
     }
 
