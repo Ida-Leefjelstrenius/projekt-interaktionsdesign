@@ -16,10 +16,16 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         TextView coinText = findViewById(R.id.totalCoins);
+        TextView highscoreText = findViewById(R.id.highscoreTextProfile);
 
         SharedPreferences prefs = getSharedPreferences("game_prefs", MODE_PRIVATE);
         int totalCoins = prefs.getInt("total_coins", 0);
+        int highscoreProfile = GamePrefs.getHighscore(this);
+
+        int minutes = highscoreProfile / 60;
+        int seconds = highscoreProfile % 60;
 
         coinText.setText(getString(R.string.total_coin_label, totalCoins));
+        highscoreText.setText(getString(R.string.highscore_label, minutes, seconds));
     }
 }

@@ -58,54 +58,58 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_settings" />
 
+    <!-- Start Game Button -->
+
+    <!-- Additional Buttons -->
+
     <TextView
         android:id="@+id/highScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="212dp"
+        android:fontFamily="@font/moldiedemo"
         android:shadowColor="#000000"
         android:shadowDx="1.5"
         android:shadowDy="1.3"
         android:shadowRadius="1.6"
         android:text="Highscore: "
-        android:fontFamily="@font/moldiedemo"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="35sp"
+        android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_settings" />
 
-    <!-- Start Game Button -->
     <Button
         android:id="@+id/btn_start_game"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="96dp"
         android:backgroundTint="@color/desertCoral"
-        android:textColor="@color/white"
         android:fontFamily="@font/moldiedemo"
         android:onClick="startGame"
         android:text="@string/start_game"
+        android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gameText" />
 
-    <!-- Additional Buttons -->
     <Button
         android:id="@+id/btn_inventory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="28dp"
         android:backgroundTint="@color/desertCoral"
-        android:onClick="openInventoryPage"
         android:fontFamily="@font/moldiedemo"
+        android:onClick="openInventoryPage"
         android:text="@string/inventory_button"
-        android:textSize="20sp"
         android:textColor="@color/white"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_start_game" />
 
