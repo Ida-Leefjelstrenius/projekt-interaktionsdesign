@@ -181,7 +181,7 @@ public class GameView extends View {
     private void maybeSpawnChest(int zone) {
         if (random.nextFloat() < CHEST_SPAWN_CHANCE) {
             float chestX = zone * screenWidth / 3.0f;
-            chests.add(new Chest(chestX, zone));
+            chests.add(new Chest(chestX));
         }
     }
 
