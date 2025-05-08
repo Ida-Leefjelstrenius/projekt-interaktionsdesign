@@ -37,6 +37,11 @@ public class GamePrefs {
     public static void setMuted(Context context, boolean value){
         getPrefs(context).edit().putBoolean("isMuted", value).apply();
     }
+
+    public static void resetHighscore(Context context) {
+        getPrefs(context).edit().putInt("highscore", 0).apply();
+    }
+
     private static SharedPreferences getPrefs(Context context) {
         return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
     }

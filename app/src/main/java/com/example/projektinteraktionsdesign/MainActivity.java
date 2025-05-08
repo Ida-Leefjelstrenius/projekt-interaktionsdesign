@@ -52,6 +52,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        int highscore = GamePrefs.getHighscore(this);
+        TextView highscoreText = findViewById(R.id.highScore);
+        int minutes = highscore / 60;
+        int seconds = highscore % 60;
+        highscoreText.setText(getString(R.string.highscore_label, minutes, seconds));
+
         boolean isMuted = GamePrefs.isMuted(this);
 
         if (isMuted) {
