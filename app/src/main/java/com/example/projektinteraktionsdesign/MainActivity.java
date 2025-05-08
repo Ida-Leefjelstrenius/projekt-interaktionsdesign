@@ -52,12 +52,26 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        if (GamePrefs.isMuted(this)) {
-            if (theme_music != null && theme_music.isPlaying()) {
-                theme_music.pause();
+        int highscore = GamePrefs.getHighscore(this);
+        TextView highscoreText = findViewById(R.id.highScore);
+        int minutes = highscore / 60;
+        int seconds = highscore % 60;
+        highscoreText.setText(getString(R.string.highscore_label, minutes, seconds));
+
+        boolean isMuted = GamePrefs.isMuted(this);
+
+        if (isMuted) {
+            if (theme_music != null) {
+                if (theme_music.isPlaying()) {
+                    theme_music.pause();
+                }
             }
         } else {
-            if (theme_music != null && !theme_music.isPlaying()) {
+            if (theme_music == null) {
+                theme_music = MediaPlayer.create(this, R.raw.theme);
+                theme_music.setLooping(true);
+                theme_music.start();
+            } else if (!theme_music.isPlaying()) {
                 theme_music.start();
             }
         }

@@ -119,11 +119,14 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if (GamePrefs.isGameOver(GameActivity.this)) {
+                    long finalMillis = elapsedBeforePause + (System.currentTimeMillis() - startTime);
+                    int finalSeconds = (int) (finalMillis / 1000);
+                    updateHighscoreIfNeeded(finalSeconds);
+                    timerHandler.removeCallbacks(this);  // stop future runs
                     return;
                 }
                 long millis = elapsedBeforePause + (System.currentTimeMillis() - startTime);
                 int seconds = (int) (millis / 1000);
-                updateHighscoreIfNeeded(seconds);
                 int minutes = seconds / 60;
                 seconds = seconds % 60;
 

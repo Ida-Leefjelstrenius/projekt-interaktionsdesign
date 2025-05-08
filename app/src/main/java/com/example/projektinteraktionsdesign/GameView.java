@@ -191,6 +191,7 @@ public class GameView extends View {
 
         Context context = getContext();
         GamePrefs.addCoins(context, coins);
+        GamePrefs.setGameOver(getContext(), true);
         Intent deathIntent = new Intent(context, DeathActivity.class);
         context.startActivity(deathIntent);
         ((GameActivity) context).finish();
