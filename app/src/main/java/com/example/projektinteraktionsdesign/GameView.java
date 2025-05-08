@@ -1,4 +1,6 @@
 package com.example.projektinteraktionsdesign;
+import static com.example.projektinteraktionsdesign.GameConstants.*;
+import static com.example.projektinteraktionsdesign.CollisionUtils.checkCollision;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -10,14 +12,19 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.graphics.Rect;
 import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
 
 public class GameView extends View {
     private final int screenWidth;
@@ -26,19 +33,23 @@ public class GameView extends View {
     private float backgroundX = 0;
     private Bitmap background;
     private ImageView player;
-    private final Bitmap shark, chestRight, chestLeft;
+    private final Bitmap shark, chestRight, chestLeft, mineBitmap;
     private final Matrix sharkMatrix = new Matrix();
     private float velocityX = 0, velocityY = 0;
     private float sharkX = -1000.0f, sharkY = 0f;
     private float chestRightX, chestLeftX;
     private boolean isGameOver = false;
     private boolean isPaused = false;
-    private  int coins = 0;
+    private int coins = 0;
     private long startTime = System.currentTimeMillis();
     private long savedTime;
     private long animationTime = 0;
     private final Paint paint = new Paint();
     private final SharedPreferences prefs = getContext().getSharedPreferences("game_prefs", Context.MODE_PRIVATE);
+    private float worldX = 0;
+    private final List<Mine> mines = new ArrayList<>();
+    private final HashSet<Integer> mineZones = new HashSet<>();
+    private final Random random = new Random();
     public interface CoinUpdateListener {
         void onCoinUpdated(int newAmount);
     }
@@ -68,12 +79,16 @@ public class GameView extends View {
         background = Bitmap.createScaledBitmap(background, newWidth, screenHeight, false);
 
         Bitmap sharkBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.shark);
-        int SharkWidth = dpToPx(160);
-        int SharkHeight = dpToPx(100);
+        int SharkWidth = dpToPx(SHARK_WIDTH);
+        int SharkHeight = dpToPx(SHARK_HEIGHT);
         shark = Bitmap.createScaledBitmap(sharkBitmap, SharkWidth, SharkHeight, false);
 
-        int chestWidth = dpToPx(100);
-        int chestHeight = dpToPx(80);
+        Bitmap rawMineBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bomb);
+        mineBitmap = Bitmap.createScaledBitmap(rawMineBitmap, MINE_SIZE, MINE_SIZE, false);
+        mineZones.add(0);
+
+        int chestWidth = dpToPx(CHEST_WIDTH);
+        int chestHeight = dpToPx(CHEST_HEIGHT);
 
         chestRightX = respawnDistance();
         Bitmap chestRightBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.closed_chest);
@@ -98,14 +113,24 @@ public class GameView extends View {
         if (isGameOver) return;
         if (player == null) return;
 
+        int currentZone = (int) (worldX / ZONE_SIZE);
+        if (!mineZones.contains(currentZone)) {
+            mineZones.add(currentZone);
+            maybeSpawnMine(currentZone);
+        }
+
         backgroundX += velocityX;
         chestRightX += velocityX;
         chestLeftX += velocityX;
         sharkX += velocityX;
+        worldX -= velocityX;
 
-        float friction = 0.6f;
-        velocityX *= friction;
-        velocityY *= friction;
+        for (Mine mine : mines) {
+            mine.x += velocityX;
+        }
+
+        velocityX *= FRICTION;
+        velocityY *= FRICTION;
 
         if (backgroundX < -newWidth) backgroundX += newWidth;
         if (backgroundX > 0) backgroundX -= newWidth;
@@ -119,18 +144,30 @@ public class GameView extends View {
 
         canvas.drawBitmap(shark, sharkMatrix, null);
 
-        float BOBBING_FREQUENCY = 0.02f;
-        float BOBBING_AMPLITUDE = 150.0f;
-        float chestY = screenHeight - 350 - (float) Math.sin(animationTime * BOBBING_FREQUENCY) * BOBBING_AMPLITUDE;
+        float chestY = screenHeight - CHEST_Y_OFFSET - (float) Math.sin(animationTime * BOBBING_FREQUENCY) * BOBBING_AMPLITUDE;
 
         canvas.drawBitmap(chestRight, chestRightX, chestY, paint);
         canvas.drawBitmap(chestLeft, chestLeftX, chestY, paint);
 
+        paint.setColor(Color.BLACK);
+        for (Mine mine : mines) {
+            canvas.drawBitmap(mineBitmap, mine.x, mine.y, paint);
+        }
+
         moveSharkTowardsPlayer();
 
-        if (checkCollision(sharkX, sharkY, shark)) {
+        boolean mineExplosion = false;
+        for (Mine mine : mines) {
+            if (checkCollision(mine.x, mine.y, mineBitmap, player)) {
+                mineExplosion = true;
+                break;
+            }
+        }
+        if (mineExplosion || checkCollision(sharkX, sharkY, shark, player)) {
             handleDeath();
-        } else if (checkCollision(chestRightX, chestY, chestRight) || checkCollision(chestLeftX, chestY, chestLeft)) {
+        }
+        else if (checkCollision(chestRightX, chestY, chestRight, player) ||
+                checkCollision(chestLeftX, chestY, chestLeft, player)) {
             try {
                 handleChestCollision();
             } catch (InterruptedException e) {
@@ -142,6 +179,17 @@ public class GameView extends View {
             postInvalidateOnAnimation();
         }
         animationTime++;
+    }
+
+    private void maybeSpawnMine(int zone) {
+        if (random.nextFloat() < MINE_SPAWN_CHANCE) {
+            float availableHeight = screenHeight - 2 * MINE_SIZE;
+            float middleStart = MINE_SIZE + availableHeight * 0.1f;
+            float middleHeight = availableHeight * 0.8f;
+            float mineY = middleStart + random.nextFloat() * middleHeight;
+            float mineX = (zone + 1) * MINE_SIZE;
+            mines.add(new Mine(mineX, mineY));
+        }
     }
 
     private void handleDeath() {
@@ -182,22 +230,7 @@ public class GameView extends View {
     }
 
     private float respawnDistance() {
-        return (float)(Math.random() * 2000 + 2000);
-    }
-
-    private boolean checkCollision(float objectX, float objectY, Bitmap object) {
-        Rect playerRect = new Rect(
-                (int) player.getX(),
-                (int) player.getY() + 200,
-                (int) player.getX() +  player.getWidth(),
-                (int) player.getY() + 350);
-        Rect objectRect = new Rect(
-                (int) objectX,
-                (int) objectY,
-                (int) (objectX + object.getWidth()),
-                (int) (objectY + object.getHeight()));
-
-        return Rect.intersects(playerRect, objectRect);
+        return (float)(Math.random() * CHEST_X_OFFSET + CHEST_X_OFFSET);
     }
 
     private void moveSharkTowardsPlayer() {
@@ -206,8 +239,7 @@ public class GameView extends View {
 
         int secondsSurvived = (int) ((savedTime + (System.currentTimeMillis() - startTime)) / 1000);
 
-        float baseSpeed = 2.0f;
-        float speed =  min(baseSpeed + secondsSurvived * 0.1f, 10.0f);
+        float speed =  min(SHARK_BASE_SPEED + secondsSurvived * SHARK_ACCELERATION, SHARK_MAX_SPEED);
 
         float deltaX = playerX - sharkX;
         float deltaY = playerY - sharkY;
@@ -231,9 +263,8 @@ public class GameView extends View {
 
     public void applyTilt(float accelX, float accelY, ImageView player) {
         if (isPaused) return;
-        float accelerationFactor = 1.0f;
-        velocityX += -accelX * accelerationFactor;
-        velocityY += accelY * accelerationFactor;
+        velocityX += -accelX * PLAYER_ACCELERATION_FACTOR;
+        velocityY += accelY * PLAYER_ACCELERATION_FACTOR;
 
         //Flytta spelaren
         float currentY = player.getY();
