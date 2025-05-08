@@ -1,7 +1,6 @@
 package com.example.projektinteraktionsdesign;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -119,9 +118,7 @@ public class GameActivity extends AppCompatActivity {
         timerRunnable = new Runnable() {
             @Override
             public void run() {
-                SharedPreferences prefs = getSharedPreferences("game_prefs", MODE_PRIVATE);
-                boolean isGameOver = prefs.getBoolean("isGameOver", false);
-                if (isGameOver) {
+                if (GamePrefs.isGameOver(GameActivity.this)) {
                     return;
                 }
                 long millis = elapsedBeforePause + (System.currentTimeMillis() - startTime);
@@ -211,13 +208,10 @@ public class GameActivity extends AppCompatActivity {
 
     }
     private void updateHighscoreIfNeeded(int seconds) {
-        SharedPreferences prefs = getSharedPreferences("game_prefs", MODE_PRIVATE);
-        int highscore = prefs.getInt("highscore", 0);
+        int highscore = GamePrefs.getHighscore(this);
 
         if (seconds > highscore) {
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putInt("highscore", seconds);
-            editor.apply();
+            GamePrefs.setHighscore(this, seconds);
         }
     }
 

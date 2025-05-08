@@ -1,7 +1,6 @@
 package com.example.projektinteraktionsdesign;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.media.MediaPlayer;
@@ -22,8 +21,7 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        SharedPreferences prefs = getSharedPreferences("game_prefs", MODE_PRIVATE);
-        int highscore = prefs.getInt("highscore", 0);
+        int highscore = GamePrefs.getHighscore(this);
 
         TextView highscoreText = findViewById(R.id.highScore);
         int minutes = highscore / 60;
