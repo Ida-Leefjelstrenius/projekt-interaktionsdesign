@@ -28,9 +28,11 @@ public class MainActivity extends AppCompatActivity {
         int seconds = highscore % 60;
         highscoreText.setText(getString(R.string.highscore_label, minutes, seconds));
 
-        theme_music = MediaPlayer.create(this, R.raw.theme);
-        theme_music.setLooping(true);
-        theme_music.start();
+        if (!GamePrefs.isMuted(this)) {
+            theme_music = MediaPlayer.create(this, R.raw.theme);
+            theme_music.setLooping(true);
+            theme_music.start();
+        }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
     }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -48,8 +51,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (theme_music != null && !theme_music.isPlaying()) {
-            theme_music.start();
+
+        if (GamePrefs.isMuted(this)) {
+            if (theme_music != null && theme_music.isPlaying()) {
+                theme_music.pause();
+            }
+        } else {
+            if (theme_music != null && !theme_music.isPlaying()) {
+                theme_music.start();
+            }
         }
     }
 

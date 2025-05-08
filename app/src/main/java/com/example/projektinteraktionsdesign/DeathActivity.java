@@ -2,6 +2,7 @@ package com.example.projektinteraktionsdesign;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
@@ -14,8 +15,13 @@ public class DeathActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_death);
 
-        deathTheme = MediaPlayer.create(this, R.raw.deaththeme);
-        deathTheme.start();
+        if (!GamePrefs.isMuted(this)) {
+            deathTheme = MediaPlayer.create(this, R.raw.deaththeme);
+            deathTheme.start();
+        }
+
+        //deathTheme = MediaPlayer.create(this, R.raw.deaththeme);
+        //deathTheme.start();
     }
 
     @Override
@@ -28,12 +34,22 @@ public class DeathActivity extends Activity {
     }
 
     public void startGame(View view){
+        stopDeathTheme();
         Intent gameIntent = new Intent(this, GameActivity.class);
         startActivity(gameIntent);
     }
 
     public void startHome(View view){
+        stopDeathTheme();
         Intent gameIntent = new Intent(this, MainActivity.class);
         startActivity(gameIntent);
+    }
+
+    private void stopDeathTheme() {
+        if (deathTheme != null && deathTheme.isPlaying()) {
+            deathTheme.stop();
+            deathTheme.release();
+            deathTheme = null;
+        }
     }
 }

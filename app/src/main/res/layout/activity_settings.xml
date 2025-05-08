@@ -1,33 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/settings"
-    android:background="@drawable/vatten"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/vatten">
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="251dp"
-        android:text="@string/settings_not_done"
+        android:layout_marginBottom="38dp"
         android:fontFamily="@font/moldiedemo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/settings"
+        android:textColor="@color/white"
+        android:textSize="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/muteSwitch"
+        app:layout_constraintStart_toStartOf="@+id/muteSwitch" />
 
     <Button
         android:id="@+id/btn_open_sensor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginBottom="316dp"
         android:backgroundTint="@color/desertCoral"
         android:fontFamily="@font/moldiedemo"
         android:onClick="openSensorActivity"
         android:text="@string/openLightSensor"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/muteSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="92dp"
+        android:fontFamily="@font/moldiedemo"
+        android:text="@string/mute_sound"
+        android:textColor="@color/white"
+        app:thumbTint="@color/desertCoral"
+        app:layout_constraintBottom_toTopOf="@+id/btn_open_sensor"
+        app:layout_constraintEnd_toEndOf="@+id/btn_open_sensor" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

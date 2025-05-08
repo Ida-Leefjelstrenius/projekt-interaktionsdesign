@@ -42,4 +42,6 @@
     <string name="try_again">Try again!</string>
     <string name="highscore_label">Highscore: %1$d:%2$02d</string>
     <string name="home">Home</string>
+    <string name="mute_sound">Mute Sound</string>
+    <string name="settings">Settings</string>
 </resources>

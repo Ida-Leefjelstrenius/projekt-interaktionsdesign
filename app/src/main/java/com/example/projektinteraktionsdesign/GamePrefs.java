@@ -30,6 +30,13 @@ public class GamePrefs {
         getPrefs(context).edit().putBoolean("isGameOver", value).apply();
     }
 
+    public static boolean isMuted(Context context) {
+        return getPrefs(context).getBoolean("isMuted", false);
+    }
+
+    public static void setMuted(Context context, boolean value){
+        getPrefs(context).edit().putBoolean("isMuted", value).apply();
+    }
     private static SharedPreferences getPrefs(Context context) {
         return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
     }
