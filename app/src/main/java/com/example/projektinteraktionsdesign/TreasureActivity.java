@@ -2,6 +2,9 @@ package com.example.projektinteraktionsdesign;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -11,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.CycleInterpolator;
@@ -19,7 +23,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.Objects;
 
 public class TreasureActivity extends AppCompatActivity {
     private ImageView closedChest, diver, openChest, coin;
@@ -66,7 +73,9 @@ public class TreasureActivity extends AppCompatActivity {
                     } else {
                         vibrator.vibrate(500);
                     }
-                    mediaPlayerCoin.start();
+                    if (!GamePrefs.isMuted(TreasureActivity.this)) {
+                        mediaPlayerCoin.start();
+                    }
                     keyMovementDetected();
                 }
             }
@@ -121,4 +130,19 @@ public class TreasureActivity extends AppCompatActivity {
         setResult(RESULT_OK);
         finish();
     }
+
+    public void showHint(View view) {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.activity_hint, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(popupView);
+
+        AlertDialog dialog = builder.create();
+
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        dialog.show();
+    }
+
 }
