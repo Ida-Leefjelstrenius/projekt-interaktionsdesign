@@ -13,6 +13,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Point;
+import android.media.MediaPlayer;
 import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
@@ -41,6 +42,7 @@ public class GameView extends View {
     private long savedTime;
     private long animationTime = 0;
     private float worldX = 0;
+    private MediaPlayer mediaPlayerBomb, mediaPlayerShark;
     private final List<Mine> mines = new ArrayList<>();
     private final List<Chest> chests = new ArrayList<>();
     private final HashSet<Integer> zones = new HashSet<>(Arrays.asList(-2, -1, 0, 1, 2));
@@ -69,6 +71,9 @@ public class GameView extends View {
         display.getSize(size);
         screenWidth = size.x;
         screenHeight = size.y;
+
+        mediaPlayerBomb = MediaPlayer.create(context, R.raw.bomb);
+        mediaPlayerShark = MediaPlayer.create(context, R.raw.sharknoise);
 
         Bitmap rawBackgroundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.combined_vatten);
         newWidth = screenHeight * (rawBackgroundBitmap.getWidth() / rawBackgroundBitmap.getHeight());
@@ -143,11 +148,17 @@ public class GameView extends View {
 
         for (Mine mine : mines) {
             if (checkCollision(mine.x, mine.y, mineBitmap, player)) {
+                if (!GamePrefs.isMuted(getContext())) {
+                    mediaPlayerBomb.start();
+                }
                 handleDeath();
                 break;
             }
         }
         if (checkCollision(sharkX, sharkY, sharkBitmap, player)) {
+            if (!GamePrefs.isMuted(getContext())) {
+                mediaPlayerShark.start();
+            }
             handleDeath();
         }
         for (Chest chest : chests) {

@@ -96,4 +96,8 @@ public class MainActivity extends AppCompatActivity {
         Intent settingsIntent = new Intent(this,SettingsActivity.class);
         startActivity(settingsIntent);
     }
+    public void openInfoPage(View view){
+        Intent infoIntent = new Intent(this,InfoActivity.class);
+        startActivity(infoIntent);
+    }
 }

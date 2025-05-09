@@ -37,6 +37,9 @@
         <activity android:name=".InventoryActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"/>
+        <activity android:name=".InfoActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
         <activity android:name=".GameActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"/>
