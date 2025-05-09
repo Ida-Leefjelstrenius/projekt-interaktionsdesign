@@ -48,4 +48,5 @@
     <string name="username_diver_dave">Username: Diver Dave</string>
     <string name="highscore">Highscore:</string>
     <string name="reset_highscore">Reset Highscore</string>
+    <string name="help">Help</string>
 </resources>
