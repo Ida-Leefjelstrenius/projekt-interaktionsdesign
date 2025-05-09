@@ -52,4 +52,5 @@
     <string name="moreInfo"> How to play? \n The goal of the game is to live as long as possible. You move your player by tilting the phone. Try to avoid the shark and the bombs! You can earn coins by opening chests. </string>
     <string name="infotext">Info</string>
     <string name="highscoretext">Highscore:</string>
+    <string name="help">Help</string>
 </resources>
