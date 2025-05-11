@@ -2,7 +2,6 @@ package com.example.projektinteraktionsdesign;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
@@ -19,9 +18,6 @@ public class DeathActivity extends Activity {
             deathTheme = MediaPlayer.create(this, R.raw.deaththeme);
             deathTheme.start();
         }
-
-        //deathTheme = MediaPlayer.create(this, R.raw.deaththeme);
-        //deathTheme.start();
     }
 
     @Override

@@ -11,7 +11,7 @@
         android:id="@+id/pausedText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Open the chest"
+        android:text="@string/open_the_chest_text"
         android:fontFamily="@font/moldiedemo"
         android:textColor="@color/white"
         android:textSize="24sp"

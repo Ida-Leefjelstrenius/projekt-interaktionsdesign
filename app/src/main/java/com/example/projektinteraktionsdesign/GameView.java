@@ -42,7 +42,7 @@ public class GameView extends View {
     private long savedTime;
     private long animationTime = 0;
     private float worldX = 0;
-    private MediaPlayer mediaPlayerBomb, mediaPlayerShark;
+    private final MediaPlayer mediaPlayerBomb, mediaPlayerShark;
     private final List<Mine> mines = new ArrayList<>();
     private final List<Chest> chests = new ArrayList<>();
     private final HashSet<Integer> zones = new HashSet<>(Arrays.asList(-2, -1, 0, 1, 2));
@@ -184,14 +184,14 @@ public class GameView extends View {
             float middleStart = MINE_SIZE + availableHeight * 0.1f;
             float middleHeight = availableHeight * 0.8f;
             float mineY = middleStart + random.nextFloat() * middleHeight;
-            float mineX = zone * screenWidth / 3.0f;
+            float mineX = zone * screenWidth / 2.5f;
             mines.add(new Mine(mineX, mineY));
         }
     }
 
     private void maybeSpawnChest(int zone) {
         if (random.nextFloat() < CHEST_SPAWN_CHANCE) {
-            float chestX = zone * screenWidth / 3.0f;
+            float chestX = zone * screenWidth / 3.5f;
             chests.add(new Chest(chestX));
         }
     }

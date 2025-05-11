@@ -15,8 +15,8 @@ public class GameConstants {
 
     //Player
     public static final float FRICTION = 0.6f;
-    public static final int PLAYER_HIT_BOX_A = 200;
-    public static final int PLAYER_HIT_BOX_B = 350;
+    public static final int PLAYER_HIT_BOX_A = 225;
+    public static final int PLAYER_HIT_BOX_B = 325;
     public static final float PLAYER_ACCELERATION_FACTOR = 1.0f;
 
     //Chest

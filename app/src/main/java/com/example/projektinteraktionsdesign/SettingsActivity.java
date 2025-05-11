@@ -1,10 +1,8 @@
 package com.example.projektinteraktionsdesign;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
-import android.widget.Switch;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -23,9 +21,7 @@ public class SettingsActivity extends AppCompatActivity {
         boolean isMuted = GamePrefs.isMuted(this);
         switchMute.setChecked(isMuted);
 
-        switchMute.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            GamePrefs.setMuted(this, isChecked);
-        });
+        switchMute.setOnCheckedChangeListener(this::onCheckedChanged);
 
         Button resetHighscoreButton = findViewById(R.id.btn_resetHighScore);
 
@@ -35,10 +31,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
-    public void openSensorActivity(View view) {
-        Intent intent = new Intent(this, LightSensor.class);
-        startActivity(intent);
+    private void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        GamePrefs.setMuted(this, isChecked);
     }
-
-
 }

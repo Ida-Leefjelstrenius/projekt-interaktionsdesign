@@ -53,4 +53,5 @@
     <string name="infotext">Info</string>
     <string name="highscoretext">Highscore:</string>
     <string name="help">Help</string>
+    <string name="open_the_chest_text">Open the chest</string>
 </resources>
