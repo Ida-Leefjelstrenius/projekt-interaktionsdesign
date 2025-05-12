@@ -33,7 +33,8 @@ public class GameView extends View {
     private final int newWidth;
     private float backgroundX = 0;
     private ImageView player;
-    private final Bitmap backgroundBitmap, sharkBitmap, mineBitmap, chestBitmap;
+    private Bitmap backgroundBitmap;
+    private final Bitmap sharkBitmap, mineBitmap, chestBitmap;
     private final Matrix sharkMatrix = new Matrix();
     private float velocityX = 0, velocityY = 0;
     private float sharkX = -1000.0f, sharkY = 0f;
@@ -101,6 +102,18 @@ public class GameView extends View {
     private int dpToPx(int dp) {
         float density = getResources().getDisplayMetrics().density;
         return Math.round(dp * density);
+    }
+
+    public void setDarkMode(boolean isDark) {
+        Bitmap rawBackgroundBitmap;
+        if (isDark) {
+            rawBackgroundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.combined_vatten_dark);
+        }
+        else {
+            rawBackgroundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.combined_vatten);
+        }
+        backgroundBitmap = Bitmap.createScaledBitmap(rawBackgroundBitmap, newWidth, screenHeight, false);
+        invalidate();
     }
 
     @Override

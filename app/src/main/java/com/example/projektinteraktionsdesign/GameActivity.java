@@ -6,6 +6,10 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
@@ -25,11 +29,15 @@ import androidx.core.content.res.ResourcesCompat;
 
 import java.util.Objects;
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity implements SensorEventListener {
 
     GameView gameView;
     ImageView player, playPauseButton;
     TextView timer, coinCounter;
+
+    private SensorManager sensorManager;
+    private Sensor lightSensor;
+    private boolean isDarkMode = false;
 
     long startTime = 0;
     long elapsedBeforePause = 0;
@@ -40,13 +48,15 @@ public class GameActivity extends AppCompatActivity {
     private Handler feetAnimationHandler;
     private int feetFrame = 0;
     private final Bitmap[] feetPictures = new Bitmap[2];
-    private ImageView coinIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
 
         treasureResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -208,9 +218,8 @@ public class GameActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
-
-
     }
+
     private void updateHighscoreIfNeeded(int seconds) {
         int highscore = GamePrefs.getHighscore(this);
 
@@ -218,5 +227,33 @@ public class GameActivity extends AppCompatActivity {
             GamePrefs.setHighscore(this, seconds);
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (lightSensor != null) {
+            sensorManager.registerListener(this, lightSensor, SensorManager.SENSOR_DELAY_FASTEST);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener(this);
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        float lux = event.values[0];
+        boolean shouldBeDark = lux <= 20;
+
+        if (shouldBeDark != isDarkMode) {
+            isDarkMode = shouldBeDark;
+            gameView.setDarkMode(isDarkMode);
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {}
 
 }
