@@ -3,7 +3,8 @@ package com.example.projektinteraktionsdesign;
 public class GameConstants {
     //Mine
     public static final int ZONE_SIZE = 250;
-    public static final int MINE_SIZE = 50;
+    public static final int MINE_WIDTH = 50;
+    public static final int MINE_HEIGHT = 70;
     public static final float MINE_SPAWN_CHANCE = 0.3f;
     public static final float MINE_EASY_MULTIPLIER = 0.75f;
     public static final float MINE_HARD_MULTIPLIER = 1.4f;

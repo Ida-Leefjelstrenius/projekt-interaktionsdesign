@@ -89,7 +89,7 @@ public class GameView extends View {
         sharkBitmap = Bitmap.createScaledBitmap(rawSharkBitmap, dpToPx(SHARK_WIDTH), dpToPx(SHARK_HEIGHT), false);
 
         Bitmap rawMineBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bomb);
-        mineBitmap = Bitmap.createScaledBitmap(rawMineBitmap, dpToPx((int) (MINE_SIZE * mineDifficulty)), dpToPx((int) (MINE_SIZE * mineDifficulty)), false);
+        mineBitmap = Bitmap.createScaledBitmap(rawMineBitmap, dpToPx((int) (MINE_WIDTH * mineDifficulty)), dpToPx((int) (MINE_HEIGHT * mineDifficulty)), false);
 
         Bitmap rawChestBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.closed_chest);
         chestBitmap = Bitmap.createScaledBitmap(rawChestBitmap, dpToPx(CHEST_WIDTH), dpToPx(CHEST_HEIGHT), false);
@@ -201,8 +201,8 @@ public class GameView extends View {
 
     private void maybeSpawnMine(int zone) {
         if (random.nextFloat() < (MINE_SPAWN_CHANCE * mineDifficulty)) {
-            float availableHeight = screenHeight - 2 * MINE_SIZE * mineDifficulty;
-            float middleStart = MINE_SIZE * mineDifficulty + availableHeight * 0.1f;
+            float availableHeight = screenHeight - 2 * MINE_HEIGHT * mineDifficulty;
+            float middleStart = MINE_HEIGHT * mineDifficulty + availableHeight * 0.1f;
             float middleHeight = availableHeight * 0.8f;
             float mineY = middleStart + random.nextFloat() * middleHeight;
             float mineX = zone * screenWidth / 2.5f;
