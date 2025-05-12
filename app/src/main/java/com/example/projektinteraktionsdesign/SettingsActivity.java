@@ -37,7 +37,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         setupDifficulty(SHARK_DIFFICULTY, R.id.shark_radio_easy, R.id.shark_radio_normal, R.id.shark_radio_hard);
         setupDifficulty(MINE_DIFFICULTY, R.id.bomb_radio_easy, R.id.bomb_radio_normal, R.id.bomb_radio_hard);
-        //setupDifficulty(CHEST_DIFFICULTY, R.id.chest_radio_easy, R.id.chest_radio_normal, R.id.chest_radio_hard);
+        setupDifficulty(CHEST_DIFFICULTY, R.id.chest_radio_easy, R.id.chest_radio_normal, R.id.chest_radio_hard);
     }
 
     private void setupDifficulty(String difficultyType, int radioEasy, int radioNormal, int radioHard) {
@@ -57,7 +57,7 @@ public class SettingsActivity extends AppCompatActivity {
         easyButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 GamePrefs.setDifficulty(this, difficultyType, EASY);
-                Toast.makeText(this, "Easy Shark!:" + GamePrefs.getDifficulty(this, difficultyType), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, difficultyType + GamePrefs.getDifficulty(this, difficultyType), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -65,7 +65,7 @@ public class SettingsActivity extends AppCompatActivity {
         normalButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 GamePrefs.setDifficulty(this, difficultyType, NORMAL);
-                Toast.makeText(this, "Normal Shark!" + GamePrefs.getDifficulty(this, difficultyType), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, difficultyType + GamePrefs.getDifficulty(this, difficultyType), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -73,7 +73,7 @@ public class SettingsActivity extends AppCompatActivity {
         hardButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 GamePrefs.setDifficulty(this, difficultyType, HARD);
-                Toast.makeText(this, "Hard Shark!" + GamePrefs.getDifficulty(this, difficultyType), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, difficultyType + GamePrefs.getDifficulty(this, difficultyType), Toast.LENGTH_SHORT).show();
             }
         });
     }
