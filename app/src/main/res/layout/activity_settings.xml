@@ -86,7 +86,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/moldiedemo"
             android:textColor="@color/white"
-            android:buttonTint="@color/desertCoral"
+            app:buttonTint="@color/desertCoral"
             android:text="@string/easy" />
 
         <RadioButton
@@ -95,7 +95,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/moldiedemo"
             android:textColor="@color/white"
-            android:buttonTint="@color/desertCoral"
+            app:buttonTint="@color/desertCoral"
             android:text="@string/normal" />
 
         <RadioButton
@@ -104,7 +104,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/moldiedemo"
             android:textColor="@color/white"
-            android:buttonTint="@color/desertCoral"
+            app:buttonTint="@color/desertCoral"
             android:text="@string/hard" />
     </RadioGroup>
 
@@ -139,7 +139,7 @@
             android:id="@+id/bomb_radio_easy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:buttonTint="@color/desertCoral"
+            app:buttonTint="@color/desertCoral"
             android:textColor="@color/white"
             android:fontFamily="@font/moldiedemo"
             android:text="@string/easy" />
@@ -149,7 +149,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
-            android:buttonTint="@color/desertCoral"
+            app:buttonTint="@color/desertCoral"
             android:fontFamily="@font/moldiedemo"
             android:text="@string/normal" />
 
@@ -157,7 +157,7 @@
             android:id="@+id/bomb_radio_hard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:buttonTint="@color/desertCoral"
+            app:buttonTint="@color/desertCoral"
             android:textColor="@color/white"
             android:fontFamily="@font/moldiedemo"
             android:text="@string/hard" />
@@ -194,7 +194,7 @@
             android:layout_width="wrap_content"
             android:textColor="@color/white"
             android:layout_height="wrap_content"
-            android:buttonTint="@color/desertCoral"
+            app:buttonTint="@color/desertCoral"
             android:fontFamily="@font/moldiedemo"
             android:text="@string/easy" />
 
@@ -203,7 +203,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
-            android:buttonTint="@color/desertCoral"
+            app:buttonTint="@color/desertCoral"
             android:fontFamily="@font/moldiedemo"
             android:text="@string/normal" />
 
@@ -212,7 +212,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
-            android:buttonTint="@color/desertCoral"
+            app:buttonTint="@color/desertCoral"
             android:fontFamily="@font/moldiedemo"
             android:text="@string/hard" />
     </RadioGroup>
