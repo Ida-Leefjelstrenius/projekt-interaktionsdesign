@@ -232,7 +232,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Light Sensor Button -->
-    <Button
+    <!--<Button
         android:id="@+id/btn_open_sensor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -243,6 +243,6 @@
         android:textSize="15sp"
         app:layout_constraintTop_toBottomOf="@id/btn_resetHighScore"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

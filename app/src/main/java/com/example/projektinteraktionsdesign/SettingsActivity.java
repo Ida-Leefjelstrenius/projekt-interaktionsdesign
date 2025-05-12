@@ -46,10 +46,10 @@ public class SettingsActivity extends AppCompatActivity {
                 ((RadioButton) findViewById(radioEasy)).setChecked(true);
                 break;
             case HARD:
-                ((RadioButton) findViewById(radioNormal)).setChecked(true);
+                ((RadioButton) findViewById(radioHard)).setChecked(true);
                 break;
             default:
-                ((RadioButton) findViewById(radioHard)).setChecked(true);
+                ((RadioButton) findViewById(radioNormal)).setChecked(true);
                 break;
         }
 
@@ -57,7 +57,6 @@ public class SettingsActivity extends AppCompatActivity {
         easyButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 GamePrefs.setDifficulty(this, difficultyType, EASY);
-                Toast.makeText(this, difficultyType + GamePrefs.getDifficulty(this, difficultyType), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -65,7 +64,6 @@ public class SettingsActivity extends AppCompatActivity {
         normalButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 GamePrefs.setDifficulty(this, difficultyType, NORMAL);
-                Toast.makeText(this, difficultyType + GamePrefs.getDifficulty(this, difficultyType), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -73,7 +71,6 @@ public class SettingsActivity extends AppCompatActivity {
         hardButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 GamePrefs.setDifficulty(this, difficultyType, HARD);
-                Toast.makeText(this, difficultyType + GamePrefs.getDifficulty(this, difficultyType), Toast.LENGTH_SHORT).show();
             }
         });
     }
