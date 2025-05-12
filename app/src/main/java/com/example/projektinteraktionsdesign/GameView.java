@@ -71,7 +71,6 @@ public class GameView extends View {
         super(context);
         GamePrefs.setGameOver(context, isGameOver);
 
-        GamePrefs.setHitboxOn(context,true);
         isHitboxOn = GamePrefs.isHitboxOn(context);
         if (isHitboxOn) {
             hitboxPaint.setColor(Color.RED);

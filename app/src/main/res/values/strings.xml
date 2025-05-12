@@ -54,4 +54,8 @@
     <string name="highscoretext">Highscore:</string>
     <string name="help">Help</string>
     <string name="open_the_chest_text">Open the chest</string>
+    <string name="hitbox">Hitbox</string>
+    <string name="easy">Easy</string>
+    <string name="normal">Normal</string>
+    <string name="hard">Hard</string>
 </resources>
