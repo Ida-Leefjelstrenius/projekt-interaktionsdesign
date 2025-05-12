@@ -50,8 +50,8 @@ public class GameView extends View {
     private final HashSet<Integer> zones = new HashSet<>(Arrays.asList(-2, -1, 0, 1, 2));
     private final Random random = new Random();
     private final Paint hitboxPaint = new Paint();
-    private final boolean isHitboxOn;
-    private final float mineDifficulty, sharkDifficulty, chestDifficulty;
+    private boolean isHitboxOn;
+    private float mineDifficulty, sharkDifficulty, chestDifficulty;
     public interface CoinUpdateListener {
         void onCoinUpdated(int newAmount);
     }
@@ -69,18 +69,8 @@ public class GameView extends View {
 
     public GameView(Context context) {
         super(context);
-        GamePrefs.setGameOver(context, isGameOver);
 
-        isHitboxOn = GamePrefs.isHitboxOn(context);
-        if (isHitboxOn) {
-            hitboxPaint.setColor(Color.RED);
-            hitboxPaint.setStyle(Paint.Style.STROKE);
-            hitboxPaint.setStrokeWidth(4);
-        }
-
-        mineDifficulty = GamePrefs.getMineDifficulty(context);
-        sharkDifficulty = GamePrefs.getSharkDifficulty(context);
-        chestDifficulty = GamePrefs.getChestDifficulty(context);
+        checkSettings(context);
 
         Display display = ((Activity) getContext()).getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -315,5 +305,51 @@ public class GameView extends View {
         isPaused = false;
         startTime = System.currentTimeMillis();
         postInvalidateOnAnimation();
+    }
+    private void checkSettings(Context context) {
+        GamePrefs.setGameOver(context, isGameOver);
+
+        isHitboxOn = GamePrefs.isHitboxOn(context);
+        if (isHitboxOn) {
+            hitboxPaint.setColor(Color.RED);
+            hitboxPaint.setStyle(Paint.Style.STROKE);
+            hitboxPaint.setStrokeWidth(4);
+        }
+
+        switch (GamePrefs.getDifficulty(context, MINE_DIFFICULTY)) {
+            case EASY:
+                mineDifficulty = MINE_EASY_MULTIPLIER;
+                break;
+            case HARD:
+                mineDifficulty = MINE_HARD_MULTIPLIER;
+                break;
+            default:
+                mineDifficulty = 1.0f;
+                break;
+        }
+
+        switch (GamePrefs.getDifficulty(context, SHARK_DIFFICULTY)) {
+            case EASY:
+                sharkDifficulty = SHARK_EASY_MULTIPLIER;
+                break;
+            case HARD:
+                sharkDifficulty = SHARK_HARD_MULTIPLIER;
+                break;
+            default:
+                sharkDifficulty = 1.0f;
+                break;
+        }
+
+        switch (GamePrefs.getDifficulty(context, CHEST_DIFFICULTY)) {
+            case EASY:
+                chestDifficulty = CHEST_EASY_MULTIPLIER;
+                break;
+            case HARD:
+                chestDifficulty = CHEST_HARD_MULTIPLIER;
+                break;
+            default:
+                chestDifficulty = 1.0f;
+                break;
+        }
     }
 }

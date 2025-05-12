@@ -1,4 +1,5 @@
 package com.example.projektinteraktionsdesign;
+import static com.example.projektinteraktionsdesign.GameConstants.*;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -48,26 +49,12 @@ public class GamePrefs {
     public static void setHitboxOn(Context context, boolean value) {
         getPrefs(context).edit().putBoolean("isHitboxOn", value).apply();
     }
-
-    public static float getMineDifficulty(Context context) {
-        return getPrefs(context).getFloat("mineDifficulty", 1.0f);
+    public static String getDifficulty(Context context, String type) {
+        return getPrefs(context).getString(type, NORMAL);
     }
 
-    public static void setMineDifficulty(Context context, float value) {
-        getPrefs(context).edit().putFloat("mineDifficulty", value).apply();
-    }
-    public static float getSharkDifficulty(Context context) {
-        return getPrefs(context).getFloat("sharkDifficulty", 1.0f);
-    }
-    public static void setSharkDifficulty(Context context, float value) {
-        getPrefs(context).edit().putFloat("sharkDifficulty", value).apply();
-    }
-
-    public static float getChestDifficulty(Context context) {
-        return getPrefs(context).getFloat("chestDifficulty", 1.0f);
-    }
-    public static void setChestDifficulty(Context context, float value) {
-        getPrefs(context).edit().putFloat("chestDifficulty", value).apply();
+    public static void setDifficulty(Context context, String type, String value) {
+        getPrefs(context).edit().putString(type, value).apply();
     }
 
     private static SharedPreferences getPrefs(Context context) {

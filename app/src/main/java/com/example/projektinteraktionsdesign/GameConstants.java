@@ -33,4 +33,11 @@ public class GameConstants {
     public static final float CHEST_EASY_MULTIPLIER = 1.6f;
     public static final float CHEST_HARD_MULTIPLIER = 0.5f;
 
+    //Other
+    public static final String EASY = "easy";
+    public static final String NORMAL = "normal";
+    public static final String HARD = "hard";
+    public static final String SHARK_DIFFICULTY = "sharkDifficulty";
+    public static final String MINE_DIFFICULTY = "mineDifficulty";
+    public static final String CHEST_DIFFICULTY = "chestDifficulty";
 }
