@@ -78,8 +78,8 @@ public class GameView extends View {
         screenWidth = size.x;
         screenHeight = size.y;
 
-        mediaPlayerMine = MediaPlayer.create(context, R.raw.bomb);
-        mediaPlayerShark = MediaPlayer.create(context, R.raw.sharknoise);
+        mediaPlayerMine = MediaPlayer.create(context, R.raw.mine_sound);
+        mediaPlayerShark = MediaPlayer.create(context, R.raw.shark_sound);
 
         Bitmap rawBackgroundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.combined_vatten);
         newWidth = screenHeight * (rawBackgroundBitmap.getWidth() / rawBackgroundBitmap.getHeight());

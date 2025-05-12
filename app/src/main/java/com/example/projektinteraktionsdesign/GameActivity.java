@@ -40,6 +40,7 @@ public class GameActivity extends AppCompatActivity {
     private Handler feetAnimationHandler;
     private int feetFrame = 0;
     private final Bitmap[] feetPictures = new Bitmap[2];
+    private ImageView coinIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
