@@ -7,19 +7,11 @@
     android:layout_height="match_parent"
     android:background="@drawable/vatten">
 
-    <!-- Title -->
-
-    <!-- Mute Switch -->
-
-    <!-- Reset Highscore Button -->
-
-    <!-- Light Sensor Button -->
-
     <TextView
         android:id="@+id/settingsText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="192dp"
+        android:layout_marginTop="100dp"
         android:fontFamily="@font/moldiedemo"
         android:shadowColor="#000000"
         android:shadowDx="1.5"
@@ -30,131 +22,227 @@
         android:textColor="@color/amberGold"
         android:textSize="40sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.558"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/muteSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/moldiedemo"
         android:text="@string/mute_sound"
         android:textColor="@color/white"
         android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.545"
+        app:thumbTint="@color/desertCoral"
+        app:layout_constraintTop_toBottomOf="@id/settingsText"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/settingsText"
-        app:thumbTint="@color/desertCoral" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/hitboxSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/moldiedemo"
         android:text="@string/hitbox"
         android:textColor="@color/white"
         android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.545"
+        app:thumbTint="@color/desertCoral"
+        app:layout_constraintTop_toBottomOf="@id/muteSwitch"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/muteSwitch"
-        app:thumbTint="@color/desertCoral" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Shark Label -->
+    <TextView
+        android:id="@+id/sharkLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Shark Speeds"
+        android:textSize="20sp"
+        android:fontFamily="@font/moldiedemo"
+        android:textAlignment="center"
+        android:textColor="@color/amberGold"
+        app:layout_constraintTop_toBottomOf="@id/hitboxSwitch"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Shark RadioGroup -->
     <RadioGroup
         android:id="@+id/sharkLevels"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sharkLabel"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hitboxSwitch">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <RadioButton
             android:id="@+id/shark_radio_easy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/moldiedemo"
+            android:textColor="@color/white"
+            android:buttonTint="@color/desertCoral"
             android:text="@string/easy" />
 
         <RadioButton
             android:id="@+id/shark_radio_normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/moldiedemo"
+            android:textColor="@color/white"
+            android:buttonTint="@color/desertCoral"
             android:text="@string/normal" />
 
         <RadioButton
             android:id="@+id/shark_radio_hard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/moldiedemo"
+            android:textColor="@color/white"
+            android:buttonTint="@color/desertCoral"
             android:text="@string/hard" />
     </RadioGroup>
 
+    <!-- Bomb Label -->
+    <TextView
+        android:id="@+id/bombLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Bomb Levels"
+        android:textSize="20sp"
+        android:fontFamily="@font/moldiedemo"
+        android:textAlignment="center"
+        android:textColor="@color/amberGold"
+        app:layout_constraintTop_toBottomOf="@id/sharkLevels"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Bomb RadioGroup -->
     <RadioGroup
         android:id="@+id/bombLevels"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:orientation="horizontal"
-        android:layout_marginTop="60dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/bombLabel"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sharkLevels">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <RadioButton
             android:id="@+id/bomb_radio_easy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/desertCoral"
+            android:textColor="@color/white"
+            android:fontFamily="@font/moldiedemo"
             android:text="@string/easy" />
 
         <RadioButton
             android:id="@+id/bomb_radio_normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:buttonTint="@color/desertCoral"
+            android:fontFamily="@font/moldiedemo"
             android:text="@string/normal" />
 
         <RadioButton
             android:id="@+id/bomb_radio_hard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/desertCoral"
+            android:textColor="@color/white"
+            android:fontFamily="@font/moldiedemo"
             android:text="@string/hard" />
     </RadioGroup>
 
+    <!-- Chest Label -->
+    <TextView
+        android:id="@+id/chestLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Chest Difficulty"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:textColor="@color/amberGold"
+        android:fontFamily="@font/moldiedemo"
+        app:layout_constraintTop_toBottomOf="@id/bombLevels"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Chest RadioGroup -->
+    <RadioGroup
+        android:id="@+id/chestLevels"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/chestLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <RadioButton
+            android:id="@+id/chest_radio_easy"
+            android:layout_width="wrap_content"
+            android:textColor="@color/white"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/desertCoral"
+            android:fontFamily="@font/moldiedemo"
+            android:text="@string/easy" />
+
+        <RadioButton
+            android:id="@+id/chest_radio_normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:buttonTint="@color/desertCoral"
+            android:fontFamily="@font/moldiedemo"
+            android:text="@string/normal" />
+
+        <RadioButton
+            android:id="@+id/chest_radio_hard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:buttonTint="@color/desertCoral"
+            android:fontFamily="@font/moldiedemo"
+            android:text="@string/hard" />
+    </RadioGroup>
+
+    <!-- Reset Highscore Button -->
     <Button
         android:id="@+id/btn_resetHighScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="16dp"
         android:backgroundTint="@color/desertCoral"
         android:fontFamily="@font/moldiedemo"
         android:text="@string/reset_highscore"
         android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.556"
+        app:layout_constraintTop_toBottomOf="@id/chestLevels"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bombLevels" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Light Sensor Button -->
     <Button
         android:id="@+id/btn_open_sensor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:backgroundTint="@color/desertCoral"
         android:fontFamily="@font/moldiedemo"
         android:text="@string/openLightSensor"
         android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.549"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_resetHighScore"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
