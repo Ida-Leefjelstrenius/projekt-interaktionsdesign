@@ -3,8 +3,10 @@ package com.example.projektinteraktionsdesign;
 public class GameConstants {
     //Mine
     public static final int ZONE_SIZE = 250;
-    public  static final int MINE_SIZE = 40;
+    public static final int MINE_SIZE = 50;
     public static final float MINE_SPAWN_CHANCE = 0.3f;
+    public static final float MINE_EASY_MULTIPLIER = 0.75f;
+    public static final float MINE_HARD_MULTIPLIER = 1.4f;
 
     //Shark
     public static final int SHARK_WIDTH = 160;
@@ -12,6 +14,8 @@ public class GameConstants {
     public static final float SHARK_BASE_SPEED = 5.0f;
     public static final float SHARK_MAX_SPEED = 15.0f;
     public static final float SHARK_ACCELERATION = 0.3f;
+    public static final float SHARK_EASY_MULTIPLIER = 0.75f;
+    public static final float SHARK_HARD_MULTIPLIER = 1.4f;
 
     //Player
     public static final float FRICTION = 0.6f;
@@ -26,4 +30,7 @@ public class GameConstants {
     public static final float BOBBING_AMPLITUDE = 150.0f;
     public static final int CHEST_Y_OFFSET = 350;
     public static final float CHEST_SPAWN_CHANCE = 0.20f;
+    public static final float CHEST_EASY_MULTIPLIER = 1.6f;
+    public static final float CHEST_HARD_MULTIPLIER = 0.5f;
+
 }

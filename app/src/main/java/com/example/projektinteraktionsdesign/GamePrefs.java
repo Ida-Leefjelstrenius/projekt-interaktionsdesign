@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 public class GamePrefs {
     private static final String PREFS_NAME = "game_prefs";
 
+    public static void resetHighscore(Context context) {
+        getPrefs(context).edit().putInt("highscore", 0).apply();
+    }
     public static int getHighscore(Context context) {
         return getPrefs(context).getInt("highscore", 0);
     }
@@ -38,8 +41,33 @@ public class GamePrefs {
         getPrefs(context).edit().putBoolean("isMuted", value).apply();
     }
 
-    public static void resetHighscore(Context context) {
-        getPrefs(context).edit().putInt("highscore", 0).apply();
+    public static boolean isHitboxOn(Context context) {
+        return getPrefs(context).getBoolean("isHitboxOn", false);
+    }
+
+    public static void setHitboxOn(Context context, boolean value) {
+        getPrefs(context).edit().putBoolean("isHitboxOn", value).apply();
+    }
+
+    public static float getMineDifficulty(Context context) {
+        return getPrefs(context).getFloat("mineDifficulty", 1.0f);
+    }
+
+    public static void setMineDifficulty(Context context, float value) {
+        getPrefs(context).edit().putFloat("mineDifficulty", value).apply();
+    }
+    public static float getSharkDifficulty(Context context) {
+        return getPrefs(context).getFloat("sharkDifficulty", 1.0f);
+    }
+    public static void setSharkDifficulty(Context context, float value) {
+        getPrefs(context).edit().putFloat("sharkDifficulty", value).apply();
+    }
+
+    public static float getChestDifficulty(Context context) {
+        return getPrefs(context).getFloat("chestDifficulty", 1.0f);
+    }
+    public static void setChestDifficulty(Context context, float value) {
+        getPrefs(context).edit().putFloat("chestDifficulty", value).apply();
     }
 
     private static SharedPreferences getPrefs(Context context) {

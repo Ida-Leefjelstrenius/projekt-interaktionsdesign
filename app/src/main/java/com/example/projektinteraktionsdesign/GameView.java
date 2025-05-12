@@ -11,7 +11,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.media.MediaPlayer;
 import android.view.Display;
@@ -47,6 +49,9 @@ public class GameView extends View {
     private final List<Chest> chests = new ArrayList<>();
     private final HashSet<Integer> zones = new HashSet<>(Arrays.asList(-2, -1, 0, 1, 2));
     private final Random random = new Random();
+    private final Paint hitboxPaint = new Paint();
+    private final boolean isHitboxOn;
+    private final float mineDifficulty, sharkDifficulty, chestDifficulty;
     public interface CoinUpdateListener {
         void onCoinUpdated(int newAmount);
     }
@@ -66,6 +71,18 @@ public class GameView extends View {
         super(context);
         GamePrefs.setGameOver(context, isGameOver);
 
+        GamePrefs.setHitboxOn(context,true);
+        isHitboxOn = GamePrefs.isHitboxOn(context);
+        if (isHitboxOn) {
+            hitboxPaint.setColor(Color.RED);
+            hitboxPaint.setStyle(Paint.Style.STROKE);
+            hitboxPaint.setStrokeWidth(4);
+        }
+
+        mineDifficulty = GamePrefs.getMineDifficulty(context);
+        sharkDifficulty = GamePrefs.getSharkDifficulty(context);
+        chestDifficulty = GamePrefs.getChestDifficulty(context);
+
         Display display = ((Activity) getContext()).getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
@@ -83,7 +100,7 @@ public class GameView extends View {
         sharkBitmap = Bitmap.createScaledBitmap(rawSharkBitmap, dpToPx(SHARK_WIDTH), dpToPx(SHARK_HEIGHT), false);
 
         Bitmap rawMineBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bomb);
-        mineBitmap = Bitmap.createScaledBitmap(rawMineBitmap, dpToPx(MINE_SIZE), dpToPx(MINE_SIZE), false);
+        mineBitmap = Bitmap.createScaledBitmap(rawMineBitmap, dpToPx((int) (MINE_SIZE * mineDifficulty)), dpToPx((int) (MINE_SIZE * mineDifficulty)), false);
 
         Bitmap rawChestBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.closed_chest);
         chestBitmap = Bitmap.createScaledBitmap(rawChestBitmap, dpToPx(CHEST_WIDTH), dpToPx(CHEST_HEIGHT), false);
@@ -176,12 +193,27 @@ public class GameView extends View {
             postInvalidateOnAnimation();
         }
         animationTime++;
+
+        if (isHitboxOn) {
+            drawHitboxes(canvas, chestY);
+        }
+    }
+
+    private void drawHitboxes(Canvas canvas, float chestY) {
+        canvas.drawRect(player.getX(), player.getY() + PLAYER_HIT_BOX_A, player.getX() + player.getWidth(), player.getY() + PLAYER_HIT_BOX_B, hitboxPaint);
+        canvas.drawRect(sharkX, sharkY, sharkX + sharkBitmap.getWidth(), sharkY + sharkBitmap.getHeight(), hitboxPaint);
+        for (Mine mine : mines) {
+            canvas.drawRect(mine.x, mine.y, mine.x + mineBitmap.getWidth(), mine.y + mineBitmap.getHeight(), hitboxPaint);
+        }
+        for (Chest chest : chests) {
+            canvas.drawRect(chest.x, chestY, chest.x + chestBitmap.getWidth(), chestY + chestBitmap.getHeight(), hitboxPaint);
+        }
     }
 
     private void maybeSpawnMine(int zone) {
-        if (random.nextFloat() < MINE_SPAWN_CHANCE) {
-            float availableHeight = screenHeight - 2 * MINE_SIZE;
-            float middleStart = MINE_SIZE + availableHeight * 0.1f;
+        if (random.nextFloat() < (MINE_SPAWN_CHANCE * mineDifficulty)) {
+            float availableHeight = screenHeight - 2 * MINE_SIZE * mineDifficulty;
+            float middleStart = MINE_SIZE * mineDifficulty + availableHeight * 0.1f;
             float middleHeight = availableHeight * 0.8f;
             float mineY = middleStart + random.nextFloat() * middleHeight;
             float mineX = zone * screenWidth / 2.5f;
@@ -190,7 +222,7 @@ public class GameView extends View {
     }
 
     private void maybeSpawnChest(int zone) {
-        if (random.nextFloat() < CHEST_SPAWN_CHANCE) {
+        if (random.nextFloat() < CHEST_SPAWN_CHANCE * chestDifficulty) {
             float chestX = zone * screenWidth / 3.5f;
             chests.add(new Chest(chestX));
         }
@@ -233,7 +265,7 @@ public class GameView extends View {
 
         int secondsSurvived = (int) ((savedTime + (System.currentTimeMillis() - startTime)) / 1000);
 
-        float speed =  min(SHARK_BASE_SPEED + secondsSurvived * SHARK_ACCELERATION, SHARK_MAX_SPEED);
+        float speed =  min(SHARK_BASE_SPEED * sharkDifficulty + secondsSurvived * SHARK_ACCELERATION * sharkDifficulty, SHARK_MAX_SPEED);
 
         float deltaX = playerX - sharkX;
         float deltaY = playerY - sharkY;

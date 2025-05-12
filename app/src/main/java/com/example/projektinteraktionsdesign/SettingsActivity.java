@@ -21,7 +21,7 @@ public class SettingsActivity extends AppCompatActivity {
         boolean isMuted = GamePrefs.isMuted(this);
         switchMute.setChecked(isMuted);
 
-        switchMute.setOnCheckedChangeListener(this::onCheckedChanged);
+        switchMute.setOnCheckedChangeListener(this::onMutedChanged);
 
         Button resetHighscoreButton = findViewById(R.id.btn_resetHighScore);
 
@@ -31,7 +31,11 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
-    private void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+    private void onMutedChanged(CompoundButton buttonView, boolean isChecked) {
         GamePrefs.setMuted(this, isChecked);
+    }
+
+    private void onHitboxChanged(CompoundButton buttonView, boolean isChecked) {
+        GamePrefs.setHitboxOn(this, isChecked);
     }
 }
