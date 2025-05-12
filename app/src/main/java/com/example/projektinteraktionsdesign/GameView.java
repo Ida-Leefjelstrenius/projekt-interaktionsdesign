@@ -44,7 +44,7 @@ public class GameView extends View {
     private long savedTime;
     private long animationTime = 0;
     private float worldX = 0;
-    private final MediaPlayer mediaPlayerBomb, mediaPlayerShark;
+    private final MediaPlayer mediaPlayerMine, mediaPlayerShark;
     private final List<Mine> mines = new ArrayList<>();
     private final List<Chest> chests = new ArrayList<>();
     private final HashSet<Integer> zones = new HashSet<>(Arrays.asList(-2, -1, 0, 1, 2));
@@ -78,7 +78,7 @@ public class GameView extends View {
         screenWidth = size.x;
         screenHeight = size.y;
 
-        mediaPlayerBomb = MediaPlayer.create(context, R.raw.bomb);
+        mediaPlayerMine = MediaPlayer.create(context, R.raw.bomb);
         mediaPlayerShark = MediaPlayer.create(context, R.raw.sharknoise);
 
         Bitmap rawBackgroundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.combined_vatten);
@@ -88,7 +88,7 @@ public class GameView extends View {
         Bitmap rawSharkBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.shark);
         sharkBitmap = Bitmap.createScaledBitmap(rawSharkBitmap, dpToPx(SHARK_WIDTH), dpToPx(SHARK_HEIGHT), false);
 
-        Bitmap rawMineBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bomb);
+        Bitmap rawMineBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.mine);
         mineBitmap = Bitmap.createScaledBitmap(rawMineBitmap, dpToPx((int) (MINE_WIDTH * mineDifficulty)), dpToPx((int) (MINE_HEIGHT * mineDifficulty)), false);
 
         Bitmap rawChestBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.closed_chest);
@@ -155,7 +155,7 @@ public class GameView extends View {
         for (Mine mine : mines) {
             if (checkCollision(mine.x, mine.y, mineBitmap, player)) {
                 if (!GamePrefs.isMuted(getContext())) {
-                    mediaPlayerBomb.start();
+                    mediaPlayerMine.start();
                 }
                 handleDeath();
                 break;

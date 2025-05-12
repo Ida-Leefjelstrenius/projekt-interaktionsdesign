@@ -114,25 +114,10 @@
         app:layout_constraintTop_toBottomOf="@+id/gameText" />
 
     <Button
-        android:id="@+id/btn_inventory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:backgroundTint="@color/desertCoral"
-        android:fontFamily="@font/moldiedemo"
-        android:onClick="openInventoryPage"
-        android:text="@string/inventory_button"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_start_game" />
-
-    <Button
         android:id="@+id/infoButton"
         android:layout_width="145dp"
         android:layout_height="47dp"
+        android:layout_marginBottom="252dp"
         android:backgroundTint="@color/desertCoral"
         android:fontFamily="@font/moldiedemo"
         android:onClick="openInfoPage"
@@ -141,9 +126,8 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_inventory"
-        app:layout_constraintVertical_bias="0.126" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_start_game" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
