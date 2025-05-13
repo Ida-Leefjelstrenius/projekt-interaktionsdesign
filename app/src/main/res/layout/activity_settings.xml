@@ -231,6 +231,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <Button
+        android:id="@+id/btn_reset_coins"
+        android:layout_width="165dp"
+        android:layout_height="47dp"
+        android:backgroundTint="@color/desertCoral"
+        android:fontFamily="@font/moldiedemo"
+        android:text="@string/reset_coins"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_resetHighScore"
+        app:layout_constraintVertical_bias="0.313" />
+
     <!-- Light Sensor Button -->
     <!--<Button
         android:id="@+id/btn_open_sensor"

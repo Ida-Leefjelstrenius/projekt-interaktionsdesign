@@ -35,6 +35,12 @@ public class SettingsActivity extends AppCompatActivity {
             Toast.makeText(this, "Highscore reset!", Toast.LENGTH_SHORT).show();
         });
 
+        Button resetCoinsButton = findViewById(R.id.btn_reset_coins);
+        resetCoinsButton.setOnClickListener(v -> {
+            GamePrefs.resetCoins(this);
+            Toast.makeText(this, "Coins reset!", Toast.LENGTH_SHORT).show();
+        });
+
         setupDifficulty(SHARK_DIFFICULTY, R.id.shark_radio_easy, R.id.shark_radio_normal, R.id.shark_radio_hard);
         setupDifficulty(MINE_DIFFICULTY, R.id.bomb_radio_easy, R.id.bomb_radio_normal, R.id.bomb_radio_hard);
         setupDifficulty(CHEST_DIFFICULTY, R.id.chest_radio_easy, R.id.chest_radio_normal, R.id.chest_radio_hard);

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/collideWithSharkText"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -26,31 +27,52 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:backgroundTint="@color/desertCoral"
+        android:fontFamily="@font/moldiedemo"
         android:onClick="goBackToGame"
         android:text="@string/continue_game"
-        android:fontFamily="@font/moldiedemo"
         android:textSize="20sp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.484" />
+        app:layout_constraintVertical_bias="0.508" />
 
     <TextView
         android:id="@+id/treasureDialog"
         android:layout_width="283dp"
         android:layout_height="47dp"
         android:fontFamily="@font/moldiedemo"
+        android:shadowColor="#121111"
+        android:shadowRadius="2"
         android:text="@string/open_the_chest"
         android:textAlignment="center"
         android:textColor="@color/amberGold"
-        android:textSize="34sp"
+        android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.413" />
+        app:layout_constraintVertical_bias="0.263" />
+
+    <TextView
+        android:id="@+id/coinDialog"
+        android:layout_width="205dp"
+        android:layout_height="52dp"
+        android:fontFamily="@font/moldiedemo"
+        android:shadowColor="#0F0D0D"
+        android:shadowRadius="2"
+        android:text="@string/open_the_chest"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.424" />
 
     <ImageView
         android:id="@+id/imageClosedChest"

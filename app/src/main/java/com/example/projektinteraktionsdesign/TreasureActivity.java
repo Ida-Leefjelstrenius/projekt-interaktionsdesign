@@ -21,6 +21,7 @@ import android.view.animation.CycleInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -30,10 +31,12 @@ import java.util.Objects;
 
 public class TreasureActivity extends AppCompatActivity {
     private ImageView closedChest, diver, openChest, coin;
+    private TextView coinDialog;
     private SensorManager sensorManager;
     private SensorEventListener sensorEventListener;
     private Vibrator vibrator;
     MediaPlayer mediaPlayerCoin;
+    private int coinValue;
 
     @Override
     public final void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,8 @@ public class TreasureActivity extends AppCompatActivity {
         openChest = findViewById(R.id.imageOpenChest);
         diver = findViewById(R.id.imageDiver);
         coin = findViewById(R.id.imageCoin);
+        coinDialog = findViewById(R.id.coinDialog);
+        coinDialog.setVisibility(View.INVISIBLE);
 
         mediaPlayerCoin = MediaPlayer.create(TreasureActivity.this, R.raw.coin_sound);
 
@@ -98,6 +103,11 @@ public class TreasureActivity extends AppCompatActivity {
     private void keyMovementDetected() {
         onPause();
         openChestAnimation();
+
+        coinValue = (int) (Math.random() * 5) + 1;
+        coinDialog.setVisibility(View.VISIBLE);
+        coinDialog.setText("You got " + coinValue + " coins!");
+
         Button goBackBottom = findViewById(R.id.btn_back_to_game);
         goBackBottom.setVisibility(View.VISIBLE);
         goBackBottom.setOnClickListener(this::goBackToGame);
@@ -126,7 +136,9 @@ public class TreasureActivity extends AppCompatActivity {
     }
 
     public void goBackToGame(View view) {
-        setResult(RESULT_OK);
+        Intent intent = new Intent();
+        intent.putExtra("result", coinValue);
+        setResult(RESULT_OK, intent);
         finish();
     }
 

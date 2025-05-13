@@ -48,6 +48,8 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     private Handler feetAnimationHandler;
     private int feetFrame = 0;
     private final Bitmap[] feetPictures = new Bitmap[2];
+    private TreasureActivity treasureActivity;
+    private int coinThisRun = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,13 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         treasureResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(), result -> {
                     if (result.getResultCode() == RESULT_OK) {
+                        Intent data = result.getData();
+                        int coinValue = data.getIntExtra("result", 0);
+                        coinThisRun += coinValue;
+                        coinCounter.setText("Coins: " + coinThisRun);
+
+                        GamePrefs.addCoins(this, coinValue);
+
                         gameView.resume();
                         isPaused = false;
                         startTime = System.currentTimeMillis();
@@ -73,7 +82,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
         gameView = new GameView(this); //Skapa bakgrunden
 
-        gameView.setTreasureListener(() -> {
+        gameView.setTreasureListener(chest -> {
             isPaused = true;
             gameView.pause();
             elapsedBeforePause += System.currentTimeMillis() - startTime;
@@ -143,8 +152,6 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
                 timer.setText(getString(R.string.time_alive, minutes, seconds));
                 timerHandler.postDelayed(this, 500);
-
-                gameView.setCoinUpdateListener(newAmount -> runOnUiThread(() -> coinCounter.setText(getString(R.string.coin_label, newAmount))));
 
             }
         };

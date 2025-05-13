@@ -44,7 +44,6 @@ public class GameView extends View {
     private float sharkX = -1000.0f, sharkY = 0f;
     private boolean isGameOver = false;
     private boolean isPaused = false;
-    private int coins = 0;
     private Vibrator vibrator;
     private long startTime = System.currentTimeMillis();
     private long savedTime;
@@ -58,15 +57,8 @@ public class GameView extends View {
     private final Paint hitboxPaint = new Paint();
     private boolean isHitboxOn;
     private float mineDifficulty, sharkDifficulty, chestDifficulty;
-    public interface CoinUpdateListener {
-        void onCoinUpdated(int newAmount);
-    }
-    private CoinUpdateListener coinListener;
-    public void setCoinUpdateListener(CoinUpdateListener listener) {
-        this.coinListener = listener;
-    }
     public interface TreasureRequestListener {
-        void treasureRequest();
+        void onChestCollected(Chest chest);
     }
     private TreasureRequestListener  treasureListener;
     public void setTreasureListener(TreasureRequestListener  listener) {
@@ -189,7 +181,7 @@ public class GameView extends View {
             handleDeath();
         }
         for (Chest chest : chests) {
-            if (checkCollision(chest.x, chestY, mineBitmap, player)) {
+            if (checkCollision(chest.x, chestY, chestBitmap, player)) {
                 try {
                     handleChestCollision(chest);
                 } catch (InterruptedException e) {
@@ -243,7 +235,6 @@ public class GameView extends View {
         isGameOver = true;
 
         Context context = getContext();
-        GamePrefs.addCoins(context, coins);
         GamePrefs.setGameOver(getContext(), true);
         Intent deathIntent = new Intent(context, DeathActivity.class);
         context.startActivity(deathIntent);
@@ -252,20 +243,8 @@ public class GameView extends View {
 
     private void handleChestCollision(Chest chest) throws InterruptedException {
         if (treasureListener != null) {
-            Context context = getContext();
-            double coinValue = (Math.random() * 5) + 1;
-            coins += (int) coinValue;
             chests.remove(chest);
-
-            if (coinListener != null) {
-                coinListener.onCoinUpdated(coins);
-            }
-
-            if (context instanceof GameActivity) {
-                if (treasureListener != null) {
-                    treasureListener.treasureRequest();
-                }
-            }
+            treasureListener.onChestCollected(chest);
         }
     }
 

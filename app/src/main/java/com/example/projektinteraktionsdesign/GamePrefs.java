@@ -26,6 +26,10 @@ public class GamePrefs {
         getPrefs(context).edit().putInt("total_coins", current + value).apply();
     }
 
+    public static void resetCoins(Context context) {
+        getPrefs(context).edit().putInt("total_coins", 0).apply();
+    }
+
     public static boolean isGameOver(Context context) {
         return getPrefs(context).getBoolean("isGameOver", false);
     }
