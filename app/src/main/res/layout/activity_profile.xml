@@ -9,10 +9,8 @@
 
     <TextView
         android:id="@+id/profileInfoText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="540dp"
+        android:layout_width="228dp"
+        android:layout_height="54dp"
         android:fontFamily="@font/moldiedemo"
         android:shadowColor="#000000"
         android:shadowDx="1.5"
@@ -25,8 +23,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.546"
         app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.245" />
 
     <TextView
         android:id="@+id/totalCoins"
@@ -38,10 +38,10 @@
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.213"
+        app:layout_constraintHorizontal_bias="0.178"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/highscoreTextProfile"
-        app:layout_constraintVertical_bias="0.061" />
+        app:layout_constraintVertical_bias="0.034" />
 
     <TextView
         android:id="@+id/userNameText"
@@ -80,10 +80,10 @@
         android:contentDescription="@string/coin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.11"
+        app:layout_constraintHorizontal_bias="0.112"
         app:layout_constraintStart_toEndOf="@+id/totalCoins"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.528"
+        app:layout_constraintVertical_bias="0.515"
         app:srcCompat="@drawable/coin" />
 
 
