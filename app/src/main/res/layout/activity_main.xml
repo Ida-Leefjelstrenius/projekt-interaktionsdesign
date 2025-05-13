@@ -12,10 +12,10 @@
 
     <ImageButton
         android:id="@+id/btn_profile"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="72dp"
+        android:layout_width="68dp"
+        android:layout_height="74dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="68dp"
         android:background="@android:color/transparent"
         android:contentDescription="@string/profile_button"
         android:onClick="openProfilePage"
@@ -42,42 +42,43 @@
 
     <ImageButton
         android:id="@+id/btn_inventory_test"
-        android:layout_width="69dp"
-        android:layout_height="78dp"
+        android:layout_width="66dp"
+        android:layout_height="74dp"
         android:background="@android:color/transparent"
         android:contentDescription="@string/settings_button"
         android:onClick="openInventoryPage"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.555"
+        app:layout_constraintHorizontal_bias="0.605"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.01"
+        app:layout_constraintVertical_bias="0.012"
         app:srcCompat="@drawable/inventory_icon" />
+
+    <!-- Start Game Button -->
+
+    <!-- Additional Buttons -->
 
     <TextView
         android:id="@+id/gameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="96dp"
+        android:fontFamily="@font/moldiedemo"
         android:shadowColor="#000000"
         android:shadowDx="1.5"
         android:shadowDy="1.3"
         android:shadowRadius="1.6"
         android:text="@string/GameTitle"
-        android:fontFamily="@font/moldiedemo"
         android:textAlignment="center"
         android:textColor="@color/amberGold"
         android:textSize="65sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_settings" />
-
-    <!-- Start Game Button -->
-
-    <!-- Additional Buttons -->
 
     <TextView
         android:id="@+id/highScore"
@@ -110,6 +111,7 @@
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.515"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gameText" />
 
@@ -126,8 +128,9 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_start_game" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_start_game"
+        app:layout_constraintVertical_bias="0.558" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

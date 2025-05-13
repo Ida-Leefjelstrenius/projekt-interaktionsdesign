@@ -60,4 +60,7 @@
     <string name="hard">Hard</string>
     <string name="bomb_difficulty">Bomb Difficulty</string>
     <string name="reset_coins">reset_coins</string>
+    <string name="shark_speeds">Shark Speeds</string>
+    <string name="bomb_levels">Bomb Levels</string>
+    <string name="chest_difficulty">Chest Difficulty</string>
 </resources>
