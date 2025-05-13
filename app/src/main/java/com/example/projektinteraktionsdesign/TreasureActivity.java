@@ -35,7 +35,6 @@ public class TreasureActivity extends AppCompatActivity {
     private Vibrator vibrator;
     MediaPlayer mediaPlayerCoin;
 
-    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     public final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +51,7 @@ public class TreasureActivity extends AppCompatActivity {
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         Sensor rotationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
-        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        vibrator = (Vibrator) getSystemService(Vibrator.class);
 
         sensorEventListener = new SensorEventListener() {
             @Override

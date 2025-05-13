@@ -1,4 +1,6 @@
 package com.example.projektinteraktionsdesign;
+import static android.content.Context.VIBRATOR_SERVICE;
+import static androidx.core.content.ContextCompat.getSystemService;
 import static com.example.projektinteraktionsdesign.GameConstants.*;
 import static com.example.projektinteraktionsdesign.CollisionUtils.checkCollision;
 
@@ -16,10 +18,12 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.media.MediaPlayer;
+import android.os.Vibrator;
 import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,6 +45,7 @@ public class GameView extends View {
     private boolean isGameOver = false;
     private boolean isPaused = false;
     private int coins = 0;
+    private Vibrator vibrator;
     private long startTime = System.currentTimeMillis();
     private long savedTime;
     private long animationTime = 0;
@@ -81,6 +86,7 @@ public class GameView extends View {
 
         mediaPlayerMine = MediaPlayer.create(context, R.raw.mine_sound);
         mediaPlayerShark = MediaPlayer.create(context, R.raw.shark_sound);
+        vibrator = ContextCompat.getSystemService(context, Vibrator.class);
 
         Bitmap rawBackgroundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.combined_vatten);
         newWidth = screenHeight * (rawBackgroundBitmap.getWidth() / rawBackgroundBitmap.getHeight());
@@ -170,6 +176,7 @@ public class GameView extends View {
                 if (!GamePrefs.isMuted(getContext())) {
                     mediaPlayerMine.start();
                 }
+                vibrator.vibrate(500);
                 handleDeath();
                 break;
             }
@@ -178,6 +185,7 @@ public class GameView extends View {
             if (!GamePrefs.isMuted(getContext())) {
                 mediaPlayerShark.start();
             }
+            vibrator.vibrate(500);
             handleDeath();
         }
         for (Chest chest : chests) {
