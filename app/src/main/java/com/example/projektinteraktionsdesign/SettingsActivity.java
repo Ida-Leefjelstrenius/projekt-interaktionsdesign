@@ -24,10 +24,10 @@ public class SettingsActivity extends AppCompatActivity {
         switchMute.setChecked(isMuted);
         switchMute.setOnCheckedChangeListener(this::onMutedChanged);
 
-        SwitchCompat switchHitbox = findViewById(R.id.hitboxSwitch);
-        boolean isHitboxOn = GamePrefs.isHitboxOn(this);
-        switchHitbox.setChecked(isHitboxOn);
-        switchHitbox.setOnCheckedChangeListener(this::onHitboxChanged);
+        //SwitchCompat switchHitbox = findViewById(R.id.hitboxSwitch);
+        //boolean isHitboxOn = GamePrefs.isHitboxOn(this);
+        //switchHitbox.setChecked(isHitboxOn);
+        //switchHitbox.setOnCheckedChangeListener(this::onHitboxChanged);
 
         setupDifficulty(SHARK_DIFFICULTY, R.id.shark_radio_easy, R.id.shark_radio_normal, R.id.shark_radio_hard);
         setupDifficulty(MINE_DIFFICULTY, R.id.bomb_radio_easy, R.id.bomb_radio_normal, R.id.bomb_radio_hard);
