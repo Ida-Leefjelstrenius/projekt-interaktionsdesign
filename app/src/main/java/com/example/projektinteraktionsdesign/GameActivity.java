@@ -120,12 +120,14 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         timer.setTextSize(25);
         timer.setTextColor(Color.WHITE);
         timer.setPadding(20,20,20,20);
+        timer.setShadowLayer(1, 0, 0, Color.BLACK);
         coinCounter = new TextView(this);
         coinCounter.setTypeface(customFont);
         coinCounter.setTextSize(25);
         coinCounter.setTextColor(Color.WHITE);
         coinCounter.setPadding(20, 80, 20, 20);
         coinCounter.setText(getString(R.string.coin_label, 0));
+        coinCounter.setShadowLayer(1, 0, 0, Color.BLACK);
         gameView.setPlayer(player);
         rootLayout.addView(timer);
         rootLayout.addView(coinCounter);
