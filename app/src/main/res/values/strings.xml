@@ -63,4 +63,7 @@
     <string name="shark_speeds">Shark Speeds</string>
     <string name="bomb_levels">Bomb Levels</string>
     <string name="chest_difficulty">Chest Difficulty</string>
+    <string name="are_you_stuck">Are you stuck?</string>
+    <string name="hint">Hint</string>
+    <string name="reset_coins1">Reset coins</string>
 </resources>

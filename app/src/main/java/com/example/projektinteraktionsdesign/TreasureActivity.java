@@ -156,4 +156,35 @@ public class TreasureActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    public void onBackPressed() {
+        if (false) {
+            super.onBackPressed();
+        }
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.activity_back, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(popupView);
+
+        AlertDialog dialog = builder.create();
+
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        dialog.show();
+
+        Button resumeButton = popupView.findViewById(R.id.hintButton);
+        resumeButton.setOnClickListener(v -> {
+            dialog.dismiss();
+            showHint(null);
+        });
+
+        Button backToStart = popupView.findViewById(R.id.homeButton);
+        backToStart.setOnClickListener(v -> {
+            dialog.dismiss();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        });
+    }
+
 }

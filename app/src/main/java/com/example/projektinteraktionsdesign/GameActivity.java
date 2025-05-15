@@ -249,6 +249,13 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         sensorManager.unregisterListener(this);
     }
 
+    public void onBackPressed(){
+        if (false) {
+            onBackPressed();
+        }
+        showPausePopUp();
+    }
+
     @Override
     public void onSensorChanged(SensorEvent event) {
         float lux = event.values[0];

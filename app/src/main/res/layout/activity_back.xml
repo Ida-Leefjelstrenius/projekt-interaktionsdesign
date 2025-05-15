@@ -11,26 +11,26 @@
         android:id="@+id/pausedText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/game_paused"
-        android:fontFamily="@font/moldiedemo"
-        android:textColor="@color/white"
+        android:text="@string/are_you_stuck"
         android:shadowColor="#000000"
         android:shadowDx="1.5"
         android:shadowDy="1.3"
         android:shadowRadius="1.6"
+        android:fontFamily="@font/moldiedemo"
+        android:textColor="@color/white"
         android:textSize="28sp"
         android:textStyle="bold"
         android:layout_marginBottom="20dp" />
 
     <Button
-        android:id="@+id/resumeButton"
+        android:id="@+id/hintButton"
         android:layout_width="wrap_content"
         android:fontFamily="@font/moldiedemo"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
         android:textSize="20sp"
+        android:textColor="@color/white"
         android:backgroundTint="@color/desertCoral"
-        android:text="@string/resume" />
+        android:text="@string/hint" />
 
     <Button
         android:id="@+id/homeButton"
@@ -38,8 +38,8 @@
         android:fontFamily="@font/moldiedemo"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
+        android:textSize="20sp"
         android:backgroundTint="@color/desertCoral"
         android:text="@string/back_to_start"
-        android:textSize="20sp"
         android:layout_marginTop="12dp" />
 </LinearLayout>

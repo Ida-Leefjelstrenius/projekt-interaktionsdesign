@@ -12,7 +12,7 @@
         android:layout_height="47dp"
         android:backgroundTint="@color/desertCoral"
         android:fontFamily="@font/moldiedemo"
-        android:text="@string/reset_coins"
+        android:text="@string/reset_coins1"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
