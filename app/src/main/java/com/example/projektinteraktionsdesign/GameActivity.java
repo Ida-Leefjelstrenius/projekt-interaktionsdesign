@@ -253,7 +253,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
     public void onBackPressed(){
         if (false) {
-            onBackPressed();
+            super.onBackPressed();
         }
         showPausePopUp();
     }
