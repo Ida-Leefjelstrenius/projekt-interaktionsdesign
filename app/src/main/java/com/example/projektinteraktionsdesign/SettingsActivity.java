@@ -2,10 +2,8 @@ package com.example.projektinteraktionsdesign;
 
 import static com.example.projektinteraktionsdesign.GameConstants.*;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,11 +21,6 @@ public class SettingsActivity extends AppCompatActivity {
         boolean isMuted = GamePrefs.isMuted(this);
         switchMute.setChecked(isMuted);
         switchMute.setOnCheckedChangeListener(this::onMutedChanged);
-
-        //SwitchCompat switchHitbox = findViewById(R.id.hitboxSwitch);
-        //boolean isHitboxOn = GamePrefs.isHitboxOn(this);
-        //switchHitbox.setChecked(isHitboxOn);
-        //switchHitbox.setOnCheckedChangeListener(this::onHitboxChanged);
 
         setupDifficulty(SHARK_DIFFICULTY, R.id.shark_radio_easy, R.id.shark_radio_normal, R.id.shark_radio_hard);
         setupDifficulty(MINE_DIFFICULTY, R.id.bomb_radio_easy, R.id.bomb_radio_normal, R.id.bomb_radio_hard);
@@ -71,9 +64,5 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void onMutedChanged(CompoundButton buttonView, boolean isChecked) {
         GamePrefs.setMuted(this, isChecked);
-    }
-
-    private void onHitboxChanged(CompoundButton buttonView, boolean isChecked) {
-        GamePrefs.setHitboxOn(this, isChecked);
     }
 }

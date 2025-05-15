@@ -45,14 +45,6 @@ public class GamePrefs {
     public static void setMuted(Context context, boolean value){
         getPrefs(context).edit().putBoolean("isMuted", value).apply();
     }
-
-    public static boolean isHitboxOn(Context context) {
-        return getPrefs(context).getBoolean("isHitboxOn", false);
-    }
-
-    public static void setHitboxOn(Context context, boolean value) {
-        getPrefs(context).edit().putBoolean("isHitboxOn", value).apply();
-    }
     public static String getDifficulty(Context context, String type) {
         return getPrefs(context).getString(type, NORMAL);
     }

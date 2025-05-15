@@ -1,6 +1,5 @@
 package com.example.projektinteraktionsdesign;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -24,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -56,7 +56,7 @@ public class TreasureActivity extends AppCompatActivity {
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         Sensor rotationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
-        vibrator = (Vibrator) getSystemService(Vibrator.class);
+        vibrator = getSystemService(Vibrator.class);
 
         sensorEventListener = new SensorEventListener() {
             @Override
@@ -92,6 +92,36 @@ public class TreasureActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Rotation sensor not available", Toast.LENGTH_SHORT).show();
         }
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+                View popupView = inflater.inflate(R.layout.activity_back, null);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(TreasureActivity.this);
+                builder.setView(popupView);
+
+                AlertDialog dialog = builder.create();
+
+                Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                dialog.show();
+
+                Button resumeButton = popupView.findViewById(R.id.hintButton);
+                resumeButton.setOnClickListener(v -> {
+                    dialog.dismiss();
+                    showHint(null);
+                });
+
+                Button backToStart = popupView.findViewById(R.id.homeButton);
+                backToStart.setOnClickListener(v -> {
+                    dialog.dismiss();
+                    Intent intent = new Intent(TreasureActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                });
+            }
+        });
 
     }
     @Override
@@ -106,7 +136,7 @@ public class TreasureActivity extends AppCompatActivity {
 
         coinValue = (int) (Math.random() * 5) + 1;
         coinDialog.setVisibility(View.VISIBLE);
-        coinDialog.setText("You got " + coinValue + " coins!");
+        coinDialog.setText(getString(R.string.coin_dialog, coinValue));
 
         Button goBackBottom = findViewById(R.id.btn_back_to_game);
         goBackBottom.setVisibility(View.VISIBLE);
@@ -155,36 +185,4 @@ public class TreasureActivity extends AppCompatActivity {
 
         dialog.show();
     }
-
-    public void onBackPressed() {
-        if (false) {
-            super.onBackPressed();
-        }
-        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(R.layout.activity_back, null);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(popupView);
-
-        AlertDialog dialog = builder.create();
-
-        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-        dialog.show();
-
-        Button resumeButton = popupView.findViewById(R.id.hintButton);
-        resumeButton.setOnClickListener(v -> {
-            dialog.dismiss();
-            showHint(null);
-        });
-
-        Button backToStart = popupView.findViewById(R.id.homeButton);
-        backToStart.setOnClickListener(v -> {
-            dialog.dismiss();
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        });
-    }
-
 }

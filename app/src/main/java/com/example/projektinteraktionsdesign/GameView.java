@@ -1,6 +1,4 @@
 package com.example.projektinteraktionsdesign;
-import static android.content.Context.VIBRATOR_SERVICE;
-import static androidx.core.content.ContextCompat.getSystemService;
 import static com.example.projektinteraktionsdesign.GameConstants.*;
 import static com.example.projektinteraktionsdesign.CollisionUtils.checkCollision;
 
@@ -13,9 +11,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.graphics.Point;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
@@ -44,7 +40,7 @@ public class GameView extends View {
     private float sharkX = -1000.0f, sharkY = 0f;
     private boolean isGameOver = false;
     private boolean isPaused = false;
-    private Vibrator vibrator;
+    private final Vibrator vibrator;
     private long startTime = System.currentTimeMillis();
     private long savedTime;
     private long animationTime = 0;
@@ -54,8 +50,6 @@ public class GameView extends View {
     private final List<Chest> chests = new ArrayList<>();
     private final HashSet<Integer> zones = new HashSet<>(Arrays.asList(-2, -1, 0, 1, 2));
     private final Random random = new Random();
-    private final Paint hitboxPaint = new Paint();
-    private boolean isHitboxOn;
     private float mineDifficulty, sharkDifficulty, chestDifficulty;
     public interface TreasureRequestListener {
         void onChestCollected(Chest chest);
@@ -195,21 +189,6 @@ public class GameView extends View {
             postInvalidateOnAnimation();
         }
         animationTime++;
-
-        if (isHitboxOn) {
-            drawHitboxes(canvas, chestY);
-        }
-    }
-
-    private void drawHitboxes(Canvas canvas, float chestY) {
-        canvas.drawRect(player.getX(), player.getY() + PLAYER_HIT_BOX_A, player.getX() + player.getWidth(), player.getY() + PLAYER_HIT_BOX_B, hitboxPaint);
-        canvas.drawRect(sharkX, sharkY, sharkX + sharkBitmap.getWidth(), sharkY + sharkBitmap.getHeight(), hitboxPaint);
-        for (Mine mine : mines) {
-            canvas.drawRect(mine.x, mine.y, mine.x + mineBitmap.getWidth(), mine.y + mineBitmap.getHeight(), hitboxPaint);
-        }
-        for (Chest chest : chests) {
-            canvas.drawRect(chest.x, chestY, chest.x + chestBitmap.getWidth(), chestY + chestBitmap.getHeight(), hitboxPaint);
-        }
     }
 
     private void maybeSpawnMine(int zone) {
@@ -308,13 +287,6 @@ public class GameView extends View {
     }
     private void checkSettings(Context context) {
         GamePrefs.setGameOver(context, isGameOver);
-
-        isHitboxOn = GamePrefs.isHitboxOn(context);
-        if (isHitboxOn) {
-            hitboxPaint.setColor(Color.RED);
-            hitboxPaint.setStyle(Paint.Style.STROKE);
-            hitboxPaint.setStrokeWidth(4);
-        }
 
         switch (GamePrefs.getDifficulty(context, MINE_DIFFICULTY)) {
             case EASY:

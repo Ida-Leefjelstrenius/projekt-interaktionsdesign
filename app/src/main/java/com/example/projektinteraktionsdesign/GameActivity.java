@@ -21,6 +21,8 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
@@ -48,7 +50,6 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     private Handler feetAnimationHandler;
     private int feetFrame = 0;
     private final Bitmap[] feetPictures = new Bitmap[2];
-    private TreasureActivity treasureActivity;
     private int coinThisRun = 0;
 
     @Override
@@ -62,11 +63,11 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
         treasureResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(), result -> {
-                    if (result.getResultCode() == RESULT_OK) {
+                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                         Intent data = result.getData();
                         int coinValue = data.getIntExtra("result", 0);
                         coinThisRun += coinValue;
-                        coinCounter.setText("Coins: " + coinThisRun);
+                        coinCounter.setText(getString(R.string.coin_label, coinThisRun));
 
                         GamePrefs.addCoins(this, coinValue);
 
@@ -172,6 +173,13 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         playPauseButton.setLayoutParams(buttonParams);
 
         rootLayout.addView(playPauseButton);
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                showPausePopUp();
+            }
+        });
     }
 
     private int dpToPx(int dp) {
@@ -249,13 +257,6 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     protected void onPause() {
         super.onPause();
         sensorManager.unregisterListener(this);
-    }
-
-    public void onBackPressed(){
-        if (false) {
-            super.onBackPressed();
-        }
-        showPausePopUp();
     }
 
     @Override
